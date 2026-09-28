@@ -16,6 +16,27 @@ const CONCURRENCY = 6;
 
 const mb = (n) => (n / 1048576).toFixed(0);
 
+// Un archivo puede estar "instalado pero apagado" (X.jar.disabled, por el modo
+// ligero o por modDisable). Cuenta como presente para no volver a bajarlo en
+// cada arranque: sin esto, el launcher se re-descargaba los mods apagados.
+function actualPath(dest) {
+  for (const p of [dest, `${dest}.disabled`]) {
+    try { if (fs.statSync(p).size > 0) return p; } catch (e) {}
+  }
+  return null;
+}
+
+// Apaga/prendie un set de archivos renombrando .jar <-> .jar.disabled.
+// Devuelve cuantos cambio. No borra nada nunca.
+function setDisabled(file, base, off) {
+  const active = path.join(file, base);
+  const disabled = `${active}.disabled`;
+  const has = (p) => { try { return fs.statSync(p).isFile(); } catch (e) { return false; } };
+  if (off && has(active)) { fs.moveSync(active, disabled, { overwrite: true }); return true; }
+  if (!off && has(disabled) && !has(active)) { fs.moveSync(disabled, active, { overwrite: true }); return true; }
+  return false;
+}
+
 // Lee SOLO modrinth.index.json del zip (sin extraer los 253 MB de overrides)
 function readIndexFromZip(zipPath) {
   return new Promise((resolve, reject) => {
@@ -140,14 +161,16 @@ class ModpackManager {
     for (const f of files) {
       if (signal && signal.aborted) throw new Error('cancelado');
       const dest = path.join(gameDir, ...f.path.split('/'));
+      const real = actualPath(dest); // puede estar apagado (.disabled)
       let ok = false;
-      try {
-        const st = fs.statSync(dest);
-        if (st.size === f.fileSize) {
-          if (mode === 'fast') ok = true;
-          else ok = (await hashFile(dest, 'sha1')) === f.hashes.sha1;
-        }
-      } catch (e) {}
+      if (real) {
+        try {
+          if (fs.statSync(real).size === f.fileSize) {
+            if (mode === 'fast') ok = true;
+            else ok = (await hashFile(real, 'sha1')) === f.hashes.sha1;
+          }
+        } catch (e) {}
+      }
       if (!ok) pending.push(f);
     }
 
@@ -241,8 +264,8 @@ class ModpackManager {
         const ex = extras[i];
         const subdir = ex.dest || 'mods';
         const dest = path.join(gameDir, subdir, ex.filename);
-        let ok = false;
-        try { ok = fs.statSync(dest).size === ex.size; } catch (e) {}
+        const real = actualPath(dest); // cuenta tambien si esta apagado (.disabled)
+        const ok = real !== null && fs.statSync(real).size === ex.size;
         if (!ok) {
           emit('extra_mods', `Extras: ${ex.name} (${i + 1}/${extras.length})`, 83 + Math.round((i / extras.length) * 8));
           try {
@@ -301,13 +324,41 @@ class ModpackManager {
     // Mods rotos/en conflicto que el launcher desactiva (renombrados a .disabled;
     // Fabric ignora todo lo que no sea .jar)
     const modDisable = (cd && cd.modDisable) || [];
+    const modsDir = path.join(gameDir, 'mods');
     for (const f of modDisable) {
-      const src = path.join(gameDir, 'mods', f);
-      if (fs.existsSync(src)) {
+      if (setDisabled(modsDir, f, true)) this.log.info(`Mod desactivado por incompatibilidad: ${f}`);
+    }
+
+    // ---- Modo ligero (Ajustes > Modo ligero) --------------------------------
+    // Apaga los extras que mas pesan para PCs flojas. Solo renombra: se puede
+    // prender y apagar cuando quieras y no se borra ni se re-descarga nada.
+    const light = pack.lightMode;
+    if (light && Array.isArray(light.mods) && light.mods.length) {
+      const off = Boolean(pack.lightModeEnabled);
+      let tocados = 0;
+      for (const f of light.mods) if (setDisabled(modsDir, f, off)) tocados++;
+      if (tocados) this.log.info(`Modo ligero ${off ? 'activado' : 'desactivado'}: ${tocados} mod(s)`);
+    }
+
+    // ---- Distant Horizons: distancia de LOD conservadora (una sola vez) ------
+    // El pack no trae este archivo: lo crea DH en la primera partida, asi que
+    // esto se aplica recien cuando existe y nunca mas despues (si el jugador lo
+    // cambia a mano en Opciones de DH, se respeta).
+    const dhRadius = cd && cd.dhLodRadius;
+    if (dhRadius && !state.dhPerfApplied) {
+      const dhFile = path.join(gameDir, 'config', 'DistantHorizons.toml');
+      if (fs.existsSync(dhFile)) {
         try {
-          fs.moveSync(src, `${src}.disabled`, { overwrite: true });
-          this.log.info(`Mod desactivado por incompatibilidad: ${f}`);
-        } catch (e) {}
+          const txt = fs.readFileSync(dhFile, 'utf8');
+          const cambiado = txt.replace(/^(\s*lodChunkRenderDistanceRadius\s*=\s*)\d+/m, `$1${dhRadius}`);
+          if (cambiado !== txt) {
+            fs.writeFileSync(dhFile, cambiado);
+            this.log.info(`Distant Horizons: distancia de LOD ajustada a ${dhRadius} chunks`);
+          }
+          state.dhPerfApplied = true;
+        } catch (e) {
+          this.log.warn(`No pude ajustar Distant Horizons: ${e.message}`);
+        }
       }
     }
 

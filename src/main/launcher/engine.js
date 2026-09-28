@@ -1,6 +1,7 @@
 // Motor de lanzamiento: manifest -> modpack -> version JSON -> assets -> Java -> mclc.
 const fs = require('fs-extra');
 const path = require('path');
+const os = require('os');
 const { spawn } = require('child_process');
 const { Client } = require('minecraft-launcher-core');
 // Monkey-patch: mclc valida sha1 de TODOS los assets/librerias en cada arranque
@@ -75,6 +76,8 @@ class LaunchEngine {
         ...manifest.pack,
         extraMods: manifest.extraMods || [],
         clientDefaults: manifest.clientDefaults || null,
+        lightMode: manifest.lightMode || null,
+        lightModeEnabled: Boolean(config.settings.lightMode),
       };
       const remap = (pct) => 10 + Math.round((pct / 100) * 75);
       const packInfo = await this.manager.ensurePack({
@@ -125,7 +128,23 @@ class LaunchEngine {
       // ---- 5. Launch mclc (97-100%) ------------------------------------------
       status('launching', 'Iniciando Minecraft...', 97);
       const auth = offlineAuth(config.user.username);
-      const userArgs = (config.settings.customJvmArgs || '').split(' ').map((s) => s.trim()).filter(Boolean);
+      // GC: Distant Horizons avisa en el log que G1 le mete stuttering a un
+      // cliente tan cargado y recomienda un colector concurrente (ZGC en Java
+      // 21+). Se puede volver a G1 desde Ajustes. Los flags de GC escritos a
+      // mano se descartan: dos "-XX:+Use*GC" juntos y el juego no arranca.
+      // 'auto' = ZGC solo donde sobra CPU: sus hilos concurrentes le compiten al
+      // juego en un 4 nucleos (y ademas alarga un poco el arranque), asi que en
+      // maquinas justas conviene el G1 de siempre.
+      const gcMode = config.settings.gc || 'auto';
+      const sobraCpu = os.cpus().length >= 6 && os.totalmem() >= 12 * 1073741824;
+      const useZgc = gcMode === 'zgc' || (gcMode !== 'g1' && sobraCpu);
+      const gcArgs = useZgc ? ['-XX:+UseZGC'] : [];
+      const userArgs = (config.settings.customJvmArgs || '')
+        .split(' ')
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .filter((a) => !/^-XX:[+-](Use\w*GC|ZGenerational)$/i.test(a));
+      log('INFO', `Basura (GC): ${useZgc ? 'ZGC' : 'G1'} (${gcMode})`);
       const mclcOptions = {
         clientPackage: null,
         authorization: auth,
@@ -137,7 +156,7 @@ class LaunchEngine {
           min: `${config.settings.ramMin || 2048}M`,
         },
         javaPath,
-        customArgs: ['-DFabricMcEmu=net.minecraft.client.main.Main', ...userArgs],
+        customArgs: ['-DFabricMcEmu=net.minecraft.client.main.Main', ...gcArgs, ...userArgs],
         window: {
           width: config.settings.resolutionWidth || 1280,
           height: config.settings.resolutionHeight || 720,

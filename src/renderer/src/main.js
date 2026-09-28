@@ -178,6 +178,8 @@ async function saveSettings() {
       fullscreen: $('#fullscreen').checked,
       resolutionWidth: Number($('#res-w').value) || 1280,
       resolutionHeight: Number($('#res-h').value) || 720,
+      lightMode: $('#light-mode').checked,
+      gc: $('#gc').value,
     },
   };
   config = await api.saveConfig(partial);
@@ -223,6 +225,12 @@ async function init() {
   $('#fullscreen').checked = Boolean(config.settings.fullscreen);
   $('#res-w').value = config.settings.resolutionWidth;
   $('#res-h').value = config.settings.resolutionHeight;
+  $('#light-mode').checked = Boolean(config.settings.lightMode);
+  $('#gc').value = config.settings.gc || 'auto';
+  try {
+    const sys = await api.getSystemInfo();
+    $('#ram-detectada').textContent = `Tu PC tiene ${sys.ramTotalGB} GB de RAM.`;
+  } catch (e) { /* si falla, no es grave */ }
 
   $('#ram-min').addEventListener('input', (e) => { $('#ram-min-val').textContent = e.target.value; });
   $('#ram-max').addEventListener('input', (e) => { $('#ram-max-val').textContent = e.target.value; });

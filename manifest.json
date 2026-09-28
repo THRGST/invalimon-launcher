@@ -18,7 +18,18 @@
     },
     "shaders": false,
     "fancymenuDisable": ["cobbleverse_multiplayer_screen.txt"],
-    "modDisable": []
+    "modDisable": [],
+    "dhLodRadius": 64
+  },
+  "lightMode": {
+    "note": "Extras que apaga el boton 'Modo ligero' de Ajustes (para PCs flojas). Solo se renombran a .disabled: no se borra ni se re-descarga nada.",
+    "mods": [
+      "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
+      "effective-2.4.8-1.21.1.jar",
+      "visuality-0.7.7+1.21.jar",
+      "wakes-0.4.1+1.21.1.jar",
+      "fallingleaves-1.17.1+1.21.1.jar"
+    ]
   },
   "pack": {
     "name": "cobbleverse",
@@ -32,7 +43,7 @@
   "extraMods": [
     { "name": "Distant Horizons", "filename": "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar", "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/Ez3cx7Yd/DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar", "sha1": "d18b0829416ec6948102524b6e913e5bc73ae402", "size": 28224156 },
     { "name": "3D Skin Layers", "filename": "skinlayers3d-fabric-1.11.3-mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/zV5r3pPn/versions/L1pQ9OzF/skinlayers3d-fabric-1.11.3-mc1.21.1.jar", "sha1": "30ed540777c6fdd313a521820238eeb7c7da5676", "size": 1912463 },
-    { "name": "First-person Model", "filename": "firstperson-fabric-2.7.2-mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/fSfRdYJ6/firstperson-fabric-2.7.2-mc1.21.1.jar", "sha1": "98a23ef8a95c36d005be346312dc30741d5824fa", "size": 1621512 },
+    { "name": "First-person Model", "filename": "firstperson-fabric-2.7.2-mc1.21.1.jar", "note": "NO subir a 2.7.3: rompe un mixin de FishingBobberEntityRenderer y el juego rehace toda la carga de recursos (se ve colgado). Si sale una 2.7.4+, probarla antes.", "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/fSfRdYJ6/firstperson-fabric-2.7.2-mc1.21.1.jar", "sha1": "98a23ef8a95c36d005be346312dc30741d5824fa", "size": 1621512 },
     { "name": "Falling Leaves", "filename": "fallingleaves-1.17.1+1.21.1.jar", "url": "https://cdn.modrinth.com/data/WhbRG4iK/versions/Y0zS16Bk/fallingleaves-1.17.1%2B1.21.1.jar", "sha1": "5210b4cb359a95c53580b1399f98e51ab0967cc5", "size": 170056 },
     { "name": "Wakes", "filename": "wakes-0.4.1+1.21.1.jar", "url": "https://cdn.modrinth.com/data/dlNu0RQY/versions/WuY7eJX9/wakes-0.4.1%2B1.21.1.jar", "sha1": "c4f4d09a4b9362bcc952f370ce8c8b44d662dc42", "size": 268435 },
 

@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('invalimon', {
   getConfig: () => ipcRenderer.invoke('launcher:get-config'),
   saveConfig: (partial) => ipcRenderer.invoke('launcher:save-config', partial),
   getAppVersion: () => ipcRenderer.invoke('launcher:get-app-version'),
+  getSystemInfo: () => ipcRenderer.invoke('launcher:get-system-info'),
   getState: () => ipcRenderer.invoke('launcher:get-state'),
   getMods: () => ipcRenderer.invoke('launcher:get-mods'),
   loginOffline: (username) => ipcRenderer.invoke('launcher:login-offline', username),

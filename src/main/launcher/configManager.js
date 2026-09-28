@@ -1,18 +1,32 @@
 // Persistencia de launcher-config.json (settings + user).
 // Merge POR SECCIONES: guardar {settings} no debe pisar {user}.
 const fs = require('fs-extra');
+const os = require('os');
+
+// RAM por defecto segun la maquina: deja aire para el sistema (en una PC de
+// 8 GB, pedir 6 GB de heap termina en swap y el juego va a tirones).
+// Solo aplica a instalaciones nuevas: si ya hay config guardada, manda la del user.
+function autoRamMax() {
+  const gb = os.totalmem() / 1073741824;
+  if (gb >= 20) return 8192;
+  if (gb >= 12) return 6144;
+  if (gb >= 8) return 4096;
+  return 3072;
+}
 
 const DEFAULTS = {
   user: { type: 'offline', username: '', uuid: '' },
   settings: {
     ramMin: 2048,
-    ramMax: 6144,
+    ramMax: autoRamMax(),
     javaPath: 'auto',
     customJvmArgs: '',
     fullscreen: false,
     resolutionWidth: 1280,
     resolutionHeight: 720,
     serverAddress: '', // vacio = usar la del manifest remoto
+    gc: 'auto', // 'auto' = ZGC (lo recomienda Distant Horizons); 'g1' para volver atras
+    lightMode: false, // apaga los extras mas pesados (renombra a .disabled)
   },
 };
 

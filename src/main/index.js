@@ -1,6 +1,7 @@
 // Proceso principal: ventana frameless + IPC + orquestacion.
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
+const os = require('os');
 const fs = require('fs-extra');
 
 const { makePaths } = require('./paths');
@@ -64,6 +65,9 @@ app.whenReady().then(() => {
   // ---- IPC ----------------------------------------------------------------
   ipcMain.handle('launcher:get-config', () => configManager.get());
   ipcMain.handle('launcher:get-app-version', () => app.getVersion());
+  ipcMain.handle('launcher:get-system-info', () => ({
+    ramTotalGB: Math.round(os.totalmem() / 1073741824),
+  }));
   ipcMain.handle('launcher:save-config', (_e, partial) => configManager.save(partial || {}));
 
   ipcMain.handle('launcher:get-state', async () => {
