@@ -61,6 +61,21 @@ async function downloadOnce(url, dest, part, { sha1, sha512, size, onProgress, s
   let offset = 0;
   try { offset = fs.existsSync(part) ? fs.statSync(part).size : 0; } catch (e) { offset = 0; }
 
+  // El .part ya esta completo (una corrida anterior murio justo al final):
+  // pedir "Range: bytes=<tamaño>-" solo devuelve 416, asi que se verifica y se
+  // usa tal cual. Si lo que hay no pasa el hash, se tira y se baja de nuevo.
+  if (size && offset >= size) {
+    try {
+      await verify(part, { sha1, sha512 });
+      fs.moveSync(part, dest, { overwrite: true });
+      if (onProgress) onProgress(size, size);
+      return;
+    } catch (e) {
+      try { fs.removeSync(part); } catch (e2) {}
+      offset = 0;
+    }
+  }
+
   const headers = { 'User-Agent': 'Invalimon-Launcher' };
   if (offset > 0) headers.Range = `bytes=${offset}-`;
 
@@ -77,7 +92,10 @@ async function downloadOnce(url, dest, part, { sha1, sha512, size, onProgress, s
 
   const total = size || (offset + (parseInt(res.headers['content-length'] || '0', 10) || 0));
   let done = offset;
-  const h = sha1 ? crypto.createHash('sha1') : sha512 ? crypto.createHash('sha512') : null;
+  // Hash incremental SOLO si la descarga arranca de cero. Al reanudar, el hash
+  // cubriria nada mas el tramo nuevo y jamas coincidiria con el del archivo
+  // entero: en ese caso verifica verify() al final, sobre todo el archivo.
+  const h = offset === 0 ? (sha1 ? crypto.createHash('sha1') : sha512 ? crypto.createHash('sha512') : null) : null;
   const out = fs.createWriteStream(part, { flags: offset > 0 ? 'a' : 'w' });
 
   await new Promise((resolve, reject) => {
