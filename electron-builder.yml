@@ -45,8 +45,8 @@ nsis:
 
 publish:
   provider: github
-  owner: CAMBIAR_OWNER
-  repo: CAMBIAR_REPO
+  owner: THRGST
+  repo: invalimon-launcher
   releaseType: release
 
 electronUpdaterCompatibility: ">=2.16"

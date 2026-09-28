@@ -5,9 +5,10 @@ const fs = require('fs-extra');
 const path = require('path');
 const { getJson } = require('./httpClient');
 
-// TODO(release): apuntar al repo real cuando exista
+// Editable sin recompilar: cambiar este archivo en el repo y los launchers
+// lo levantan en el proximo arranque (si no hay red, usan el cache o el default).
 const MANIFEST_URL = process.env.INVALIMON_MANIFEST_URL
-  || 'https://raw.githubusercontent.com/thiago/invalimon-launcher/main/manifest.json';
+  || 'https://raw.githubusercontent.com/THRGST/invalimon-launcher/main/manifest.json';
 
 class RemoteManifest {
   constructor({ paths, app, log }) {
