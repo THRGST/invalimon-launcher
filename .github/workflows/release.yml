@@ -16,6 +16,21 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+
+      # Crear la release ANTES de empaquetar. Si el tag no tiene release, cada
+      # publisher de electron-builder (el instalador y latest.yml) crea la suya:
+      # quedan dos releases con el mismo tag y latest.yml termina en una URL que
+      # da 404 (ERR_UPDATER_CHANNEL_FILE_NOT_FOUND). Con la release ya creada,
+      # los dos suben a la misma.
+      - name: Crear la release del tag
+        shell: bash
+        run: |
+          gh release view "${{ github.ref_name }}" >/dev/null 2>&1 \
+            || gh release create "${{ github.ref_name }}" --title "${{ github.ref_name }}" \
+                 --notes "Invalimon ${{ github.ref_name }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - run: npx electron-builder --win nsis --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
