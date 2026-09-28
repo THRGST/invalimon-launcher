@@ -64,13 +64,28 @@ function renderMods(filter) {
   const f = (filter || '').trim().toLowerCase();
   const items = allMods.filter((m) =>
     !f || m.name.toLowerCase().includes(f) || (m.id || '').toLowerCase().includes(f));
-  $('#mods-list').innerHTML = items.length
-    ? items.map((m) => `
+  const list = $('#mods-list');
+  if (!items.length) {
+    list.innerHTML = '<div class="mods-empty">Sin resultados</div>';
+    return;
+  }
+  // Agrupados por seccion: el main ya los devuelve en el orden del manifest
+  const groups = new Map();
+  for (const m of items) {
+    const s = m.section || 'Otros';
+    if (!groups.has(s)) groups.set(s, []);
+    groups.get(s).push(m);
+  }
+  list.innerHTML = [...groups.entries()].map(([title, mods]) => {
+    // sin manifest con secciones caen todos en "Otros": lista plana, sin titulo
+    const head = (title === 'Otros' && groups.size === 1) ? '' :
+      `<div class="mods-section-title">${escapeHtml(title)}<span class="mods-section-count">${mods.length}</span></div>`;
+    return head + mods.map((m) => `
       <div class="mod-item">
-        <span class="mod-name">${escapeHtml(m.name)}</span>
+        <span class="mod-name">${escapeHtml(m.name)}${m.extra ? '<span class="mod-tag">extra</span>' : ''}</span>
         <span class="mod-version">${escapeHtml(m.version || '')}</span>
-      </div>`).join('')
-    : '<div class="mods-empty">Sin resultados</div>';
+      </div>`).join('');
+  }).join('');
 }
 
 function setupWindowControls() {

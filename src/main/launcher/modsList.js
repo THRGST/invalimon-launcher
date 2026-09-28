@@ -4,6 +4,15 @@ const fs = require('fs-extra');
 const path = require('path');
 const yauzl = require('yauzl');
 
+// Algunos fabric.mod.json traen saltos de linea literales dentro de strings
+// (JSON no estricto: Gson lo tolera, JSON.parse no). Sanear los control chars
+// antes de rendirse, asi no perdemos nombre/id de esos mods.
+function parseFabricJson(text) {
+  try { return JSON.parse(text); } catch (e) {
+    try { return JSON.parse(text.replace(/[\u0000-\u001f]/g, ' ')); } catch (e2) { return null; }
+  }
+}
+
 function readFabricMeta(jarPath) {
   return new Promise((resolve) => {
     yauzl.open(jarPath, { lazyEntries: true }, (err, zip) => {
@@ -18,8 +27,7 @@ function readFabricMeta(jarPath) {
           const chunks = [];
           rs.on('data', (c) => chunks.push(c));
           rs.on('end', () => {
-            try { resolve(JSON.parse(Buffer.concat(chunks).toString('utf8'))); }
-            catch (e) { resolve(null); }
+            resolve(parseFabricJson(Buffer.concat(chunks).toString('utf8')));
             zip.close();
           });
           rs.on('error', () => { zip.close(); resolve(null); });
@@ -43,7 +51,28 @@ function cleanFileName(file) {
     .trim() || file;
 }
 
-async function listMods({ gameDir, cacheDir, log }) {
+// Asigna a cada mod la seccion que define el manifest y marca los extras de
+// Invalimon. Se aplica DESPUES del cache: cambiar las secciones es solo editar
+// el manifest, sin obligar a releer los 153 jars.
+function applyModSections(mods, sections, extraFiles) {
+  const byId = new Map();
+  (sections || []).forEach((s, i) => {
+    for (const id of (s.mods || [])) byId.set(String(id).toLowerCase(), { title: s.title, idx: i });
+  });
+  const extras = new Set((extraFiles || []).map((f) => String(f).toLowerCase()));
+  const sectionIdx = (m) => {
+    const hit = byId.get(String(m.id).toLowerCase());
+    return hit ? hit.idx : 9999; // los no listados van al final, en "Otros"
+  };
+  const out = mods.map((m) => {
+    const hit = byId.get(String(m.id).toLowerCase());
+    return { ...m, section: hit ? hit.title : 'Otros', extra: extras.has(m.file.toLowerCase()) };
+  });
+  out.sort((a, b) => (sectionIdx(a) - sectionIdx(b)) || a.name.localeCompare(b.name, 'es'));
+  return out;
+}
+
+async function listMods({ gameDir, cacheDir, log, sections, extraFiles }) {
   const modsDir = path.join(gameDir, 'mods');
   let files = [];
   try {
@@ -52,12 +81,15 @@ async function listMods({ gameDir, cacheDir, log }) {
     return [];
   }
 
-  const fingerprint = files.join('|');
+  // v2: parseo tolerante (ver parseFabricJson) - invalida caches viejos con ids fallidos
+  const fingerprint = `v2|${files.join('|')}`;
   const cacheFile = cacheDir ? path.join(cacheDir, 'mods-list.json') : null;
   if (cacheFile) {
     try {
       const cached = fs.readJsonSync(cacheFile);
-      if (cached && cached.fingerprint === fingerprint) return cached.mods;
+      if (cached && cached.fingerprint === fingerprint) {
+        return applyModSections(cached.mods, sections, extraFiles);
+      }
     } catch (e) {}
   }
 
@@ -80,7 +112,7 @@ async function listMods({ gameDir, cacheDir, log }) {
     } catch (e) {}
   }
   if (log) log.info(`Lista de mods: ${mods.length} (leidos de los jars)`);
-  return mods;
+  return applyModSections(mods, sections, extraFiles);
 }
 
 module.exports = { listMods };

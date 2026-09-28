@@ -77,7 +77,12 @@ app.whenReady().then(() => {
 
   ipcMain.handle('launcher:get-mods', async () => {
     try {
-      return await listMods({ gameDir: paths.gameDir, cacheDir: paths.cacheDir, log: logger });
+      const manifest = remoteManifest.getLocal();
+      const sections = (manifest.modSections && manifest.modSections.sections) || [];
+      const extraFiles = (manifest.extraMods || []).map((m) => m.filename);
+      return await listMods({
+        gameDir: paths.gameDir, cacheDir: paths.cacheDir, log: logger, sections, extraFiles,
+      });
     } catch (e) {
       logger.warn(`No pude listar los mods: ${e.message}`);
       return [];

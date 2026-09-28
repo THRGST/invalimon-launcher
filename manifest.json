@@ -60,9 +60,99 @@
     { "name": "Legendary Tooltips", "filename": "LegendaryTooltips-1.21.1-fabric-1.5.5.jar", "url": "https://cdn.modrinth.com/data/atHH8NyV/versions/f4suO4vX/LegendaryTooltips-1.21.1-fabric-1.5.5.jar", "sha1": "d2a47d7bfdf8008bdb98aa03bc94087be4078a07", "size": 86697 },
     { "name": "Prism", "filename": "Prism-1.21.1-fabric-1.0.11.jar", "url": "https://cdn.modrinth.com/data/1OE8wbN0/versions/obM5d9Uv/Prism-1.21.1-fabric-1.0.11.jar", "sha1": "feb245033bce5560ad0243b0ff519590ea9e3664", "size": 61661 },
     { "name": "Equipment Compare", "filename": "EquipmentCompare-1.21.1-fabric-1.3.13.jar", "url": "https://cdn.modrinth.com/data/CYSUVOdj/versions/43MK9mq7/EquipmentCompare-1.21.1-fabric-1.3.13.jar", "sha1": "6ee435ae006c6f33783d334a01e229457c2aba66", "size": 38804 },
+    { "name": "Camera Overhaul", "filename": "CameraOverhaul-v2.1.2-fabric+mc[1.21-1.21.2].jar", "note": "Camara con rebote/tilt al caminar (el 'bouncy')", "url": "https://cdn.modrinth.com/data/m0oRwcZx/versions/B9tByLOZ/CameraOverhaul-v2.1.2-fabric%2Bmc%5B1.21-1.21.2%5D.jar", "sha1": "be36c9dac3b091f4c867c27c5c6c532b87c89f8c", "size": 140020 },
+    { "name": "Punchy!", "filename": "punchy-2.8b-fabric-1.21.1.jar", "note": "Animaciones de manos/items en primera persona", "url": "https://cdn.modrinth.com/data/8aoMKplv/versions/BKIChU5m/punchy-2.8b-fabric-1.21.1.jar", "sha1": "7dd39e751f06311e952cabdd58269e684f1c964b", "size": 1855001 },
+    { "name": "First Person Model Compat", "filename": "fpm_x_compat-fabric-1.2.1+1.21.1.jar", "note": "Puente para que Punchy! y First-person Model no se pisen", "url": "https://cdn.modrinth.com/data/FQu70XYH/versions/HexWC9bb/fpm_x_compat-fabric-1.2.1%2B1.21.1.jar", "sha1": "e95d8e6555acedcb1b5a81b464bfb4323c87796a", "size": 152688 },
+    { "name": "Better Combat", "filename": "bettercombat-fabric-2.4.0+1.21.1.jar", "note": "Combate estilo Dungeons (animaciones + ataques en area). Tambien instalado en el server", "url": "https://cdn.modrinth.com/data/5sy6g3kz/versions/JJQpBecL/bettercombat-fabric-2.4.0%2B1.21.1.jar", "sha1": "38d1d1f22e9255092baf85abf93a3b9746fa6ed1", "size": 930023 },
+    { "name": "Real Camera", "filename": "realcamera-1.21.1-fabric-0.7.8-beta.jar", "note": "Camara en 1ra persona mas realista (config en YACL)", "url": "https://cdn.modrinth.com/data/fYYSAh4R/versions/ERGbfBFO/realcamera-1.21.1-fabric-0.7.8-beta.jar", "sha1": "46b7b1619c071f1d908556507d8bd78165ae05c4", "size": 269900 },
+    { "name": "Emotecraft", "filename": "emotecraft-for-MC1.21.1-2.4.12-fabric.jar", "note": "Emotes entre jugadores (requiere estar en el server tambien: esta)", "url": "https://cdn.modrinth.com/data/pZ2wrerK/versions/daqt5qcK/emotecraft-for-MC1.21.1-2.4.12-fabric.jar", "sha1": "9be2a237e27f20d2d00f0036a8be53d7d66c5df5", "size": 863362 },
+    { "name": "Player Animator", "filename": "player-animation-lib-fabric-2.0.4+1.21.1.jar", "note": "Dependencia de Better Combat y Emotecraft", "url": "https://cdn.modrinth.com/data/gedNE4y2/versions/CkedfDp3/player-animation-lib-fabric-2.0.4%2B1.21.1.jar", "sha1": "2985c208766cde078a39c22b5ad989b74b7bc490", "size": 204541 },
 
     { "name": "Shader Photon", "filename": "photon_v1.3b.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/lLqFfGNs/versions/gUv7fBPN/photon_v1.3b.zip", "sha1": "d975d25c9686de5f10e8b86c8518613cdf3f040a", "size": 3800987 },
     { "name": "Shader Complementary Reimagined", "filename": "ComplementaryReimagined_r5.9.3.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/HVnmMxH1/versions/Bqen1mJX/ComplementaryReimagined_r5.9.3.zip", "sha1": "838139b54cddb56b2e83cd260d8efd960ac536d6", "size": 553397 },
     { "name": "Shader BSL", "filename": "BSL_v10.1.8.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/Q1vvjJYV/versions/Y68yiql9/BSL_v10.1.8.zip", "sha1": "e89818c8827d0131c102fb480c3c3446624db0df", "size": 1134153 }
-  ]
+  ],
+  "modSections": {
+    "note": "Secciones de la pestana Mods del launcher: agrupan la lista SOLO visualmente (no instalan ni desinstalan nada). Los ids son los de fabric.mod.json; lo que no figure aca cae en 'Otros'. Para mover un mod de seccion, cortalo y pegalo en otra lista.",
+    "sections": [
+      {
+        "title": "Cobblemon · Pokémon",
+        "mods": [
+          "better_pokedex_scanner", "capture_xp", "catchindicator", "catchrate-display",
+          "cobblecuisine", "cobbledollars", "cobblemon", "cobblemon-additions",
+          "cobblemon-battle-extras", "cobblemonbattlepositions", "cobblemonraiddens",
+          "cobblenav", "cobbleversebadges", "cobbreeding", "fightorflight",
+          "legendarymonuments", "lumymon", "lumyrei", "mega_showdown",
+          "more_cobblemon_tweaks", "obc", "pasture-loot", "playerxp",
+          "rctapi", "rctmod", "safepastures", "tmcraft", "zamega"
+        ]
+      },
+      {
+        "title": "Optimización",
+        "mods": [
+          "badoptimizations", "betterbeds", "c2me", "debugify", "entityculling",
+          "exordium", "fadeless", "ferritecore", "immediatelyfast", "krypton",
+          "ksyxis", "lithium", "mobsbegone", "modernfix", "moreculling", "neruina",
+          "notenoughcrashes", "packetfixer", "particle_core", "reeses-sodium-options",
+          "scalablelux", "sodium", "sspb", "threadtweak", "zfastnoise"
+        ]
+      },
+      {
+        "title": "Visuales",
+        "mods": [
+          "bettercombat", "betterthirdperson", "cameraoverhaul", "continuity",
+          "customsplashscreen", "distanthorizons", "eatinganimationid", "emotecraft",
+          "entity_model_features", "entity_texture_features", "euphoria_patcher",
+          "fallingleaves", "firstperson", "fpm_x_compat", "highlight", "interactic",
+          "iris", "notenoughanimations", "particlerain", "particular", "punchy",
+          "realcamera", "skinlayers3d", "sound_physics_remastered", "visuality",
+          "wakes", "waveycapes"
+        ]
+      },
+      {
+        "title": "Interfaz y comodidad",
+        "mods": [
+          "accessories", "accessories_compat_layer", "advancementdisable",
+          "advancementplaques", "betterf1", "betterf3", "brb", "chat_heads",
+          "comforts", "controlling", "equipmentcompare", "fancymenu", "infinite-music",
+          "legendarytooltips", "melody", "modmenu", "mousetweaks", "musicnotification",
+          "nochatrestrictions", "paginatedadvancements", "pingwheel", "prism",
+          "roughlyenoughitems", "soundsbegone", "tooltipfix", "trinkets", "zoomify"
+        ]
+      },
+      {
+        "title": "Mundo y exploración",
+        "mods": [
+          "biome_replacer", "forgivingvoid", "lenientdeath", "nethermap",
+          "netherportalfix", "repurposed_structures", "vanillabackport",
+          "villagerconfig", "waystones", "xaerominimap", "xaeroworldmap"
+        ]
+      },
+      {
+        "title": "Construcción y decoración",
+        "mods": [
+          "beautify", "carved_wood", "cobblefurnies", "cozyhome", "handcrafted",
+          "hugestructureblocks", "moarconcrete", "pokeblocks", "rechiseled"
+        ]
+      },
+      {
+        "title": "Almacenamiento",
+        "mods": [
+          "sophisticatedbackpacks", "sophisticatedcore", "sophisticatedstorage", "toms_storage"
+        ]
+      },
+      {
+        "title": "Librerías",
+        "mods": [
+          "architectury", "athena", "balm", "cloth-config", "configurable",
+          "defaultoptions", "fabric-api", "fabric-language-kotlin", "forgeconfigapiport",
+          "fusion", "fzzy_config", "geckolib", "globalpacks", "iceberg", "konkrete",
+          "libjf", "midnightlib", "owo", "platform", "playeranimator", "resourcefullib",
+          "resourcepackoverrides", "respackopts", "searchables", "stackdeobfuscator",
+          "supermartijn642configlib", "supermartijn642corelib", "tim_core",
+          "yet_another_config_lib_v3"
+        ]
+      }
+    ]
+  }
 }

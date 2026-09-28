@@ -58,6 +58,24 @@ class RemoteManifest {
     throw new Error('No hay manifest remoto, cache ni default');
   }
 
+  // Solo cache en disco o default embebido, sin tocar la red. Para datos que no
+  // necesitan estar al dia ni bloquear la UI (ej: secciones de la lista de mods).
+  getLocal() {
+    if (this.app && !this.app.isPackaged) {
+      const local = this.defaultManifestPath();
+      if (local) return fs.readJsonSync(local);
+    }
+    try {
+      if (fs.existsSync(this.paths.cacheManifest)) {
+        const data = fs.readJsonSync(this.paths.cacheManifest);
+        if (data && data.schema === 1) return data;
+      }
+    } catch (e) {}
+    const def = this.defaultManifestPath();
+    if (def) return fs.readJsonSync(def);
+    return {};
+  }
+
   // En dev (sin empaquetar) usar devUrl (file://) para iterar sin bajar 228 MB
   packUrl(manifest) {
     const p = manifest.pack;
