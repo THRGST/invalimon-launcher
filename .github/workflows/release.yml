@@ -1,0 +1,21 @@
+# Build de Windows (NSIS + auto-update) en CI: no necesita wine ni Windows local.
+# Se dispara al pushear un tag v* (ej: git tag v1.0.0 && git push --tags)
+name: Release
+on:
+  push:
+    tags: ['v*']
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx electron-builder --win nsis --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

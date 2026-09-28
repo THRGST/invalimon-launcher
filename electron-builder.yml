@@ -1,0 +1,52 @@
+appId: gg.invalimon.launcher
+productName: Invalimon
+copyright: Invalimon
+
+directories:
+  output: dist
+  buildResources: build
+
+files:
+  - "src/**/*"
+  - "package.json"
+  - "!**/*.map"
+  # OJO: NO usar "!**/dist" ni "!**/{...,dist}" aca. El glob con ** matchea a
+  # cualquier profundidad y se lleva puesto node_modules/axios/dist -> la app
+  # empaquetada muere al arrancar con "Cannot find module axios.cjs".
+  - "!dist"
+  - "!.git"
+  - "!.github"
+  - "!tools"
+
+extraResources:
+  - from: manifest.json
+    to: manifest.default.json
+
+asar: true
+compression: maximum
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  # icon: build/icon.ico   # opcional: soltar un PNG 512x512 en build/
+  artifactName: ${productName}-Setup-${version}.${ext}
+
+nsis:
+  oneClick: true
+  perMachine: false            # per-user, sin UAC
+  allowElevation: false
+  # NO borrar los datos del juego al desinstalar (gameDir vive en %APPDATA%)
+  deleteAppDataOnUninstall: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Invalimon
+  runAfterFinish: true
+
+publish:
+  provider: github
+  owner: CAMBIAR_OWNER
+  repo: CAMBIAR_REPO
+  releaseType: release
+
+electronUpdaterCompatibility: ">=2.16"

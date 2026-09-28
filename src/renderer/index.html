@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+  <title>Invalimon</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <header class="titlebar">
+    <div class="titlebar-drag"><span class="app-title">Invalimon</span></div>
+    <div class="win-controls">
+      <button id="win-min" title="Minimizar">&#8211;</button>
+      <button id="win-max" title="Maximizar">&#9723;</button>
+      <button id="win-close" class="close" title="Cerrar">&#10005;</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="logo">INVALIMON</div>
+      <nav>
+        <button class="tab active" data-tab="play">Jugar</button>
+        <button class="tab" data-tab="mods">Mods</button>
+        <button class="tab" data-tab="settings">Ajustes</button>
+        <button class="tab" data-tab="console">Consola</button>
+        <button class="tab" data-tab="about">Acerca</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <!-- JUGAR -->
+      <section id="view-play" class="view active">
+        <h1>Invalimon</h1>
+        <p class="subtitle">Cobbleverse · Minecraft 1.21.1 · Fabric</p>
+
+        <div class="card">
+          <label for="username">Tu nombre en el juego</label>
+          <div class="row">
+            <input id="username" type="text" maxlength="16" placeholder="Ej: Dream" autocomplete="off" />
+            <button id="btn-save-name" class="btn-secondary">Guardar</button>
+          </div>
+          <p class="hint" id="name-hint">Sin cuenta premium: entras solo con tu nombre.</p>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-box"><span class="info-label">Pack</span><span id="info-pack">—</span></div>
+          <div class="info-box"><span class="info-label">Mods</span><span id="info-mods">—</span></div>
+          <div class="info-box"><span class="info-label">Servidor</span><span id="info-server">—</span></div>
+        </div>
+
+        <div class="card" id="autoconnect-card" style="display:none">
+          <span class="info-label">Conexión</span>
+          <span id="autoconnect-text">—</span>
+        </div>
+
+        <div class="card update-card" id="update-card" style="display:none">
+          <div class="update-head">
+            <span class="info-label">Actualización del launcher</span>
+            <span id="update-text">—</span>
+          </div>
+          <div class="progress update-progress" id="update-progress-wrap" style="display:none">
+            <div class="progress-bar" id="update-progress"></div>
+          </div>
+          <button id="btn-install-update" class="btn-primary" style="display:none">Reiniciar e instalar</button>
+        </div>
+      </section>
+
+      <!-- MODS -->
+      <section id="view-mods" class="view">
+        <div class="row mods-header">
+          <h1>Mods</h1>
+          <input id="mods-search" type="text" placeholder="Buscar mod..." autocomplete="off" />
+        </div>
+        <p class="subtitle" id="mods-count">—</p>
+        <div id="mods-list" class="mods-list"></div>
+      </section>
+
+      <!-- AJUSTES -->
+      <section id="view-settings" class="view">
+        <h1>Ajustes</h1>
+        <div class="card">
+          <label>Memoria RAM (MB)</label>
+          <div class="row">
+            <span class="ram-label">Mínima</span>
+            <input id="ram-min" type="range" min="1024" max="8192" step="512" />
+            <span id="ram-min-val" class="ram-val">2048</span>
+          </div>
+          <div class="row">
+            <span class="ram-label">Máxima</span>
+            <input id="ram-max" type="range" min="2048" max="16384" step="512" />
+            <span id="ram-max-val" class="ram-val">6144</span>
+          </div>
+          <p class="hint">Con los shaders del pack conviene 6 GB o más.</p>
+        </div>
+
+        <div class="card">
+          <label for="java-path">Java</label>
+          <input id="java-path" type="text" placeholder="auto (recomendado)" />
+          <p class="hint">Dejalo en "auto": el launcher baja Java 21 solo si no hay uno válido.</p>
+        </div>
+
+        <div class="card">
+          <label>Ventana</label>
+          <div class="row">
+            <input id="res-w" type="number" min="854" max="7680" step="1" /> x
+            <input id="res-h" type="number" min="480" max="4320" step="1" />
+            <label class="checkbox"><input id="fullscreen" type="checkbox" /> Pantalla completa</label>
+          </div>
+        </div>
+
+        <div class="card">
+          <label for="jvm-args">Argumentos JVM extra</label>
+          <input id="jvm-args" type="text" placeholder="-XX:+UseG1GC ..." />
+        </div>
+
+        <div class="row actions">
+          <button id="btn-save-settings" class="btn-primary">Guardar ajustes</button>
+          <button id="btn-open-dir" class="btn-secondary">Abrir carpeta del juego</button>
+          <button id="btn-verify" class="btn-secondary">Verificar integridad</button>
+          <button id="btn-wipe" class="btn-danger">Borrar datos del juego</button>
+        </div>
+      </section>
+
+      <!-- CONSOLA -->
+      <section id="view-console" class="view">
+        <div class="row console-header">
+          <h1>Consola</h1>
+          <div class="row">
+            <button id="btn-clear-log" class="btn-secondary">Limpiar</button>
+          </div>
+        </div>
+        <div id="console" class="console"></div>
+      </section>
+
+      <!-- ACERCA -->
+      <section id="view-about" class="view">
+        <h1>Acerca de Invalimon</h1>
+        <div class="card">
+          <p>Launcher de <b>Invalimon</b> — server de Cobbleverse (Cobblemon) sobre Minecraft 1.21.1 Fabric.</p>
+          <p class="hint">El pack se descarga directo de Modrinth. No redistribuye mods.</p>
+        </div>
+        <div class="card">
+          <p>Versión del launcher: <span id="about-version">—</span></p>
+          <p class="hint" id="about-dir">—</p>
+          <div class="row">
+            <button id="btn-check-updates" class="btn-secondary">Buscar actualización</button>
+            <span class="hint" id="update-hint">Se actualiza solo: si hay una versión nueva la baja y te avisa acá.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="bottombar">
+    <div class="status-wrap">
+      <div id="status-text">Listo</div>
+      <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    </div>
+    <button id="btn-play" class="play-btn">JUGAR</button>
+  </footer>
+
+  <script src="src/main.js"></script>
+</body>
+</html>

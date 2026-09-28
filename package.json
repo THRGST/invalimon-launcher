@@ -1,0 +1,26 @@
+{
+  "name": "invalimon-launcher",
+  "productName": "Invalimon",
+  "version": "1.0.0",
+  "description": "Launcher de Invalimon - Cobbleverse (Minecraft Fabric 1.21.1)",
+  "main": "src/main/index.js",
+  "author": "Thiago",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win nsis",
+    "pack:dir": "electron-builder --dir"
+  },
+  "dependencies": {
+    "axios": "^1.20.0",
+    "electron-updater": "^6.8.9",
+    "fs-extra": "^11.4.1",
+    "minecraft-launcher-core": "3.18.2",
+    "prismarine-nbt": "^2.8.0",
+    "yauzl": "^3.2.0"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
+  }
+}

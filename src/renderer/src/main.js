@@ -1,0 +1,274 @@
+// Logica del renderer (vanilla JS, sin bundler).
+const $ = (sel) => document.querySelector(sel);
+const api = window.invalimon;
+
+let config = null;
+let isRunning = false;
+let allMods = [];
+let modsLoaded = false;
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ---------- utilidades ----------
+function logLine(type, text) {
+  const box = $('#console');
+  const div = document.createElement('div');
+  div.className = `log-${type || 'INFO'}`;
+  div.textContent = text;
+  box.appendChild(div);
+  while (box.childElementCount > 800) box.removeChild(box.firstChild);
+  box.scrollTop = box.scrollHeight;
+}
+
+function setStatus(text, percent) {
+  $('#status-text').textContent = text;
+  $('#progress-bar').style.width = `${Math.max(0, Math.min(100, percent || 0))}%`;
+}
+
+function setPlayState(running) {
+  isRunning = running;
+  const btn = $('#btn-play');
+  btn.textContent = running ? 'DETENER' : 'JUGAR';
+  btn.classList.toggle('running', running);
+}
+
+// ---------- tabs ----------
+function setupTabs() {
+  document.querySelectorAll('.tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+      document.querySelectorAll('.view').forEach((v) => v.classList.remove('active'));
+      tab.classList.add('active');
+      $(`#view-${tab.dataset.tab}`).classList.add('active');
+      if (tab.dataset.tab === 'mods' && !modsLoaded) loadMods();
+    });
+  });
+}
+
+// ---------- mods ----------
+async function loadMods() {
+  const list = $('#mods-list');
+  list.innerHTML = '<div class="mods-empty">Leyendo los mods instalados...</div>';
+  allMods = await api.getMods();
+  modsLoaded = true;
+  $('#mods-count').textContent = allMods.length
+    ? `${allMods.length} mods instalados`
+    : 'Todavía no hay mods instalados (dale a JUGAR una vez)';
+  renderMods($('#mods-search').value);
+}
+
+function renderMods(filter) {
+  const f = (filter || '').trim().toLowerCase();
+  const items = allMods.filter((m) =>
+    !f || m.name.toLowerCase().includes(f) || (m.id || '').toLowerCase().includes(f));
+  $('#mods-list').innerHTML = items.length
+    ? items.map((m) => `
+      <div class="mod-item">
+        <span class="mod-name">${escapeHtml(m.name)}</span>
+        <span class="mod-version">${escapeHtml(m.version || '')}</span>
+      </div>`).join('')
+    : '<div class="mods-empty">Sin resultados</div>';
+}
+
+function setupWindowControls() {
+  $('#win-min').addEventListener('click', () => api.minimizeWindow());
+  $('#win-max').addEventListener('click', () => api.maximizeWindow());
+  $('#win-close').addEventListener('click', () => api.closeWindow());
+}
+
+// ---------- eventos del motor ----------
+function onEngineEvent(data) {
+  if (data.event === 'status') {
+    if (data.phase === 'running' || data.percent === 100) {
+      setPlayState(true);
+      setStatus('Jugando ✔', 100);
+    } else if (data.phase === 'idle' || data.percent === 0) {
+      setPlayState(false);
+      setStatus(data.message || 'Listo', 0);
+    } else {
+      setStatus(data.message || '', data.percent || 0);
+    }
+  } else if (data.event === 'game_started') {
+    setPlayState(true);
+    logLine('SYSTEM', `Minecraft iniciado (PID: ${data.pid})`);
+  } else if (data.event === 'game_closed') {
+    setPlayState(false);
+    setStatus('Listo', 0);
+    logLine('SYSTEM', `Minecraft cerrado (código ${data.code})`);
+  } else if (data.event === 'autoconnect') {
+    $('#autoconnect-card').style.display = 'block';
+    $('#autoconnect-text').textContent = data.text;
+  } else if (data.event === 'update_state') {
+    renderUpdate(data);
+  }
+}
+
+// ---------- actualizaciones del launcher ----------
+let lastUpdateState = null;
+
+function renderUpdate(st) {
+  const s = (st && st.state) || 'idle';
+  const card = $('#update-card');
+  const barWrap = $('#update-progress-wrap');
+  const btnInstall = $('#btn-install-update');
+  const hint = $('#update-hint');
+  const prev = lastUpdateState;
+  lastUpdateState = s;
+
+  if (s === 'available' || s === 'downloading') {
+    card.style.display = 'block';
+    barWrap.style.display = 'block';
+    btnInstall.style.display = 'none';
+    const ver = st.version ? ` ${st.version}` : '';
+    $('#update-text').textContent = s === 'downloading'
+      ? `Bajando la versión${ver}… ${st.percent || 0}%`
+      : `Hay una versión nueva${ver}, bajando…`;
+    $('#update-progress').style.width = `${st.percent || 0}%`;
+    if (prev !== s && s === 'available') logLine('SYSTEM', `Actualización del launcher disponible${ver}`);
+  } else if (s === 'ready') {
+    card.style.display = 'block';
+    barWrap.style.display = 'none';
+    btnInstall.style.display = 'block';
+    $('#update-text').textContent = `Versión${st.version ? ` ${st.version}` : ''} lista para instalar`;
+    if (prev !== 'ready') logLine('SYSTEM', 'Actualización descargada: reiniciá el launcher para aplicarla.');
+  } else {
+    card.style.display = 'none';
+  }
+
+  if (s === 'none') hint.textContent = 'Estás al día ✔';
+  else if (s === 'checking') hint.textContent = 'Buscando actualizaciones…';
+  else if (s === 'error') {
+    hint.textContent = 'No pude buscar actualizaciones (¿sin internet?).';
+    if (prev !== 'error') logLine('WARN', `Auto-update: ${st.error || 'error'}`);
+  } else if (s === 'idle') hint.textContent = 'Se actualiza solo: si hay una versión nueva la baja y te avisa acá.';
+}
+
+// ---------- acciones ----------
+async function refreshState() {
+  const state = await api.getState();
+  $('#info-pack').textContent = state.pack && state.pack.versionId
+    ? `Cobbleverse ${state.pack.versionId}` : 'No instalado';
+  $('#info-mods').textContent = state.pack && state.pack.modCount
+    ? `${state.pack.modCount} mods` : '—';
+  $('#info-server').textContent = (state.pack && state.pack.server && state.pack.server.address)
+    || 'Pendiente';
+  $('#about-dir').textContent = `Datos: ${state.dataDir}`;
+  setPlayState(Boolean(state.running));
+}
+
+async function saveName() {
+  const name = $('#username').value.trim();
+  if (!name) { $('#name-hint').textContent = 'Poné un nombre primero.'; return; }
+  const auth = await api.loginOffline(name);
+  config.user = { type: auth.type, username: auth.username, uuid: auth.uuid };
+  $('#name-hint').textContent = `Listo: entrás como ${auth.username}.`;
+  logLine('SYSTEM', `Nombre guardado: ${auth.username}`);
+}
+
+async function saveSettings() {
+  const partial = {
+    settings: {
+      ramMin: Number($('#ram-min').value),
+      ramMax: Number($('#ram-max').value),
+      javaPath: $('#java-path').value.trim() || 'auto',
+      customJvmArgs: $('#jvm-args').value.trim(),
+      fullscreen: $('#fullscreen').checked,
+      resolutionWidth: Number($('#res-w').value) || 1280,
+      resolutionHeight: Number($('#res-h').value) || 720,
+    },
+  };
+  config = await api.saveConfig(partial);
+  logLine('SYSTEM', 'Ajustes guardados ✔');
+  setStatus('Ajustes guardados ✔', 0);
+}
+
+async function togglePlay() {
+  if (isRunning) {
+    await api.killGame();
+    return;
+  }
+  const name = $('#username').value.trim();
+  if (!name) { $('#name-hint').textContent = 'Poné un nombre primero.'; return; }
+  await api.loginOffline(name);
+  setPlayState(false);
+  $('#btn-play').disabled = true;
+  setStatus('Preparando...', 1);
+  const res = await api.launchGame();
+  $('#btn-play').disabled = false;
+  if (!res.ok) {
+    setStatus(`Error: ${res.error}`, 0);
+    logLine('ERROR', res.error);
+  }
+}
+
+// ---------- init ----------
+async function init() {
+  setupTabs();
+  setupWindowControls();
+
+  config = await api.getConfig();
+  const version = await api.getAppVersion();
+  $('#about-version').textContent = version;
+
+  $('#username').value = config.user.username || '';
+  $('#ram-min').value = config.settings.ramMin;
+  $('#ram-max').value = config.settings.ramMax;
+  $('#ram-min-val').textContent = config.settings.ramMin;
+  $('#ram-max-val').textContent = config.settings.ramMax;
+  $('#java-path').value = config.settings.javaPath === 'auto' ? '' : config.settings.javaPath;
+  $('#jvm-args').value = config.settings.customJvmArgs || '';
+  $('#fullscreen').checked = Boolean(config.settings.fullscreen);
+  $('#res-w').value = config.settings.resolutionWidth;
+  $('#res-h').value = config.settings.resolutionHeight;
+
+  $('#ram-min').addEventListener('input', (e) => { $('#ram-min-val').textContent = e.target.value; });
+  $('#ram-max').addEventListener('input', (e) => { $('#ram-max-val').textContent = e.target.value; });
+  $('#btn-save-name').addEventListener('click', saveName);
+  $('#btn-save-settings').addEventListener('click', saveSettings);
+  $('#btn-play').addEventListener('click', togglePlay);
+  $('#btn-clear-log').addEventListener('click', () => { $('#console').innerHTML = ''; });
+  $('#mods-search').addEventListener('input', (e) => renderMods(e.target.value));
+
+  $('#btn-open-dir').addEventListener('click', () => api.openGameDir());
+  $('#btn-verify').addEventListener('click', async () => {
+    setStatus('Verificando integridad (puede tardar)...', 1);
+    const r = await api.verifyIntegrity();
+    setStatus(r.ok ? 'Integridad OK ✔' : `Error: ${r.error}`, r.ok ? 100 : 0);
+  });
+  $('#btn-wipe').addEventListener('click', async () => {
+    const ok = confirm('¿Borrar TODOS los datos del juego (mods, configs, mundos locales)?\nEl launcher los volverá a descargar la próxima vez.');
+    if (!ok) return;
+    await api.wipeGameDir();
+    logLine('SYSTEM', 'Datos del juego borrados');
+    refreshState();
+  });
+
+  $('#btn-check-updates').addEventListener('click', async () => {
+    $('#update-hint').textContent = 'Buscando actualizaciones…';
+    const r = await api.checkUpdates();
+    if (!r.ok && r.error) $('#update-hint').textContent = `No pude buscar: ${r.error}`;
+  });
+  $('#btn-install-update').addEventListener('click', async () => {
+    const r = await api.installUpdate();
+    if (!r.ok) {
+      $('#update-hint').textContent = r.error;
+      logLine('ERROR', r.error);
+    } else {
+      setStatus('Instalando actualización…', 100);
+      logLine('SYSTEM', 'Reiniciando el launcher para instalar…');
+    }
+  });
+
+  api.onLog((d) => logLine(d.type, d.text));
+  api.onEvent(onEngineEvent);
+
+  renderUpdate(await api.getUpdateState());
+
+  await refreshState();
+  logLine('SYSTEM', `Launcher listo (v${version})`);
+}
+
+document.addEventListener('DOMContentLoaded', init);

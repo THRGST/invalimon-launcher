@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "minLauncherVersion": "1.0.0",
+  "notice": null,
+  "server": { "name": "Invalimon", "address": "carolyn-archery.tun.ply.gg" },
+  "clientDefaults": {
+    "options": {
+      "renderDistance": "8",
+      "simulationDistance": "6",
+      "particles": "2",
+      "renderClouds": "false",
+      "maxFps": "120",
+      "enableVsync": "false",
+      "skipMultiplayerWarning": "true",
+      "tutorialStep": "none",
+      "onboardAccessibility": "false",
+      "chatVisibility": "0"
+    },
+    "shaders": false,
+    "fancymenuDisable": ["cobbleverse_multiplayer_screen.txt"],
+    "modDisable": []
+  },
+  "pack": {
+    "name": "cobbleverse",
+    "versionId": "1.7.42",
+    "url": "https://cdn.modrinth.com/data/Jkb29YJU/versions/4SKGla61/COBBLEVERSE%201.7.42.mrpack",
+    "devUrl": "file:///home/thrg/Documents/Proyects/Invalimon/cobbleverse-1.7.42.mrpack",
+    "sha512": "9af64e0d3a092ab8d72d966cc4d45512e8d875685e804bea9233adb88f5f5d4c30578b77304f70fe77e9ef2ee01e487d652f3341279bcc1850ff2587ae8aa8a4",
+    "sha1": "cb8aa247d5badacf84f7d40a65681440f0428128",
+    "size": 238975006
+  },
+  "extraMods": [
+    { "name": "Distant Horizons", "filename": "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar", "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/Ez3cx7Yd/DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar", "sha1": "d18b0829416ec6948102524b6e913e5bc73ae402", "size": 28224156 },
+    { "name": "3D Skin Layers", "filename": "skinlayers3d-fabric-1.11.3-mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/zV5r3pPn/versions/L1pQ9OzF/skinlayers3d-fabric-1.11.3-mc1.21.1.jar", "sha1": "30ed540777c6fdd313a521820238eeb7c7da5676", "size": 1912463 },
+    { "name": "First-person Model", "filename": "firstperson-fabric-2.7.2-mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/fSfRdYJ6/firstperson-fabric-2.7.2-mc1.21.1.jar", "sha1": "98a23ef8a95c36d005be346312dc30741d5824fa", "size": 1621512 },
+    { "name": "Falling Leaves", "filename": "fallingleaves-1.17.1+1.21.1.jar", "url": "https://cdn.modrinth.com/data/WhbRG4iK/versions/Y0zS16Bk/fallingleaves-1.17.1%2B1.21.1.jar", "sha1": "5210b4cb359a95c53580b1399f98e51ab0967cc5", "size": 170056 },
+    { "name": "Wakes", "filename": "wakes-0.4.1+1.21.1.jar", "url": "https://cdn.modrinth.com/data/dlNu0RQY/versions/WuY7eJX9/wakes-0.4.1%2B1.21.1.jar", "sha1": "c4f4d09a4b9362bcc952f370ce8c8b44d662dc42", "size": 268435 },
+
+    { "name": "Exordium", "filename": "exordium-fabric-1.4.2-mc1.21.jar", "url": "https://cdn.modrinth.com/data/DynYZEae/versions/yhV8WpQg/exordium-fabric-1.4.2-mc1.21.jar", "sha1": "937dfbbaaaebe935bc6c2538861c7b75106b07b6", "size": 218732 },
+    { "name": "Ksyxis", "filename": "Ksyxis-1.4.5.jar", "url": "https://cdn.modrinth.com/data/2ecVyZ49/versions/9CU8nnVG/Ksyxis-1.4.5.jar", "sha1": "026b789a30de912a40911443c37c2fc92579629e", "size": 23303 },
+    { "name": "ThreadTweak", "filename": "threadtweak-fabric-0.1.5+mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/vSEH1ERy/versions/F4sjmsi3/threadtweak-fabric-0.1.5%2Bmc1.21.1.jar", "sha1": "47fe715b4b41644817cac50a7c79ecf26f48d7e3", "size": 144270 },
+    { "name": "Fadeless", "filename": "fadeless-2.0.1.jar", "url": "https://cdn.modrinth.com/data/ncKjyGm3/versions/fOYd9ihS/fadeless-2.0.1.jar", "sha1": "6c3aa8c269c7898ac209a2782b998781deb13eec", "size": 65412 },
+    { "name": "Sodium Shadowy Path Blocks", "filename": "sodium-shadowy-path-blocks-fabric-4.1.0.jar", "url": "https://cdn.modrinth.com/data/EIa1eiMm/versions/swAX3plf/sodium-shadowy-path-blocks-fabric-4.1.0.jar", "sha1": "b326e0370fb1a6270cab51f7a11befdc1f5251b3", "size": 78261 },
+
+    { "name": "Effective", "filename": "effective-2.4.8-1.21.1.jar", "url": "https://cdn.modrinth.com/data/pcPXJeZi/versions/ZV1N3Ikr/effective-2.4.8-1.21.1.jar", "sha1": "da68b3dfb894becb8490b96ddd41d9bea28d916a", "size": 51601944 },
+    { "name": "Visuality", "filename": "visuality-0.7.7+1.21.jar", "url": "https://cdn.modrinth.com/data/rI0hvYcd/versions/dhKbgdIb/visuality-0.7.7%2B1.21.jar", "sha1": "8d239710c1c1983d780ad04686c3c3d0d1b1585e", "size": 79452 },
+    { "name": "Chat Heads", "filename": "chat_heads-0.15.7-fabric-1.21.jar", "url": "https://cdn.modrinth.com/data/Wb5oqrBJ/versions/5t3tM2L3/chat_heads-0.15.7-fabric-1.21.jar", "sha1": "5f37d428e0cc5ff08ed73a21ee11af0dde4105c2", "size": 86944 },
+    { "name": "Wavey Capes", "filename": "waveycapes-fabric-1.11.2-mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/kYuIpRLv/versions/jZeY6GAm/waveycapes-fabric-1.11.2-mc1.21.1.jar", "sha1": "3cefa859d45c5148492923e7aa363fc19c5995d6", "size": 1789704 },
+    { "name": "Eating Animation", "filename": "eating-animation-1.21+1.9.72.jar", "url": "https://cdn.modrinth.com/data/rUgZvGzi/versions/KWZCioh0/eating-animation-1.21%2B1.9.72.jar", "sha1": "d89ecd0ac342697e0d1c3aaff1daa6c81bebe2f6", "size": 1060520 },
+    { "name": "Legendary Tooltips", "filename": "LegendaryTooltips-1.21.1-fabric-1.5.5.jar", "url": "https://cdn.modrinth.com/data/atHH8NyV/versions/f4suO4vX/LegendaryTooltips-1.21.1-fabric-1.5.5.jar", "sha1": "d2a47d7bfdf8008bdb98aa03bc94087be4078a07", "size": 86697 },
+    { "name": "Prism", "filename": "Prism-1.21.1-fabric-1.0.11.jar", "url": "https://cdn.modrinth.com/data/1OE8wbN0/versions/obM5d9Uv/Prism-1.21.1-fabric-1.0.11.jar", "sha1": "feb245033bce5560ad0243b0ff519590ea9e3664", "size": 61661 },
+    { "name": "Equipment Compare", "filename": "EquipmentCompare-1.21.1-fabric-1.3.13.jar", "url": "https://cdn.modrinth.com/data/CYSUVOdj/versions/43MK9mq7/EquipmentCompare-1.21.1-fabric-1.3.13.jar", "sha1": "6ee435ae006c6f33783d334a01e229457c2aba66", "size": 38804 },
+
+    { "name": "Shader Photon", "filename": "photon_v1.3b.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/lLqFfGNs/versions/gUv7fBPN/photon_v1.3b.zip", "sha1": "d975d25c9686de5f10e8b86c8518613cdf3f040a", "size": 3800987 },
+    { "name": "Shader Complementary Reimagined", "filename": "ComplementaryReimagined_r5.9.3.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/HVnmMxH1/versions/Bqen1mJX/ComplementaryReimagined_r5.9.3.zip", "sha1": "838139b54cddb56b2e83cd260d8efd960ac536d6", "size": 553397 },
+    { "name": "Shader BSL", "filename": "BSL_v10.1.8.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/Q1vvjJYV/versions/Y68yiql9/BSL_v10.1.8.zip", "sha1": "e89818c8827d0131c102fb480c3c3446624db0df", "size": 1134153 }
+  ]
+}
