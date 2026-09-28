@@ -18,14 +18,13 @@
     },
     "shaders": false,
     "fancymenuDisable": ["cobbleverse_multiplayer_screen.txt"],
-    "modDisable": [],
+    "modDisable": ["effective-2.4.8-1.21.1.jar"],
     "dhLodRadius": 64
   },
   "lightMode": {
     "note": "Extras que apaga el boton 'Modo ligero' de Ajustes (para PCs flojas). Solo se renombran a .disabled: no se borra ni se re-descarga nada.",
     "mods": [
       "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
-      "effective-2.4.8-1.21.1.jar",
       "visuality-0.7.7+1.21.jar",
       "wakes-0.4.1+1.21.1.jar",
       "fallingleaves-1.17.1+1.21.1.jar"
