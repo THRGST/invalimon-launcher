@@ -1,7 +1,7 @@
 {
   "name": "invalimon-launcher",
   "productName": "Invalimon",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Launcher de Invalimon - Cobbleverse (Minecraft Fabric 1.21.1)",
   "main": "src/main/index.js",
   "author": "Thiago",
