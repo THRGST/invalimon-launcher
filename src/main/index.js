@@ -11,6 +11,7 @@ const { RemoteManifest } = require('./launcher/remoteManifest');
 const { LaunchEngine } = require('./launcher/engine');
 const { offlineAuth } = require('./launcher/auth');
 const { listMods } = require('./launcher/modsList');
+const serverStatus = require('./launcher/serverStatus');
 const { Updater } = require('./updater');
 
 let mainWindow = null;
@@ -72,7 +73,19 @@ app.whenReady().then(() => {
 
   ipcMain.handle('launcher:get-state', async () => {
     const pack = await engine.manager.currentPackInfo();
-    return { running: engine.isRunning, pack, dataDir: paths.dataDir, gameDir: paths.gameDir };
+    let notice = null;
+    try { notice = remoteManifest.getLocal().notice || null; } catch (e) {}
+    return { running: engine.isRunning, pack, dataDir: paths.dataDir, gameDir: paths.gameDir, notice };
+  });
+
+  ipcMain.handle('launcher:get-server-status', async () => {
+    try {
+      const manifest = remoteManifest.getLocal();
+      const address = remoteManifest.serverAddress(manifest, configManager.get().settings.serverAddress);
+      return await serverStatus.ping(address);
+    } catch (e) {
+      return { online: false, error: e.message };
+    }
   });
 
   ipcMain.handle('launcher:get-mods', async () => {

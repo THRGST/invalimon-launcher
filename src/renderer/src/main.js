@@ -168,10 +168,41 @@ async function refreshState() {
     ? `Cobbleverse ${state.pack.versionId}` : 'No instalado';
   $('#info-mods').textContent = state.pack && state.pack.modCount
     ? `${state.pack.modCount} mods` : '—';
-  $('#info-server').textContent = (state.pack && state.pack.server && state.pack.server.address)
-    || 'Pendiente';
   $('#about-dir').textContent = `Datos: ${state.dataDir}`;
   setPlayState(Boolean(state.running));
+  renderNotice(state.notice);
+  refreshServerStatus();
+}
+
+// ---------- estado del server en vivo ----------
+let lastServerOnline = null;
+async function refreshServerStatus() {
+  const el = $('#info-server');
+  const st = await api.getServerStatus();
+  if (st && st.online) {
+    el.innerHTML = `<span class="dot online"></span>Online · ${st.onlineCount}/${st.maxCount}`;
+    el.title = `${st.motd || ''}\n${st.latencyMs} ms`;
+    if (lastServerOnline === false) logLine('SYSTEM', `Server online: ${st.onlineCount}/${st.maxCount} jugando`);
+    lastServerOnline = true;
+  } else {
+    el.innerHTML = '<span class="dot offline"></span>Offline';
+    el.title = (st && st.error) || '';
+    if (lastServerOnline === true) logLine('WARN', 'El server dejó de responder');
+    if (lastServerOnline === null) console.log('server offline:', st && st.error);
+    lastServerOnline = false;
+  }
+}
+
+// ---------- avisos del manifest ----------
+function renderNotice(text) {
+  const el = $('#notice-banner');
+  if (!el) return;
+  if (text) {
+    $('#notice-text').textContent = text;
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
 }
 
 async function saveName() {
@@ -291,6 +322,7 @@ async function init() {
   renderUpdate(await api.getUpdateState());
 
   await refreshState();
+  setInterval(refreshServerStatus, 30000);
   logLine('SYSTEM', `Launcher listo (v${version})`);
 }
 

@@ -2,7 +2,7 @@
   "schema": 1,
   "minLauncherVersion": "1.0.0",
   "notice": null,
-  "server": { "name": "Invalimon", "address": "carolyn-archery.tun.ply.gg" },
+  "server": { "name": "Invalimon", "address": "carolyn-archery.tun.ply.gg", "icon": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACzElEQVR4nGOsWPXhP8MIBkwD7YCBBiwwxsqOrIF0B91BeMU0BgYGpABgYBiZOQEeAP//j/AAGPEpgGGkp4D/oylgpAfASE8Bo7UADQMg7+VRsvRNEremskswwSDPArR306DOAvRw02gKQNhFmWX5r0+i8CXZ2OBscxMJFDllAR6izJQ8dA7Ofv7rF4rcRFFzUp2IFQzZhhC13Dt0G0JUci9FZUDBmzNwtq6wMIqc25ROOPujsR2qxiwvosyPspODs3edf48iF/juLJy9XsiIKPOwgUFdCxALKHH70M0CyIAqATDECkFUMEApALmqczMURJFDzvf8Zw+R4TQGhrsfvuCUk//3D8GhRgoYatUgMqDE7aNlAJIpBBUXfbiMwo9yUcGplp/Iqg4fuHv/N0455Go3+P0VFLm1fNpE2zEsqkF0QIpfhkktgA7ICYBhlAJI8QtJWWCOkBAKPwCpmiK2h4cP4Kv2SAGjWWA0C5CTBYgINW1VLRR++LOHcPZKBtTkG/6SFac5K8UR1Ru+qg4fePP5M5y9hZMTRY6UhtFoCkDSRQOXDBSgUS2ADtIT0uDs8AWzUOS2bd4GZz97+gxFLjwjBc5uY8CdBZCTeTMPWi2DxDdCy5qHLz/H42pUMJoCEHqGUQDQqiE0VADNGkKHLj5G4UuIX4Szv379iiKHnO8f3X/IgAvk43MsUj7vbOpAkdq1axecvWrXadxmEADDIwuMjggN0IjQi5cv4Oyi7EIUucjYSJz60JMzMeDly5c47R4dFR4dExwtA8jWS1EKOHD2Dk45ZxsnOFtfX58o89Dz+cWLiGoWJc8TsJsUMHSzALVnh4daFhh06wP2n76JJoLgoydf8s2kPhjk1eDoKjGa2zGaAhB20c6yfSev0sxsSsGQrQWoBYZuO4BKYDQAYIzRLDDSU8DgrAZpDwZ1Q4geYMSnAMbR3eMjHAAAZTg+cZT77tcAAAAASUVORK5CYII=" },
   "clientDefaults": {
     "options": {
       "renderDistance": "8",

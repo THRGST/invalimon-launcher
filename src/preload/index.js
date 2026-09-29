@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('invalimon', {
   getSystemInfo: () => ipcRenderer.invoke('launcher:get-system-info'),
   getState: () => ipcRenderer.invoke('launcher:get-state'),
   getMods: () => ipcRenderer.invoke('launcher:get-mods'),
+  getServerStatus: () => ipcRenderer.invoke('launcher:get-server-status'),
   loginOffline: (username) => ipcRenderer.invoke('launcher:login-offline', username),
   launchGame: () => ipcRenderer.invoke('launcher:launch-game'),
   killGame: () => ipcRenderer.invoke('launcher:kill-game'),

@@ -82,7 +82,7 @@ class LaunchEngine {
       const remap = (pct) => 10 + Math.round((pct / 100) * 75);
       const packInfo = await this.manager.ensurePack({
         pack,
-        serverEntry: { name: serverName, address: serverAddress },
+        serverEntry: { name: serverName, address: serverAddress, icon: (manifest.server && manifest.server.icon) || null },
         onEvent: (ev) => {
           if (ev.phase === 'done') return;
           status(ev.phase, ev.message, remap(ev.percent || 0));

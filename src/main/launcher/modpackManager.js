@@ -101,8 +101,8 @@ class ModpackManager {
   }
 
   // Fase 6 sola (para re-parchear cuando cambia la direccion del server)
-  async patchServerEntry({ name, address }) {
-    const patched = await patchServersDat({ gameDir: this.paths.gameDir, name, address, log: this.log });
+  async patchServerEntry({ name, address, iconB64 }) {
+    const patched = await patchServersDat({ gameDir: this.paths.gameDir, name, address, iconB64, log: this.log });
     if (patched.length) {
       const state = this.loadState();
       state.server = { name, address, patchedAt: Date.now() };
@@ -372,7 +372,8 @@ class ModpackManager {
       emit('servers_patch', 'Configurando el server...', 93);
       await patchServersDat({
         gameDir, name: serverEntry.name || 'Invalimon',
-        address: serverEntry.address, log: this.log,
+        address: serverEntry.address, iconB64: serverEntry.icon || undefined,
+        log: this.log,
       });
     }
 
