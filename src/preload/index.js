@@ -21,6 +21,7 @@ contextBridge.exposeInMainWorld('invalimon', {
   verifyIntegrity: () => ipcRenderer.invoke('launcher:verify-integrity'),
   openGameDir: () => ipcRenderer.invoke('launcher:open-game-dir'),
   wipeGameDir: () => ipcRenderer.invoke('launcher:wipe-game-dir'),
+  nuke: (opts) => ipcRenderer.invoke('launcher:nuke', opts || {}),
 
   getUpdateState: () => ipcRenderer.invoke('launcher:get-update-state'),
   checkUpdates: () => ipcRenderer.invoke('launcher:check-updates'),

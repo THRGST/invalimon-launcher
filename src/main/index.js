@@ -12,6 +12,7 @@ const { LaunchEngine } = require('./launcher/engine');
 const { offlineAuth } = require('./launcher/auth');
 const { listMods } = require('./launcher/modsList');
 const serverStatus = require('./launcher/serverStatus');
+const { nukeAll } = require('./launcher/nuke');
 const { Updater } = require('./updater');
 
 let mainWindow = null;
@@ -68,6 +69,8 @@ app.whenReady().then(() => {
   ipcMain.handle('launcher:get-app-version', () => app.getVersion());
   ipcMain.handle('launcher:get-system-info', () => ({
     ramTotalGB: Math.round(os.totalmem() / 1073741824),
+    platform: process.platform,
+    packaged: app.isPackaged,
   }));
   ipcMain.handle('launcher:save-config', (_e, partial) => configManager.save(partial || {}));
 
@@ -135,6 +138,21 @@ app.whenReady().then(() => {
   ipcMain.handle('launcher:wipe-game-dir', async () => {
     await engine.manager.wipeGameDir();
     return { ok: true };
+  });
+
+  // Reset total: borra TODO (juego, config, cache, logs) y opcionalmente se desinstala.
+  // El renderer ya pidio confirmacion escribiendo BORRAR.
+  ipcMain.handle('launcher:nuke', async (_e, opts) => {
+    try {
+      const report = await nukeAll({
+        paths, engine, app, log: logger,
+        uninstall: Boolean(opts && opts.uninstall),
+      });
+      if (report.uninstalling) setTimeout(() => app.quit(), 1500);
+      return { ok: true, ...report };
+    } catch (e) {
+      return { ok: false, error: e.message };
+    }
   });
 
   // ---- Auto-update --------------------------------------------------------

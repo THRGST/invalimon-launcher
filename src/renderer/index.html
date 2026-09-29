@@ -139,6 +139,14 @@
           <button id="btn-verify" class="btn-secondary">Verificar integridad</button>
           <button id="btn-wipe" class="btn-danger">Borrar datos del juego</button>
         </div>
+
+        <div class="card danger-zone">
+          <label>☢️ Zona peligrosa</label>
+          <p class="hint">Borra <b>todo</b>: el pack, la configuración, el caché y los logs. El launcher queda como recién instalado (y puede desinstalarse solo).</p>
+          <div class="row">
+            <button id="btn-nuke" class="btn-danger">Reset total (borrar TODO)</button>
+          </div>
+        </div>
       </section>
 
       <!-- CONSOLA -->
@@ -178,6 +186,31 @@
     </div>
     <button id="btn-play" class="play-btn">JUGAR</button>
   </footer>
+
+  <!-- Modal: reset total (autodestruccion) -->
+  <div id="nuke-modal" class="modal-backdrop" style="display:none">
+    <div class="modal">
+      <h2>☢️ Borrar TODO</h2>
+      <p>Esto elimina <b>todo lo que hizo el launcher</b>:</p>
+      <ul class="nuke-list">
+        <li>El pack completo (mods, shaders, mundos locales, resource packs) — ~2 GB</li>
+        <li>La configuración (tu nombre, RAM, ajustes)</li>
+        <li>El caché y los logs</li>
+      </ul>
+      <p class="nuke-warn"><b>No se puede deshacer.</b> Después queda como recién instalado (tendrás que volver a escribir tu nombre).</p>
+      <p class="hint">Si el juego está abierto, se cierra primero.</p>
+      <label class="nuke-label">Para confirmar, escribí <b>BORRAR</b>:</label>
+      <input id="nuke-confirm-input" type="text" placeholder="BORRAR" autocomplete="off" spellcheck="false" />
+      <label class="checkbox nuke-uninstall" id="nuke-uninstall-label" style="display:none">
+        <input type="checkbox" id="nuke-uninstall" /> También desinstalar el launcher de la PC
+      </label>
+      <div class="nuke-result" id="nuke-result"></div>
+      <div class="row nuke-actions">
+        <button id="nuke-cancel" class="btn-secondary">Cancelar</button>
+        <button id="nuke-go" class="btn-danger" disabled>Eliminar todo</button>
+      </div>
+    </div>
+  </div>
 
   <script src="src/main.js"></script>
 </body>

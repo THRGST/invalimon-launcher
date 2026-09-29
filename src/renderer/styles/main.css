@@ -203,3 +203,26 @@ button { font-family: var(--font); }
 }
 .dot.online { background: var(--green); box-shadow: 0 0 6px var(--green); }
 .dot.offline { background: var(--red); }
+
+/* Zona peligrosa + modal de reset total */
+.danger-zone { border-color: rgba(248, 113, 113, .35); }
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(5, 7, 12, .78);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 22px; width: min(540px, 92vw);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .55);
+}
+.modal h2 { font-size: 16px; margin-bottom: 10px; }
+.modal p { font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+.nuke-list { margin: 0 0 10px 18px; font-size: 13px; color: var(--text-dim); }
+.nuke-list li { margin: 3px 0; }
+.modal .nuke-warn { color: var(--red); }
+.nuke-label { display: block; font-size: 13px; margin: 12px 0 6px; color: var(--text); }
+#nuke-confirm-input { width: 100%; }
+.nuke-uninstall { margin-top: 12px; align-items: center; gap: 8px; }
+.nuke-result { min-height: 18px; margin-top: 10px; font-size: 12px; color: var(--green); }
+.nuke-actions { justify-content: flex-end; margin-top: 12px; }

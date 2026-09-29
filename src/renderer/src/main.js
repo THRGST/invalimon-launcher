@@ -205,6 +205,63 @@ function renderNotice(text) {
   }
 }
 
+// ---------- reset total (autodestruccion) ----------
+function setupNuke() {
+  const modal = $('#nuke-modal');
+  const input = $('#nuke-confirm-input');
+  const go = $('#nuke-go');
+  const result = $('#nuke-result');
+  const uninstallCb = $('#nuke-uninstall');
+  const uninstallLabel = $('#nuke-uninstall-label');
+
+  // El checkbox de desinstalar solo aplica al launcher instalado de Windows
+  api.getSystemInfo().then((info) => {
+    if (info && info.platform === 'win32' && info.packaged) {
+      uninstallLabel.style.display = 'flex';
+    }
+  }).catch(() => {});
+
+  $('#btn-nuke').addEventListener('click', () => {
+    input.value = '';
+    go.disabled = true;
+    go.textContent = 'Eliminar todo';
+    result.textContent = '';
+    if (uninstallCb) uninstallCb.checked = false;
+    modal.style.display = 'flex';
+    input.focus();
+  });
+  $('#nuke-cancel').addEventListener('click', () => { modal.style.display = 'none'; });
+  input.addEventListener('input', () => {
+    go.disabled = input.value.trim().toUpperCase() !== 'BORRAR';
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !go.disabled) go.click();
+  });
+
+  go.addEventListener('click', async () => {
+    if (input.value.trim().toUpperCase() !== 'BORRAR') return;
+    go.disabled = true;
+    go.textContent = 'Borrando…';
+    result.textContent = '';
+    const r = await api.nuke({ uninstall: Boolean(uninstallCb && uninstallCb.checked) });
+    if (r && r.uninstalling) {
+      result.textContent = 'Todo borrado. Desinstalando el launcher…';
+      return; // el main cierra la app para que el desinstalador termine
+    }
+    if (r && r.ok) {
+      result.textContent = (r.failed && r.failed.length)
+        ? `Listo. Quedaron ${r.failed.length} archivos en uso (se limpian al reiniciar).`
+        : 'Listo: todo borrado. Reiniciando la vista…';
+      logLine('SYSTEM', 'Reset total completado');
+      setTimeout(() => location.reload(), 2200);
+    } else {
+      result.textContent = `No pude borrar todo: ${(r && r.error) || 'error desconocido'}`;
+      go.disabled = false;
+      go.textContent = 'Eliminar todo';
+    }
+  });
+}
+
 async function saveName() {
   const name = $('#username').value.trim();
   if (!name) { $('#name-hint').textContent = 'Poné un nombre primero.'; return; }
@@ -299,6 +356,8 @@ async function init() {
     logLine('SYSTEM', 'Datos del juego borrados');
     refreshState();
   });
+
+  setupNuke();
 
   $('#btn-check-updates').addEventListener('click', async () => {
     $('#update-hint').textContent = 'Buscando actualizaciones…';
