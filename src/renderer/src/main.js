@@ -60,6 +60,19 @@ async function loadMods() {
   renderMods($('#mods-search').value);
 }
 
+// Color de acento por seccion de mods (le da vida a la lista)
+const SEC_COLORS = {
+  'Cobblemon · Pokémon': '#ff6b81',
+  'Optimización': '#34d399',
+  'Visuales': '#a78bfa',
+  'Interfaz y comodidad': '#4fc3f7',
+  'Mundo y exploración': '#fbbf24',
+  'Construcción y decoración': '#fb923c',
+  'Almacenamiento': '#2dd4bf',
+  'Librerías': '#94a3b8',
+  'Otros': '#8b93ab',
+};
+
 function renderMods(filter) {
   const f = (filter || '').trim().toLowerCase();
   const items = allMods.filter((m) =>
@@ -79,7 +92,7 @@ function renderMods(filter) {
   list.innerHTML = [...groups.entries()].map(([title, mods]) => {
     // sin manifest con secciones caen todos en "Otros": lista plana, sin titulo
     const head = (title === 'Otros' && groups.size === 1) ? '' :
-      `<div class="mods-section-title">${escapeHtml(title)}<span class="mods-section-count">${mods.length}</span></div>`;
+      `<div class="mods-section-title" style="--sec:${SEC_COLORS[title] || '#4fc3f7'}"><span class="sec-dot"></span>${escapeHtml(title)}<span class="mods-section-count">${mods.length}</span></div>`;
     return head + mods.map((m) => `
       <div class="mod-item">
         <span class="mod-name">${escapeHtml(m.name)}${m.extra ? '<span class="mod-tag">extra</span>' : ''}</span>
@@ -269,6 +282,19 @@ async function saveName() {
   config.user = { type: auth.type, username: auth.username, uuid: auth.uuid };
   $('#name-hint').textContent = `Listo: entrás como ${auth.username}.`;
   logLine('SYSTEM', `Nombre guardado: ${auth.username}`);
+  updateAvatar(auth.username);
+}
+
+// Avatar con color propio de cada jugador (hash del nombre -> tono)
+function updateAvatar(name) {
+  const el = $('#avatar');
+  if (!el) return;
+  const n = String(name || '').trim();
+  el.textContent = (n[0] || '?').toUpperCase();
+  let h = 0;
+  for (const c of n.toLowerCase()) h = (h * 31 + c.charCodeAt(0)) % 360;
+  el.style.background = `linear-gradient(135deg, hsl(${h} 78% 62%), hsl(${(h + 45) % 360} 78% 50%))`;
+  el.style.boxShadow = `0 2px 12px hsl(${h} 80% 55% / .35)`;
 }
 
 async function saveSettings() {
@@ -319,6 +345,8 @@ async function init() {
   $('#about-version').textContent = version;
 
   $('#username').value = config.user.username || '';
+  updateAvatar(config.user.username);
+  $('#username').addEventListener('input', (e) => updateAvatar(e.target.value));
   $('#ram-min').value = config.settings.ramMin;
   $('#ram-max').value = config.settings.ramMax;
   $('#ram-min-val').textContent = config.settings.ramMin;
