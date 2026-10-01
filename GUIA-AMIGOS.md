@@ -29,6 +29,16 @@ sigue desde donde quedó.
 Después ya está: al darle JUGAR se abre el juego y el server **Invalimon** ya
 está cargado en tu lista de **Multijugador** — entrás desde ahí.
 
+## 3.5. ¿Va lento? Elegí tu modo
+
+En **Ajustes → Modo de rendimiento** hay 3 opciones: **Alto** (PC buena, se ve
+hermoso), **Medio** (laptop normal) y **Mínimo** (PC floja: todo al mínimo y sin
+los mods que más pesan). Si no sabés cuál usar, dale a **🔍 Escanear mi PC** y el
+launcher mira tu CPU, RAM y GPU y te recomienda una (con un click la aplicás).
+
+El modo se aplica la próxima vez que le des a JUGAR. Después podés tocar lo que
+quieras dentro del juego: se respeta hasta que cambies de modo.
+
 ## Preguntas frecuentes
 
 - **¿Necesito cuenta de Minecraft?** No. Entrás solo con un nombre.

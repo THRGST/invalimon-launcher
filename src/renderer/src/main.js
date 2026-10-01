@@ -48,6 +48,140 @@ function setupTabs() {
   });
 }
 
+// ---------- modos de rendimiento ----------
+let perfModes = null;
+let selectedPerfMode = 'medio';
+let lastScan = null;
+
+const TIER_LABEL = {
+  alta: 'potente',
+  media: 'normal',
+  baja: 'floja',
+  software: 'sin GPU real (render por software)',
+  desconocida: 'no reconocida',
+};
+
+function modeTitle(key) {
+  const m = perfModes && perfModes.modes && perfModes.modes[key];
+  if (!m) return key;
+  return `${m.emoji ? m.emoji + ' ' : ''}${m.title || key}`;
+}
+
+function updateModeLabel() {
+  const el = $('#info-mode');
+  if (el) el.textContent = modeTitle(selectedPerfMode);
+}
+
+function renderPerfCards() {
+  const grid = $('#perf-grid');
+  if (!perfModes || !perfModes.modes) {
+    grid.innerHTML = '<p class="hint">No pude leer los modos (¿sin conexión?). Se reintenta solo al reabrir el launcher.</p>';
+    return;
+  }
+  grid.innerHTML = Object.entries(perfModes.modes).map(([key, m]) => {
+    const badges = [];
+    badges.push(m.shaders
+      ? '<span class="perf-badge on">Shaders ON</span>'
+      : '<span class="perf-badge off">Shaders OFF</span>');
+    // El modo que apaga DH muestra "Sin Distant Horizons" aunque defina dhKeys
+    // (dhKeys se aplica por si despues cambian a un modo que lo usa).
+    const dhApagado = (m.modsDisable || []).some((p) => /distant.?horizons/i.test(p));
+    const dh = !dhApagado && m.dhKeys && m.dhKeys.lodChunkRenderDistanceRadius;
+    badges.push(dh
+      ? `<span class="perf-badge on">Distant Horizons ${escapeHtml(String(dh))}</span>`
+      : '<span class="perf-badge off">Sin Distant Horizons</span>');
+    const off = (m.modsDisable || []).length;
+    badges.push(off
+      ? `<span class="perf-badge off">${off} mods apagados</span>`
+      : '<span class="perf-badge on">Todos los mods</span>');
+    return `
+      <button class="perf-card" data-mode="${escapeHtml(key)}">
+        <span class="perf-title">${escapeHtml(`${m.emoji ? m.emoji + ' ' : ''}${m.title || key}`)}</span>
+        <span class="perf-desc">${escapeHtml(m.desc || '')}</span>
+        <span class="perf-badges">${badges.join('')}</span>
+      </button>`;
+  }).join('');
+  grid.querySelectorAll('.perf-card').forEach((card) => {
+    card.addEventListener('click', () => selectPerfMode(card.dataset.mode, { save: true }));
+  });
+  selectPerfMode(selectedPerfMode);
+}
+
+async function selectPerfMode(key, opts = {}) {
+  if (!perfModes || !perfModes.modes || !perfModes.modes[key]) return;
+  selectedPerfMode = key;
+  document.querySelectorAll('.perf-card').forEach((c) => {
+    c.classList.toggle('active', c.dataset.mode === key);
+  });
+  updateModeLabel();
+  if (opts.save) {
+    config = await api.saveConfig({ settings: { perfMode: key } });
+    logLine('SYSTEM', `Modo de rendimiento: ${modeTitle(key)} — se aplica en el próximo JUGAR`);
+  }
+}
+
+// ---------- escaner de hardware ----------
+function detectGpu() {
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+    if (!gl) return '';
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    if (ext) return String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || '');
+    return String(gl.getParameter(gl.RENDERER) || '');
+  } catch (e) {
+    return '';
+  }
+}
+
+async function runScan() {
+  const btn = $('#btn-scan');
+  btn.disabled = true;
+  $('#scan-result').style.display = 'none';
+  $('#scan-hint').textContent = 'Mirando tu PC…';
+  let res = null;
+  try {
+    res = await api.scanHardware(detectGpu());
+  } catch (e) {
+    res = { ok: false, error: e.message };
+  }
+  btn.disabled = false;
+  if (!res || !res.ok) {
+    $('#scan-hint').textContent = `No pude escanear: ${(res && res.error) || 'error desconocido'}`;
+    return;
+  }
+  lastScan = res;
+  $('#scan-hint').textContent = '';
+  const tier = TIER_LABEL[res.gpu.tier] || res.gpu.tier;
+  $('#scan-result').style.display = 'block';
+  $('#scan-specs').innerHTML = `
+    <div class="scan-line"><span>CPU</span><b>${escapeHtml(res.cpu.model || 'desconocida')} · ${res.cpu.cores} núcleos</b></div>
+    <div class="scan-line"><span>RAM</span><b>${res.ramGB} GB</b></div>
+    <div class="scan-line"><span>GPU</span><b>${escapeHtml(res.gpu.name || 'desconocida')} — ${escapeHtml(tier)}</b></div>`;
+  const razones = (res.reasons || []).map((r) => r.text).join(' · ');
+  $('#scan-reco').innerHTML =
+    `Te recomiendo el modo <b>${escapeHtml(modeTitle(res.recommended))}</b>` +
+    `<br><span class="hint">${escapeHtml(razones)}</span>` +
+    `<br><span class="hint">RAM sugerida: ${res.suggestedRamMax} MB</span>`;
+  const applyBtn = $('#btn-apply-scan');
+  applyBtn.dataset.mode = res.recommended;
+  applyBtn.textContent = `Aplicar ${modeTitle(res.recommended)}`;
+  $('#scan-apply-hint').textContent = '';
+}
+
+async function applyScan() {
+  const mode = $('#btn-apply-scan').dataset.mode;
+  if (!mode) return;
+  const partial = { settings: { perfMode: mode } };
+  if (lastScan && lastScan.suggestedRamMax) partial.settings.ramMax = lastScan.suggestedRamMax;
+  config = await api.saveConfig(partial);
+  $('#ram-max').value = config.settings.ramMax;
+  $('#ram-max-val').textContent = config.settings.ramMax;
+  await selectPerfMode(mode);
+  $('#scan-apply-hint').textContent = 'Listo ✔ Se aplica en el próximo JUGAR.';
+  logLine('SYSTEM', `Escáner: modo ${modeTitle(mode)} aplicado (RAM ${config.settings.ramMax} MB)`);
+}
+
 // ---------- mods ----------
 async function loadMods() {
   const list = $('#mods-list');
@@ -95,7 +229,7 @@ function renderMods(filter) {
       `<div class="mods-section-title" style="--sec:${SEC_COLORS[title] || '#4fc3f7'}"><span class="sec-dot"></span>${escapeHtml(title)}<span class="mods-section-count">${mods.length}</span></div>`;
     return head + mods.map((m) => `
       <div class="mod-item">
-        <span class="mod-name">${escapeHtml(m.name)}${m.extra ? '<span class="mod-tag">extra</span>' : ''}</span>
+        <span class="mod-name">${escapeHtml(m.name)}${m.extra ? '<span class="mod-tag">extra</span>' : ''}${m.disabled ? '<span class="mod-tag off">apagado</span>' : ''}</span>
         <span class="mod-version">${escapeHtml(m.version || '')}</span>
       </div>`).join('');
   }).join('');
@@ -307,7 +441,7 @@ async function saveSettings() {
       fullscreen: $('#fullscreen').checked,
       resolutionWidth: Number($('#res-w').value) || 1280,
       resolutionHeight: Number($('#res-h').value) || 720,
-      lightMode: $('#light-mode').checked,
+      perfMode: selectedPerfMode,
       gc: $('#gc').value,
     },
   };
@@ -356,12 +490,24 @@ async function init() {
   $('#fullscreen').checked = Boolean(config.settings.fullscreen);
   $('#res-w').value = config.settings.resolutionWidth;
   $('#res-h').value = config.settings.resolutionHeight;
-  $('#light-mode').checked = Boolean(config.settings.lightMode);
   $('#gc').value = config.settings.gc || 'auto';
   try {
     const sys = await api.getSystemInfo();
     $('#ram-detectada').textContent = `Tu PC tiene ${sys.ramTotalGB} GB de RAM.`;
   } catch (e) { /* si falla, no es grave */ }
+
+  // Modos de rendimiento (del manifest) + escáner
+  perfModes = await api.getPerfModes();
+  if (perfModes && perfModes.modes) {
+    if (!perfModes.modes[config.settings.perfMode]) {
+      config.settings.perfMode = perfModes.default || 'medio';
+    }
+  }
+  selectedPerfMode = config.settings.perfMode || 'medio';
+  renderPerfCards();
+  updateModeLabel();
+  $('#btn-scan').addEventListener('click', runScan);
+  $('#btn-apply-scan').addEventListener('click', applyScan);
 
   $('#ram-min').addEventListener('input', (e) => { $('#ram-min-val').textContent = e.target.value; });
   $('#ram-max').addEventListener('input', (e) => { $('#ram-max-val').textContent = e.target.value; });

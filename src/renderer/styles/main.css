@@ -310,3 +310,37 @@ button { font-family: var(--font); }
 .nuke-uninstall { margin-top: 12px; align-items: center; gap: 8px; }
 .nuke-result { min-height: 18px; margin-top: 10px; font-size: 12px; color: var(--green); }
 .nuke-actions { justify-content: flex-end; margin-top: 12px; }
+
+/* Modos de rendimiento */
+.perf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.perf-card {
+  display: flex; flex-direction: column; gap: 6px; text-align: left;
+  background: rgba(27, 32, 51, .75); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px; cursor: pointer; color: var(--text); font-family: var(--font);
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+}
+.perf-card:hover { border-color: #2e3650; transform: translateY(-1px); }
+.perf-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 4px 16px rgba(79, 195, 247, .18);
+}
+.perf-title { font-weight: 700; font-size: 14px; }
+.perf-desc { font-size: 12px; color: var(--text-dim); flex: 1; }
+.perf-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+.perf-badge {
+  font-size: 10px; padding: 2px 6px; border-radius: 999px;
+  border: 1px solid var(--border); color: var(--text-dim); white-space: nowrap;
+}
+.perf-badge.on { color: var(--green); border-color: rgba(52, 211, 153, .4); }
+.perf-badge.off { color: var(--yellow); border-color: rgba(251, 191, 36, .35); }
+
+/* Escáner de hardware */
+.scan-specs { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.scan-line { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--text-dim); }
+.scan-line b { color: var(--text); font-weight: 600; }
+.scan-reco {
+  margin: 10px 0; font-size: 13px; line-height: 1.5;
+  background: rgba(79, 195, 247, .07); border: 1px solid rgba(79, 195, 247, .25);
+  border-radius: 8px; padding: 10px;
+}
+.mod-tag.off { background: rgba(251, 191, 36, .14); color: var(--yellow); }

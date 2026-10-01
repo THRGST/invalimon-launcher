@@ -9,6 +9,8 @@ const yauzl = require('yauzl');
 const { download, hashFile } = require('./httpClient');
 const { extractOverrides } = require('./overridesExtractor');
 const { patchServersDat } = require('./serversDat');
+const { actualPath, setDisabled } = require('./modsFs');
+const { applyPerfMode } = require('./perfModes');
 
 const STATE_DIR = '.invalimon';
 const STATE_FILE = 'state.json';
@@ -16,26 +18,7 @@ const CONCURRENCY = 6;
 
 const mb = (n) => (n / 1048576).toFixed(0);
 
-// Un archivo puede estar "instalado pero apagado" (X.jar.disabled, por el modo
-// ligero o por modDisable). Cuenta como presente para no volver a bajarlo en
-// cada arranque: sin esto, el launcher se re-descargaba los mods apagados.
-function actualPath(dest) {
-  for (const p of [dest, `${dest}.disabled`]) {
-    try { if (fs.statSync(p).size > 0) return p; } catch (e) {}
-  }
-  return null;
-}
-
-// Apaga/prendie un set de archivos renombrando .jar <-> .jar.disabled.
-// Devuelve cuantos cambio. No borra nada nunca.
-function setDisabled(file, base, off) {
-  const active = path.join(file, base);
-  const disabled = `${active}.disabled`;
-  const has = (p) => { try { return fs.statSync(p).isFile(); } catch (e) { return false; } };
-  if (off && has(active)) { fs.moveSync(active, disabled, { overwrite: true }); return true; }
-  if (!off && has(disabled) && !has(active)) { fs.moveSync(disabled, active, { overwrite: true }); return true; }
-  return false;
-}
+// actualPath/setDisabled viven en modsFs.js (los comparten el manager y perfModes).
 
 // Lee SOLO modrinth.index.json del zip (sin extraer los 253 MB de overrides)
 function readIndexFromZip(zipPath) {
@@ -112,12 +95,17 @@ class ModpackManager {
   }
 
   // mode: 'fast' (size exacto) | 'full' (sha1 de todo - boton "verificar integridad")
-  async ensurePack({ pack, serverEntry, onEvent, signal, mode = 'fast' }) {
+  // allowApply: false = no tocar archivos del juego (con el juego abierto en Windows
+  // los .jar estan bloqueados y options.txt lo pisa el juego al salir).
+  async ensurePack({ pack, serverEntry, onEvent, signal, mode = 'fast', allowApply = true }) {
     const emit = (phase, message, percent, extra = {}) =>
       onEvent && onEvent({ phase, message, percent, ...extra });
     const gameDir = this.paths.gameDir;
     fs.ensureDirSync(gameDir);
     let state = this.loadState();
+    // Antes del bloque clientDefaults (que setea el flag): distingue instalacion
+    // nueva de upgrade (el upgrade "adopta" el modo sin pisar ajustes del jugador).
+    const wasFirstInstall = !state.clientDefaultsApplied;
 
     // ---- ETAPA 1: asegurar el .mrpack en cache (resumible) -------------------
     const mrpackPath = path.join(this.paths.mrpackCacheDir, `${pack.name}-${pack.versionId}.mrpack`);
@@ -325,44 +313,65 @@ class ModpackManager {
     // Fabric ignora todo lo que no sea .jar)
     const modDisable = (cd && cd.modDisable) || [];
     const modsDir = path.join(gameDir, 'mods');
-    for (const f of modDisable) {
-      if (setDisabled(modsDir, f, true)) this.log.info(`Mod desactivado por incompatibilidad: ${f}`);
-    }
 
-    // ---- Modo ligero (Ajustes > Modo ligero) --------------------------------
-    // Apaga los extras que mas pesan para PCs flojas. Solo renombra: se puede
-    // prender y apagar cuando quieras y no se borra ni se re-descarga nada.
-    const light = pack.lightMode;
-    if (light && Array.isArray(light.mods) && light.mods.length) {
-      const off = Boolean(pack.lightModeEnabled);
-      let tocados = 0;
-      for (const f of light.mods) {
-        // Al APAGAR el modo ligero no se restauran los que modDisable mantiene
-        // apagados por incompatibilidad: si no, se prendian solos y crasheaban.
-        if (!off && modDisable.includes(f)) continue;
-        if (setDisabled(modsDir, f, off)) tocados++;
+    // ---- Modos de rendimiento (Ajustes > Modo de rendimiento) ----------------
+    // >=1.0.7: union-apply de los modsDisable de todos los modos + merge de
+    // options.txt / iris.properties / DistantHorizons.toml segun el modo activo.
+    // Si el manifest cacheado es viejo (sin perfModes) cae al comportamiento legacy.
+    const perfModes = pack.perfModes && pack.perfModes.modes ? pack.perfModes : null;
+    if (perfModes) {
+      const res = applyPerfMode({
+        gameDir,
+        perfModes,
+        perfMode: pack.perfMode,
+        modDisable,
+        state,
+        versionId,
+        wasFirstInstall,
+        allowApply,
+        log: this.log,
+      });
+      state = res.state;
+      // Guardar ya: si algo falla despues (red), no se re-aplica de mas al reanudar.
+      this.saveState(state);
+    } else {
+      for (const f of modDisable) {
+        if (setDisabled(modsDir, f, true)) this.log.info(`Mod desactivado por incompatibilidad: ${f}`);
       }
-      if (tocados) this.log.info(`Modo ligero ${off ? 'activado' : 'desactivado'}: ${tocados} mod(s)`);
-    }
 
-    // ---- Distant Horizons: distancia de LOD conservadora (una sola vez) ------
-    // El pack no trae este archivo: lo crea DH en la primera partida, asi que
-    // esto se aplica recien cuando existe y nunca mas despues (si el jugador lo
-    // cambia a mano en Opciones de DH, se respeta).
-    const dhRadius = cd && cd.dhLodRadius;
-    if (dhRadius && !state.dhPerfApplied) {
-      const dhFile = path.join(gameDir, 'config', 'DistantHorizons.toml');
-      if (fs.existsSync(dhFile)) {
-        try {
-          const txt = fs.readFileSync(dhFile, 'utf8');
-          const cambiado = txt.replace(/^(\s*lodChunkRenderDistanceRadius\s*=\s*)\d+/m, `$1${dhRadius}`);
-          if (cambiado !== txt) {
-            fs.writeFileSync(dhFile, cambiado);
-            this.log.info(`Distant Horizons: distancia de LOD ajustada a ${dhRadius} chunks`);
+      // ---- Modo ligero (legacy, launcher <=1.0.6) ---------------------------
+      const light = pack.lightMode;
+      if (light && Array.isArray(light.mods) && light.mods.length) {
+        const off = Boolean(pack.lightModeEnabled);
+        let tocados = 0;
+        for (const f of light.mods) {
+          // Al APAGAR el modo ligero no se restauran los que modDisable mantiene
+          // apagados por incompatibilidad: si no, se prendian solos y crasheaban.
+          if (!off && modDisable.includes(f)) continue;
+          if (setDisabled(modsDir, f, off)) tocados++;
+        }
+        if (tocados) this.log.info(`Modo ligero ${off ? 'activado' : 'desactivado'}: ${tocados} mod(s)`);
+      }
+
+      // ---- Distant Horizons: distancia de LOD conservadora (una sola vez) ---
+      // El pack no trae este archivo: lo crea DH en la primera partida, asi que
+      // esto se aplica recien cuando existe y nunca mas despues (si el jugador lo
+      // cambia a mano en Opciones de DH, se respeta).
+      const dhRadius = cd && cd.dhLodRadius;
+      if (dhRadius && !state.dhPerfApplied) {
+        const dhFile = path.join(gameDir, 'config', 'DistantHorizons.toml');
+        if (fs.existsSync(dhFile)) {
+          try {
+            const txt = fs.readFileSync(dhFile, 'utf8');
+            const cambiado = txt.replace(/^(\s*lodChunkRenderDistanceRadius\s*=\s*)\d+/m, `$1${dhRadius}`);
+            if (cambiado !== txt) {
+              fs.writeFileSync(dhFile, cambiado);
+              this.log.info(`Distant Horizons: distancia de LOD ajustada a ${dhRadius} chunks`);
+            }
+            state.dhPerfApplied = true;
+          } catch (e) {
+            this.log.warn(`No pude ajustar Distant Horizons: ${e.message}`);
           }
-          state.dhPerfApplied = true;
-        } catch (e) {
-          this.log.warn(`No pude ajustar Distant Horizons: ${e.message}`);
         }
       }
     }

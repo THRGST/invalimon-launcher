@@ -12,6 +12,7 @@ const { LaunchEngine } = require('./launcher/engine');
 const { offlineAuth } = require('./launcher/auth');
 const { listMods } = require('./launcher/modsList');
 const serverStatus = require('./launcher/serverStatus');
+const { scan } = require('./launcher/hardwareScan');
 const { nukeAll } = require('./launcher/nuke');
 const { Updater } = require('./updater');
 
@@ -69,9 +70,44 @@ app.whenReady().then(() => {
   ipcMain.handle('launcher:get-app-version', () => app.getVersion());
   ipcMain.handle('launcher:get-system-info', () => ({
     ramTotalGB: Math.round(os.totalmem() / 1073741824),
+    cpuModel: ((os.cpus()[0] && os.cpus()[0].model) || '').replace(/\s+/g, ' ').trim(),
+    cpuCores: os.cpus().length,
     platform: process.platform,
     packaged: app.isPackaged,
   }));
+
+  // Modos de rendimiento del manifest (local/cache: sin red, no bloquea la UI)
+  ipcMain.handle('launcher:get-perf-modes', () => {
+    try {
+      const m = remoteManifest.getLocal();
+      return (m && m.perfModes) || null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  // Escaner: recibe el string de GPU del renderer (WebGL) y recomienda modo.
+  ipcMain.handle('launcher:scan-hardware', async (_e, opts) => {
+    try {
+      let gpu = (opts && opts.gpu) || '';
+      if (!gpu) {
+        // Fallback: auxAttributes de Electron (menos lindo, pero algo es algo)
+        try {
+          const info = await app.getGPUInfo('basic');
+          gpu = (info && ((info.auxAttributes && info.auxAttributes.glRenderer)
+            || (info.gpuDevice && info.gpuDevice[0] && info.gpuDevice[0].deviceString))) || '';
+        } catch (e) {}
+      }
+      const perfModes = remoteManifest.getLocal().perfModes || null;
+      const ramHints = {};
+      if (perfModes && perfModes.modes) {
+        for (const [k, v] of Object.entries(perfModes.modes)) ramHints[k] = v.ramHint || 0;
+      }
+      return { ok: true, ...scan({ gpu, ramHints }) };
+    } catch (e) {
+      return { ok: false, error: e.message };
+    }
+  });
   ipcMain.handle('launcher:save-config', (_e, partial) => configManager.save(partial || {}));
 
   ipcMain.handle('launcher:get-state', async () => {

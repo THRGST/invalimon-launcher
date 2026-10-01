@@ -76,13 +76,15 @@ async function listMods({ gameDir, cacheDir, log, sections, extraFiles }) {
   const modsDir = path.join(gameDir, 'mods');
   let files = [];
   try {
-    files = fs.readdirSync(modsDir).filter((f) => f.toLowerCase().endsWith('.jar')).sort();
+    // Incluye los apagados (.jar.disabled) para que la lista muestre el por que
+    // del modo de rendimiento (badge "apagado").
+    files = fs.readdirSync(modsDir).filter((f) => /\.jar(\.disabled)?$/i.test(f)).sort();
   } catch (e) {
     return [];
   }
 
-  // v2: parseo tolerante (ver parseFabricJson) - invalida caches viejos con ids fallidos
-  const fingerprint = `v2|${files.join('|')}`;
+  // v3: incluye apagados (.jar.disabled) - v2 fue parseo tolerante del fabric.mod.json
+  const fingerprint = `v3|${files.join('|')}`;
   const cacheFile = cacheDir ? path.join(cacheDir, 'mods-list.json') : null;
   if (cacheFile) {
     try {
@@ -98,9 +100,10 @@ async function listMods({ gameDir, cacheDir, log, sections, extraFiles }) {
     const meta = await readFabricMeta(path.join(modsDir, f));
     mods.push({
       file: f,
-      id: meta && meta.id ? String(meta.id) : f.replace(/\.jar$/i, ''),
+      id: meta && meta.id ? String(meta.id) : f.replace(/\.jar(\.disabled)?$/i, ''),
       name: meta && meta.name ? String(meta.name) : cleanFileName(f),
       version: meta && meta.version ? String(meta.version) : '',
+      disabled: f.toLowerCase().endsWith('.disabled'),
     });
   }
   mods.sort((a, b) => a.name.localeCompare(b.name, 'es'));

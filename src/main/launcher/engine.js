@@ -56,6 +56,9 @@ class LaunchEngine {
       onEvent: (ev) => onEvent && onEvent(ev),
       signal,
       mode: 'full',
+      // Con el juego abierto no se tocan mods/options (Windows bloquea los .jar
+      // cargados y el juego pisa options.txt al salir).
+      allowApply: !this.isRunning,
     });
   }
 
@@ -72,10 +75,18 @@ class LaunchEngine {
       const serverAddress = this.remoteManifest.serverAddress(manifest, config.settings.serverAddress);
       const serverName = manifest.server.name || 'Invalimon';
 
+      // Modo de rendimiento (alto/medio/minimo). Si el manifest todavia no trae
+      // perfModes (cache viejo), queda null y modpackManager usa el modo ligero legacy.
+      const perfModes = manifest.perfModes && manifest.perfModes.modes ? manifest.perfModes : null;
+      const perfMode = perfModes && perfModes.modes[config.settings.perfMode]
+        ? config.settings.perfMode
+        : ((perfModes && perfModes.default) || 'medio');
       const pack = {
         ...manifest.pack,
         extraMods: manifest.extraMods || [],
         clientDefaults: manifest.clientDefaults || null,
+        perfModes,
+        perfMode,
         lightMode: manifest.lightMode || null,
         lightModeEnabled: Boolean(config.settings.lightMode),
       };
@@ -136,7 +147,10 @@ class LaunchEngine {
       // juego en un 4 nucleos (y ademas alarga un poco el arranque), asi que en
       // maquinas justas conviene el G1 de siempre.
       const gcMode = config.settings.gc || 'auto';
-      const sobraCpu = os.cpus().length >= 6 && os.totalmem() >= 12 * 1073741824;
+      // En modo minimo va G1 aunque sobre CPU: ZGC suma hilos concurrentes que en
+      // una PC floja le compiten al juego (y alarga el arranque).
+      const sobraCpu = os.cpus().length >= 6 && os.totalmem() >= 12 * 1073741824
+        && perfMode !== 'minimo';
       const useZgc = gcMode === 'zgc' || (gcMode !== 'g1' && sobraCpu);
       const gcArgs = useZgc ? ['-XX:+UseZGC'] : [];
       const userArgs = (config.settings.customJvmArgs || '')
@@ -145,6 +159,9 @@ class LaunchEngine {
         .filter(Boolean)
         .filter((a) => !/^-XX:[+-](Use\w*GC|ZGenerational)$/i.test(a));
       log('INFO', `Basura (GC): ${useZgc ? 'ZGC' : 'G1'} (${gcMode})`);
+      if (perfModes) {
+        log('INFO', `Modo de rendimiento: ${perfModes.modes[perfMode].title || perfMode}`);
+      }
       const mclcOptions = {
         clientPackage: null,
         authorization: auth,

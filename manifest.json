@@ -22,13 +22,111 @@
     "dhLodRadius": 64
   },
   "lightMode": {
-    "note": "Extras que apaga el boton 'Modo ligero' de Ajustes (para PCs flojas). Solo se renombran a .disabled: no se borra ni se re-descarga nada.",
+    "note": "LEGACY: lo usa el launcher <=1.0.6 (boton 'Modo ligero'). El launcher nuevo usa perfModes.",
     "mods": [
       "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
       "visuality-0.7.7+1.21.jar",
       "wakes-0.4.1+1.21.1.jar",
       "fallingleaves-1.17.1+1.21.1.jar"
     ]
+  },
+  "perfModes": {
+    "note": "Modos de rendimiento del launcher >=1.0.7. Se aplican al proximo JUGAR cuando cambia el modo (y los mods en cada arranque). Solo renombra .jar <-> .jar.disabled y mergea claves en options.txt/iris.properties/DistantHorizons.toml: nunca borra ni re-descarga.",
+    "default": "medio",
+    "modes": {
+      "alto": {
+        "title": "Alto",
+        "emoji": "✨",
+        "desc": "PC potente: shaders, Distant Horizons lejos y todo al maximo. Se ve hermoso y consume mas recursos.",
+        "shaders": true,
+        "shaderpack": "COBBLEVERSE - Shaders",
+        "ramHint": 6144,
+        "modsDisable": [],
+        "options": {
+          "renderDistance": 16,
+          "simulationDistance": 12,
+          "particles": 0,
+          "graphicsMode": 1,
+          "renderClouds": "false",
+          "ao": true,
+          "entityShadows": true,
+          "entityDistanceScaling": 1.0,
+          "biomeBlendRadius": 3,
+          "mipmapLevels": 4,
+          "maxFps": 240,
+          "enableVsync": false
+        },
+        "dhKeys": { "lodChunkRenderDistanceRadius": 256 },
+        "irisKeys": { "maxShadowRenderDistance": 16 }
+      },
+      "medio": {
+        "title": "Medio",
+        "emoji": "⚖️",
+        "desc": "Laptop normal: sin shaders, Distant Horizons a media distancia y el resto suave.",
+        "shaders": false,
+        "ramHint": 4096,
+        "modsDisable": [],
+        "options": {
+          "renderDistance": 10,
+          "simulationDistance": 8,
+          "particles": 1,
+          "graphicsMode": 1,
+          "renderClouds": "false",
+          "ao": true,
+          "entityShadows": true,
+          "entityDistanceScaling": 0.75,
+          "biomeBlendRadius": 2,
+          "mipmapLevels": 4,
+          "maxFps": 120,
+          "enableVsync": false
+        },
+        "dhKeys": { "lodChunkRenderDistanceRadius": 128, "enableAntiAliasing": false },
+        "irisKeys": { "maxShadowRenderDistance": 12 }
+      },
+      "minimo": {
+        "title": "Mínimo",
+        "emoji": "🥔",
+        "desc": "PC humilde: todo al minimo y apagados los mods que mas pesan. Full optimizado sin importar como se vea.",
+        "shaders": false,
+        "ramHint": 3072,
+        "modsDisable": [
+          "DistantHorizons-*",
+          "skinlayers3d-*",
+          "firstperson-*",
+          "fpm_x_compat-*",
+          "punchy-*",
+          "realcamera-*",
+          "CameraOverhaul-*",
+          "waveycapes-*",
+          "visuality-*",
+          "wakes-*",
+          "fallingleaves-*"
+        ],
+        "modsDisableOptional": {
+          "note": "Extras agresivos para PC muy floja: agregarlos aca (sin sacar launcher nuevo) si algun amigo necesita mas.",
+          "chat_heads-*": "cabezas en el chat",
+          "eating-animation-*": "animacion al comer",
+          "notenoughanimations-*": "animaciones de tercera persona"
+        },
+        "options": {
+          "renderDistance": 6,
+          "simulationDistance": 5,
+          "particles": 2,
+          "graphicsMode": 0,
+          "renderClouds": "false",
+          "ao": false,
+          "entityShadows": false,
+          "entityDistanceScaling": 0.5,
+          "biomeBlendRadius": 0,
+          "mipmapLevels": 2,
+          "maxFps": 60,
+          "enableVsync": false,
+          "hideLightningFlashes": true
+        },
+        "dhKeys": { "lodChunkRenderDistanceRadius": 64 },
+        "irisKeys": {}
+      }
+    }
   },
   "pack": {
     "name": "cobbleverse",

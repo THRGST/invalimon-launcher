@@ -67,6 +67,7 @@
           <div class="info-box" style="--ib:#4fc3f7"><span class="info-label">Pack</span><span id="info-pack">—</span></div>
           <div class="info-box" style="--ib:#a78bfa"><span class="info-label">Mods</span><span id="info-mods">—</span></div>
           <div class="info-box" style="--ib:#34d399"><span class="info-label">Servidor</span><span id="info-server">—</span></div>
+          <div class="info-box" style="--ib:#fbbf24"><span class="info-label">Modo</span><span id="info-mode">—</span></div>
         </div>
 
         <div class="card" id="autoconnect-card" style="display:none">
@@ -116,11 +117,27 @@
         </div>
 
         <div class="card">
-          <label>Rendimiento</label>
-          <div class="row">
-            <label class="checkbox"><input id="light-mode" type="checkbox" /> Modo ligero</label>
+          <label>Modo de rendimiento</label>
+          <div class="perf-grid" id="perf-grid">
+            <p class="hint" id="perf-loading">Leyendo los modos…</p>
           </div>
-          <p class="hint">Apaga Distant Horizons y los extras de partículas (Effective, Visuality, Wakes, Falling Leaves). No borra nada: se prende y apaga cuando quieras. Se aplica en el próximo JUGAR.</p>
+          <p class="hint">Elegí según tu PC. Se aplica la próxima vez que le des a <b>JUGAR</b>; después podés ajustar lo que quieras dentro del juego (hasta que cambies de modo).</p>
+        </div>
+
+        <div class="card">
+          <label>🔍 Escanear mi PC</label>
+          <div class="row">
+            <button id="btn-scan" class="btn-secondary">Escanear mi PC</button>
+            <span class="hint" id="scan-hint">El launcher mira tu CPU, RAM y GPU y te recomienda qué modo usar.</span>
+          </div>
+          <div id="scan-result" style="display:none">
+            <div class="scan-specs" id="scan-specs"></div>
+            <div class="scan-reco" id="scan-reco"></div>
+            <div class="row">
+              <button id="btn-apply-scan" class="btn-primary">Aplicar modo recomendado</button>
+              <span class="hint" id="scan-apply-hint"></span>
+            </div>
+          </div>
         </div>
 
         <div class="card">
