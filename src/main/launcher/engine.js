@@ -147,10 +147,12 @@ class LaunchEngine {
       // juego en un 4 nucleos (y ademas alarga un poco el arranque), asi que en
       // maquinas justas conviene el G1 de siempre.
       const gcMode = config.settings.gc || 'auto';
-      // En modo minimo va G1 aunque sobre CPU: ZGC suma hilos concurrentes que en
-      // una PC floja le compiten al juego (y alarga el arranque).
-      const sobraCpu = os.cpus().length >= 6 && os.totalmem() >= 12 * 1073741824
-        && perfMode !== 'minimo';
+      // En los modos para PCs flojas va G1 aunque sobre CPU: ZGC suma hilos
+      // concurrentes que le compiten al juego (y alarga el arranque). El flag
+      // forceG1 sale del manifest; los literales cubren manifests cacheados viejos.
+      const modeCfg = perfModes ? perfModes.modes[perfMode] : null;
+      const forceG1 = Boolean((modeCfg && modeCfg.forceG1) || perfMode === 'minimo' || perfMode === 'muerto');
+      const sobraCpu = os.cpus().length >= 6 && os.totalmem() >= 12 * 1073741824 && !forceG1;
       const useZgc = gcMode === 'zgc' || (gcMode !== 'g1' && sobraCpu);
       const gcArgs = useZgc ? ['-XX:+UseZGC'] : [];
       const userArgs = (config.settings.customJvmArgs || '')

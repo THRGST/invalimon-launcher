@@ -52,16 +52,19 @@ function recommendMode({ cores = 0, ramGB = 0, gpuTier = 'desconocida' }) {
   const score = gpuScore + cpuScore + ramScore;
 
   let recommended;
-  if (gpuTier === 'software' || ramGB < 8) {
-    recommended = 'minimo'; // sin GPU real o casi sin RAM no hay tu tia
+  if (gpuTier === 'software' || ramGB <= 4) {
+    recommended = 'muerto'; // sin GPU real o casi sin RAM: hay que apagar TODO
   } else if (gpuTier === 'baja') {
-    recommended = score >= 7 ? 'medio' : 'minimo'; // GPU floja limita aunque sobre CPU
+    // GPU floja limita aunque sobre CPU
+    recommended = score >= 7 ? 'medio' : score >= 5 ? 'minimo' : 'muerto';
   } else if (score >= 7) {
     recommended = 'alto';
   } else if (score >= 4) {
     recommended = 'medio';
-  } else {
+  } else if (score >= 3) {
     recommended = 'minimo';
+  } else {
+    recommended = 'muerto';
   }
 
   const reasons = [];
