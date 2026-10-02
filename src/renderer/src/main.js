@@ -182,6 +182,48 @@ async function applyScan() {
   logLine('SYSTEM', `Escáner: modo ${modeTitle(mode)} aplicado (RAM ${config.settings.ramMax} MB)`);
 }
 
+// ---------- panel de admin (solo en la PC del server) ----------
+async function setupAdmin() {
+  let avail = null;
+  try { avail = await api.adminAvailable(); } catch (e) {}
+  if (!avail || !avail.available) return; // en la PC de un amigo, ni se muestra
+
+  $('#tab-admin').style.display = 'flex';
+  const show = (msg, ok) => {
+    $('#admin-result-card').style.display = 'block';
+    const el = $('#admin-result');
+    el.textContent = msg;
+    el.style.color = ok ? 'var(--green)' : 'var(--red)';
+  };
+
+  $('#btn-admin-tirar-custom').addEventListener('click', async () => {
+    const titulo = $('#admin-titulo').value.trim();
+    if (!titulo) { show('❌ Escribí primero qué va a salir.', false); return; }
+    const extra = $('#admin-extra').value.trim();
+    const color = $('#admin-ruleta-hex').value.trim() || $('#admin-ruleta-color').value;
+    show(`🎲 Tirando (sale: "${titulo}")…`, true);
+    const r = await api.adminRuleta({ custom: { titulo, extra, color } });
+    show(r.ok ? `✅ Ruleta tirada — sale: "${titulo}"` : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', `Admin: ruleta custom tirada ("${titulo}")`);
+  });
+
+  $('#btn-admin-tirar').addEventListener('click', async () => {
+    show('🎲 Tirando aleatorio (eventos del sistema)…', true);
+    const r = await api.adminRuleta({});
+    show(r.ok ? '✅ Ruleta aleatoria tirada' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', 'Admin: ruleta aleatoria tirada');
+  });
+
+  $('#btn-admin-anunciar').addEventListener('click', async () => {
+    const text = $('#admin-texto').value.trim();
+    const hex = $('#admin-hex').value.trim();
+    const color = hex || $('#admin-color').value;
+    const r = await api.adminAnuncio({ text, color });
+    show(r.ok ? '✅ Anuncio enviado a todos' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', `Admin: anuncio enviado (${color})`);
+  });
+}
+
 // ---------- mods ----------
 async function loadMods() {
   const list = $('#mods-list');
@@ -508,6 +550,9 @@ async function init() {
   updateModeLabel();
   $('#btn-scan').addEventListener('click', runScan);
   $('#btn-apply-scan').addEventListener('click', applyScan);
+
+  // Panel de admin (solo aparece en la PC del server)
+  setupAdmin();
 
   $('#ram-min').addEventListener('input', (e) => { $('#ram-min-val').textContent = e.target.value; });
   $('#ram-max').addEventListener('input', (e) => { $('#ram-max-val').textContent = e.target.value; });

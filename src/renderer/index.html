@@ -39,6 +39,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 16 9.5 11 4 6"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
           Consola
         </button>
+        <button class="tab" data-tab="admin" id="tab-admin" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          Admin
+        </button>
         <button class="tab" data-tab="about">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.2"/><line x1="12" y1="16.5" x2="12" y2="11"/><line x1="12" y1="7.5" x2="12.01" y2="7.5"/></svg>
           Acerca
@@ -194,6 +198,76 @@
           </div>
         </div>
         <div id="console" class="console"></div>
+      </section>
+
+      <!-- ADMIN (solo en la PC del server) -->
+      <section id="view-admin" class="view">
+        <h1>🎛️ Panel de Admin</h1>
+        <p class="subtitle">Solo aparece en tu launcher (la PC del server). Nadie más lo ve.</p>
+
+        <div class="card">
+          <label>🎰 Ruleta</label>
+          <div class="row">
+            <span class="ram-label">Lo que va a salir:</span>
+            <input id="admin-titulo" type="text" maxlength="80" placeholder="Ej: ☠ REVIL DESPIERTA" />
+          </div>
+          <div class="row">
+            <span class="ram-label">Mensaje extra:</span>
+            <input id="admin-extra" type="text" maxlength="120" placeholder="(opcional) lo que se lee al lado" />
+          </div>
+          <div class="row">
+            <span class="ram-label">Color:</span>
+            <select id="admin-ruleta-color">
+              <option value="gold">Dorado</option>
+              <option value="red">Rojo</option>
+              <option value="aqua">Aqua</option>
+              <option value="green">Verde</option>
+              <option value="yellow">Amarillo</option>
+              <option value="light_purple">Violeta</option>
+              <option value="dark_red">Rojo oscuro</option>
+              <option value="dark_purple">Violeta oscuro</option>
+              <option value="blue">Azul</option>
+              <option value="white">Blanco</option>
+              <option value="gray">Gris</option>
+            </select>
+            <input id="admin-ruleta-hex" type="text" maxlength="7" placeholder="#ff0000 (opcional)" style="width:150px" />
+          </div>
+          <div class="row">
+            <button id="btn-admin-tirar-custom" class="btn-primary">🎲 Tirar con este resultado</button>
+            <button id="btn-admin-tirar" class="btn-secondary">🎲 Tirar aleatorio (eventos del sistema)</button>
+          </div>
+          <p class="hint">Lo que escribas es lo que sale: la ruleta gira igual y aterriza con <b>tu texto y tu color</b>. "Aleatorio" tira los eventos del sistema (clima, invasión, jefe...).</p>
+        </div>
+
+        <div class="card">
+          <label>📢 Anuncio personalizado</label>
+          <div class="row">
+            <input id="admin-texto" type="text" maxlength="200" placeholder="Tu texto para el chat... ej: ¡Alerta roja en Invalimon!" />
+          </div>
+          <div class="row">
+            <span class="ram-label">Color del texto:</span>
+            <select id="admin-color">
+              <option value="gold">Dorado</option>
+              <option value="red">Rojo</option>
+              <option value="aqua">Aqua</option>
+              <option value="green">Verde</option>
+              <option value="yellow">Amarillo</option>
+              <option value="light_purple">Violeta</option>
+              <option value="dark_red">Rojo oscuro</option>
+              <option value="dark_purple">Violeta oscuro</option>
+              <option value="blue">Azul</option>
+              <option value="white">Blanco</option>
+              <option value="gray">Gris</option>
+            </select>
+            <input id="admin-hex" type="text" maxlength="7" placeholder="#ff77aa (opcional)" style="width:170px" />
+            <button id="btn-admin-anunciar" class="btn-secondary">Anunciar a todos</button>
+          </div>
+          <p class="hint">Si llenás el hex personalizado, pisa al color de la lista.</p>
+        </div>
+
+        <div class="card" id="admin-result-card" style="display:none">
+          <span id="admin-result">—</span>
+        </div>
       </section>
 
       <!-- ACERCA -->

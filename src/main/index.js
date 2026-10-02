@@ -1,5 +1,6 @@
 // Proceso principal: ventana frameless + IPC + orquestacion.
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { execFile } = require('child_process');
 const path = require('path');
 const os = require('os');
 const fs = require('fs-extra');
@@ -109,6 +110,80 @@ app.whenReady().then(() => {
     }
   });
   ipcMain.handle('launcher:save-config', (_e, partial) => configManager.save(partial || {}));
+
+  // ---- Panel de Admin (SOLO en la PC del server: donde existe el helper RCON) ----
+  // En las PCs de los amigos el helper no existe y la pestania nunca aparece.
+  function adminHelperPath() {
+    if (process.env.INVALIMON_ADMIN_HELPER) return process.env.INVALIMON_ADMIN_HELPER;
+    if (process.platform === 'linux') return path.join(os.homedir(), '.local', 'bin', 'invalimon');
+    return null;
+  }
+  function runHelper(args) {
+    return new Promise((resolve) => {
+      const helper = adminHelperPath();
+      if (!helper || !fs.existsSync(helper)) {
+        return resolve({ ok: false, error: 'No existe el comando del server en esta PC (el panel es solo para la PC del server).' });
+      }
+      execFile(helper, args, { timeout: 15000 }, (err, stdout, stderr) => {
+        if (err) return resolve({ ok: false, error: String(stderr || err.message).trim() });
+        resolve({ ok: true, out: String(stdout).trim() });
+      });
+    });
+  }
+  const ADMIN_COLOR_RX = /^([a-z_]+|#[0-9a-fA-F]{6})$/;
+  ipcMain.handle('launcher:admin-available', () => {
+    const helper = adminHelperPath();
+    return { available: Boolean(helper && fs.existsSync(helper)) };
+  });
+  // Saca todo lo que podria romper el quoting del comando (SNBT/macro/RCON)
+  function adminCleanText(s, max) {
+    return String(s || '')
+      .replace(/["'\\`$(){}[\]]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, max);
+  }
+  // Color para el panel lateral (scoreboard): codigos legacy §
+  const ADMIN_LEGACY = {
+    gold: '§6', red: '§c', aqua: '§b', green: '§a', yellow: '§e',
+    light_purple: '§d', dark_red: '§4', dark_purple: '§5', blue: '§9', white: '§f', gray: '§7',
+  };
+  function adminLegacyColor(c) {
+    if (ADMIN_LEGACY[c]) return ADMIN_LEGACY[c];
+    const m = /^#([0-9a-fA-F]{6})$/.exec(c);
+    if (m) return '§x' + m[1].split('').map((h) => '§' + h.toLowerCase()).join('');
+    return '§6';
+  }
+  ipcMain.handle('launcher:admin-ruleta', (_e, opts) => {
+    const c = opts && opts.custom;
+    if (c && (c.titulo || '').trim()) {
+      const titulo = adminCleanText(c.titulo, 80);
+      if (!titulo) return { ok: false, error: 'Escribí qué va a salir (sin comillas raras).' };
+      const extra = adminCleanText(c.extra, 120);
+      let color = String(c.color || 'gold');
+      if (!ADMIN_COLOR_RX.test(color)) color = 'gold';
+      // El panel lateral (scoreboard) no acepta emojis: version sin astrales
+      const tituloHud = titulo.replace(/[\uD800-\uDFFF]/g, '').trim() || 'Evento especial';
+      const legacy = adminLegacyColor(color);
+      return runHelper([`function inv:admin/tirar_custom {titulo:"${titulo}",extra:"${extra}",color:"${color}",titulo_hud:"${tituloHud}",color_legacy:"${legacy}"}`]);
+    }
+    const slot = Number(opts && opts.slot);
+    const cmd = slot >= 1 && slot <= 7
+      ? `function inv:admin/tirar_forzado {slot:${slot}}`
+      : 'function inv:ruleta/tirar';
+    return runHelper([cmd]);
+  });
+  ipcMain.handle('launcher:admin-anuncio', (_e, opts) => {
+    const text = String((opts && opts.text) || '').slice(0, 200).trim();
+    if (!text) return { ok: false, error: 'Escribí un texto primero.' };
+    let color = String((opts && opts.color) || 'gold');
+    if (!ADMIN_COLOR_RX.test(color)) color = 'gold';
+    const json = JSON.stringify([
+      { text: '📢 ', color: 'gold', bold: true },
+      { text, color, bold: true },
+    ]);
+    return runHelper([`tellraw @a ${json}`]);
+  });
 
   ipcMain.handle('launcher:get-state', async () => {
     const pack = await engine.manager.currentPackInfo();
