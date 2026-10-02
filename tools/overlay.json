@@ -1,0 +1,13 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "invalimon:font/overlay.png",
+      "ascent": 336,
+      "height": 480,
+      "chars": [
+        ""
+      ]
+    }
+  ]
+}
