@@ -167,11 +167,7 @@ app.whenReady().then(() => {
       const legacy = adminLegacyColor(color);
       return runHelper([`function inv:admin/tirar_custom {titulo:"${titulo}",extra:"${extra}",color:"${color}",titulo_hud:"${tituloHud}",color_legacy:"${legacy}"}`]);
     }
-    const slot = Number(opts && opts.slot);
-    const cmd = slot >= 1 && slot <= 7
-      ? `function inv:admin/tirar_forzado {slot:${slot}}`
-      : 'function inv:ruleta/tirar';
-    return runHelper([cmd]);
+    return runHelper(['function inv:ruleta/tirar']);
   });
   ipcMain.handle('launcher:admin-anuncio', (_e, opts) => {
     const text = String((opts && opts.text) || '').slice(0, 200).trim();
