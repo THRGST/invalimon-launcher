@@ -8,8 +8,8 @@ Bajá **`Invalimon-Setup-X.X.X.exe`** del link que te pasó Thiago.
 
 ## 2. Instalalo
 
-Doble clic al .exe. Windows va a avisar **"Windows protegió tu PC"** (porque el
-launcher no está firmado):
+Doble clic al .exe. Windows va a avisar **"Windows protegió tu PC"** (es normal, pasa porque
+el launcher no tiene firma digital — ver abajo el porqué):
 
 > **Más información** → **Ejecutar de todas formas**
 
@@ -43,6 +43,12 @@ quieras dentro del juego: se respeta hasta que cambies de modo.
 
 ## Preguntas frecuentes
 
+- **¿Por qué Windows dice "Windows protegió tu PC"?** Es SmartScreen: Windows avisa con
+  **cualquier programa descargado de internet que no tenga firma digital**. La firma es un
+  certificado de "editor verificado" que cuesta plata todos los años, y este launcher es un
+  proyecto entre amigos — por eso Windows no lo "conoce" y avisa. No significa que tenga
+  virus: es solo un "no conozco a quién lo publicó". Dale a **Más información → Ejecutar de
+  todas formas** y listo.
 - **¿Necesito cuenta de Minecraft?** No. Entrás solo con un nombre.
 - **¿Y si el juego crashea?** Bajá la RAM asignada en Ajustes (o subila: con
   shaders conviene 6 GB o más).
