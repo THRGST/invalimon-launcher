@@ -23,14 +23,18 @@ out_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def make_tile(blackout: bool) -> Image.Image:
-    t = Image.new("RGBA", (CELL, CELL), RED)
     if blackout:
-        # mitad derecha opaca + transicion suave en el medio
-        for x in range(CELL // 2, CELL):
-            a = 255 if x >= CELL // 2 + 4 else int(255 * (x - (CELL // 2 - 4)) / 8)
-            a = min(255, a)
+        # tile NEGRO PURO (con un mini degradado en el borde izquierdo para
+        # que el corte contra el rojo no sea tan duro). OJO: el tile entero
+        # debe ser negro — con tiles anchos, cualquier parte roja de este
+        # gajo tapa la pantalla a la derecha del centro.
+        t = Image.new("RGBA", (CELL, CELL), (0, 0, 0, 255))
+        for x in range(4):  # ~2% del ancho: transicion suave
+            a = int(255 * x / 4)
             for y in range(CELL):
                 t.putpixel((x, y), (0, 0, 0, a))
+        return t
+    t = Image.new("RGBA", (CELL, CELL), RED)
     # bordes negros con degradado (arriba y abajo)
     px = t.load()
     for i in range(SOLID + FADE):
@@ -41,9 +45,7 @@ def make_tile(blackout: bool) -> Image.Image:
         for x in range(CELL):
             for y in (i, CELL - 1 - i):
                 r, g, b, a = px[x, y]
-                # el negro del borde se compone ENCIMA del pixel existente
-                na = min(255, a + alpha)
-                px[x, y] = (0, 0, 0, na) if blackout and x >= CELL // 2 else (max(0, r - 150), max(0, g - 10), max(0, b - 10), min(255, a + alpha))
+                px[x, y] = (max(0, r - 150), max(0, g - 10), max(0, b - 10), min(255, a + alpha))
     return t
 
 
