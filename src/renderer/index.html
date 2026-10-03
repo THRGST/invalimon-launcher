@@ -206,22 +206,31 @@
         <p class="subtitle">Solo aparece en tu launcher (la PC del server). Nadie más lo ve.</p>
 
         <div class="card">
-          <label>🎲 Momentos — un click y sale la ruleta</label>
-          <div class="momentos">
-            <button id="btn-momento-malo" class="momento-btn malo">
-              <span class="momento-emoji">🔴</span>
-              <span class="momento-titulo">Momento malo</span>
-              <span class="momento-sub">rojo + visión</span>
+          <label>🎨 Colores — la ruleta gira y cae en el que elijas</label>
+          <div class="colores">
+            <button class="color-btn" data-gajo="0" style="--c:#f8362c">
+              <span class="color-chip"></span><span class="color-nombre">Rojo</span><span class="color-ojo">👁 visión</span>
             </button>
-            <button id="btn-momento-bueno" class="momento-btn bueno">
-              <span class="momento-emoji">🟢</span>
-              <span class="momento-titulo">Momento bueno</span>
-              <span class="momento-sub">verde</span>
+            <button class="color-btn" data-gajo="1" style="--c:#2ecc40">
+              <span class="color-chip"></span><span class="color-nombre">Verde</span>
             </button>
-            <button id="btn-momento-neutro" class="momento-btn neutro">
-              <span class="momento-emoji">🎲</span>
-              <span class="momento-titulo">Neutro</span>
-              <span class="momento-sub">sin efecto</span>
+            <button class="color-btn" data-gajo="2" style="--c:#ff9318">
+              <span class="color-chip"></span><span class="color-nombre">Naranja</span>
+            </button>
+            <button class="color-btn" data-gajo="3" style="--c:#2f6bf0">
+              <span class="color-chip"></span><span class="color-nombre">Azul</span>
+            </button>
+            <button class="color-btn" data-gajo="4" style="--c:#e63ec3">
+              <span class="color-chip"></span><span class="color-nombre">Rosa</span>
+            </button>
+            <button class="color-btn" data-gajo="5" style="--c:#21c8d6">
+              <span class="color-chip"></span><span class="color-nombre">Celeste</span>
+            </button>
+            <button class="color-btn" data-gajo="6" style="--c:#ffd21f">
+              <span class="color-chip"></span><span class="color-nombre">Amarillo</span>
+            </button>
+            <button class="color-btn" data-gajo="7" style="--c:#9a3df5">
+              <span class="color-chip"></span><span class="color-nombre">Morado</span>
             </button>
           </div>
           <div class="row">
@@ -232,7 +241,7 @@
             <span class="ram-label">Efecto:</span>
             <input id="admin-efecto" type="text" maxlength="120" placeholder="Opcional — segunda línea en gris" />
           </div>
-          <p class="hint">En pantalla sale <b>🎲 RULETA · &lt;color&gt; · &lt;fecha de hoy&gt;</b> y debajo tu mensaje y tu efecto (si los escribís). La fecha la pone el panel sola, para no repetir.</p>
+          <p class="hint">Sale <b>🎲 RULETA · &lt;color&gt; · &lt;fecha de hoy&gt;</b> y debajo tu mensaje y tu efecto (si los escribís). <b>Solo el rojo</b> dispara la visión. La fecha va sola, para no repetir.</p>
         </div>
 
         <div class="card">
