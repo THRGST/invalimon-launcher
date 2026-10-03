@@ -12,7 +12,11 @@ from PIL import Image
 CELL = 128           # tamano de celda en la textura (atlas-safe)
 DECL_HEIGHT = 480    # "height" declarado del font: 480 unidades ~ pantalla completa
 RED   = (150, 10, 10, 115)   # tinte sangre translucido
-BLACK = (0, 0, 0, 255)       # negro opaco
+
+# negro SEMI ENCIMA del rojo (elegido por el user 2026-10-02): el blackout
+# es la MISMA base roja con un velo negro translucido arriba — se intuye
+# el rojo oscurecido debajo en vez de un corte a negro pleno.
+BLACKOUT_ALPHA = 130
 
 # bordes negros arriba/abajo (dentro del tile)
 SOLID = 9            # filas solidas en el borde
@@ -23,19 +27,8 @@ out_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def make_tile(blackout: bool) -> Image.Image:
-    if blackout:
-        # tile NEGRO PURO (con un mini degradado en el borde izquierdo para
-        # que el corte contra el rojo no sea tan duro). OJO: el tile entero
-        # debe ser negro — con tiles anchos, cualquier parte roja de este
-        # gajo tapa la pantalla a la derecha del centro.
-        t = Image.new("RGBA", (CELL, CELL), (0, 0, 0, 255))
-        for x in range(4):  # ~2% del ancho: transicion suave
-            a = int(255 * x / 4)
-            for y in range(CELL):
-                t.putpixel((x, y), (0, 0, 0, a))
-        return t
     t = Image.new("RGBA", (CELL, CELL), RED)
-    # bordes negros con degradado (arriba y abajo)
+    # bordes negros con degradado (arriba y abajo) — comunes a ambos tiles
     px = t.load()
     for i in range(SOLID + FADE):
         if i < SOLID:
@@ -46,6 +39,16 @@ def make_tile(blackout: bool) -> Image.Image:
             for y in (i, CELL - 1 - i):
                 r, g, b, a = px[x, y]
                 px[x, y] = (max(0, r - 150), max(0, g - 10), max(0, b - 10), min(255, a + alpha))
+    if blackout:
+        # velo negro semi-transparente SOBRE la base roja
+        veil = Image.new("RGBA", (CELL, CELL), (0, 0, 0, BLACKOUT_ALPHA))
+        t = Image.alpha_composite(t, veil)
+        # transicion suave en el borde izquierdo (contra el tile rojo vecino)
+        px = t.load()
+        for x in range(5):
+            for y in range(CELL):
+                r, g, b, a = px[x, y]
+                px[x, y] = (r, g, b, int(a * x / 5))
     return t
 
 
