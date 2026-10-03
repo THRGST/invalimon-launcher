@@ -5,18 +5,21 @@
 # El tile mapea ~a la pantalla completa (columna de 480 unidades de alto):
 #   - base roja translucida
 #   - bordes negros arriba/abajo con degradado (estilo vinyeta/letterbox)
-#   U+E120 = rojo | U+E121 = rojo con MITAD DERECHA negra (blackout)
+#   U+E120 = rojo | U+E121 = blackout (base roja + velo negro semi encima)
+# OJO: la capa title renderiza DEBAJO del HUD — hotbar/corazones/minimapa
+# se siguen viendo a color pleno durante la vision (limitacion de vanilla).
 import json, os
 from PIL import Image
 
 CELL = 128           # tamano de celda en la textura (atlas-safe)
 DECL_HEIGHT = 480    # "height" declarado del font: 480 unidades ~ pantalla completa
-RED   = (150, 10, 10, 115)   # tinte sangre translucido
+RED   = (150, 10, 10, 95)    # tinte sangre translucido (95 = "un poco mas transparente", pedido del user)
 
 # negro SEMI ENCIMA del rojo (elegido por el user 2026-10-02): el blackout
 # es la MISMA base roja con un velo negro translucido arriba — se intuye
 # el rojo oscurecido debajo en vez de un corte a negro pleno.
-BLACKOUT_ALPHA = 130
+# 175 = tapa de verdad (con 130 el user lo veia "rojo, no negro").
+BLACKOUT_ALPHA = 175
 
 # bordes negros arriba/abajo (dentro del tile)
 SOLID = 9            # filas solidas en el borde
