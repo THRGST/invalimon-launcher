@@ -146,17 +146,26 @@ app.whenReady().then(() => {
   ipcMain.handle('launcher:admin-ruleta', (_e, opts) => {
     const c = opts && opts.custom;
     if (c) {
-      // mensaje y efecto son OPCIONALES (el datapack omite las lineas vacias)
+      // mensaje y efecto son OPCIONALES (flags hay_*: el datapack omite las lineas vacias)
       const mensaje = adminCleanText(c.mensaje, 120);
       const efecto = adminCleanText(c.efecto, 120);
-      // tono: 1 rojo (dispara la visión) / 2 verde / 3 neutro
-      const tono = ({ rojo: '1', verde: '2', otro: '3' })[String(c.tono || 'otro')] || '3';
+      // gajo 0..7 = el color en el que cae la ruleta; el datapack deriva el tono
+      // (rojos 0/4 -> vision; verdes 1/5 -> verde; resto -> neutro)
+      const gajo = Math.min(7, Math.max(0, parseInt(c.gajo, 10) || 0));
       // Fecha de hoy dd/mm — la pone el panel, es el "título" visible del resultado
       const d = new Date();
       const fecha = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
-      return runHelper([`function inv:admin/tirar_custom {tono:"${tono}",mensaje:"${mensaje}",efecto:"${efecto}",fecha:"${fecha}"}`]);
+      return runHelper([`function inv:admin/tirar_custom {gajo:"${gajo}",mensaje:"${mensaje}",efecto:"${efecto}",fecha:"${fecha}",hay_mensaje:"${mensaje ? 1 : 0}",hay_efecto:"${efecto ? 1 : 0}"}`]);
     }
     return runHelper(['function inv:ruleta/tirar']);
+  });
+  // Vidas infinitas para el jugador configurado en ESTA PC (el admin)
+  ipcMain.handle('launcher:admin-inmortal', (_e, opts) => {
+    const user = String((configManager.get().user || {}).username || '').trim();
+    if (!user) return { ok: false, error: 'Todavía no pusiste tu nombre de jugador en la app.' };
+    if (!/^[A-Za-z0-9_]{1,16}$/.test(user)) return { ok: false, error: 'Tu nombre de jugador tiene caracteres raros.' };
+    const fn = (opts && opts.on) ? 'inmortal' : 'mortal';
+    return runHelper([`execute as ${user} run function inv:admin/${fn}`]);
   });
   ipcMain.handle('launcher:admin-anuncio', (_e, opts) => {
     const text = String((opts && opts.text) || '').slice(0, 200).trim();

@@ -196,24 +196,38 @@ async function setupAdmin() {
     el.style.color = ok ? 'var(--green)' : 'var(--red)';
   };
 
-  // Momentos: un click = ruleta con ese tono (mensaje/efecto opcionales)
-  const tirarMomento = async (tono, nombre) => {
-    const mensaje = $('#admin-mensaje').value.trim();
-    const efecto = $('#admin-efecto').value.trim();
-    show(`🎲 ${nombre}: girando…`, true);
-    const r = await api.adminRuleta({ custom: { tono, mensaje, efecto } });
-    show(r.ok ? `✅ ${nombre} tirado` : `❌ ${r.error}`, r.ok);
-    if (r.ok) logLine('SYSTEM', `Admin: ${nombre} (${mensaje ? `"${mensaje}"` : 'sin mensaje'})`);
-  };
-  $('#btn-momento-malo').addEventListener('click', () => tirarMomento('rojo', 'Momento malo'));
-  $('#btn-momento-bueno').addEventListener('click', () => tirarMomento('verde', 'Momento bueno'));
-  $('#btn-momento-neutro').addEventListener('click', () => tirarMomento('otro', 'Neutro'));
+  // Colores: un click = ruleta que cae en ese color (mensaje/efecto opcionales).
+  // Solo los rojos (gajos 0 y 4) disparan la visión (lo decide el datapack por gajo).
+  document.querySelectorAll('.color-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const gajo = Number(btn.dataset.gajo);
+      const nombre = btn.querySelector('.color-nombre').textContent;
+      const mensaje = $('#admin-mensaje').value.trim();
+      const efecto = $('#admin-efecto').value.trim();
+      show(`🎨 ${nombre}: girando…`, true);
+      const r = await api.adminRuleta({ custom: { gajo, mensaje, efecto } });
+      show(r.ok ? `✅ Cayó ${nombre}` : `❌ ${r.error}`, r.ok);
+      if (r.ok) logLine('SYSTEM', `Admin: tirada al color ${nombre} (${mensaje ? `"${mensaje}"` : 'sin mensaje'})`);
+    });
+  });
 
   $('#btn-admin-tirar').addEventListener('click', async () => {
     show('🎲 Tirando aleatorio (eventos del sistema)…', true);
     const r = await api.adminRuleta({});
     show(r.ok ? '✅ Ruleta aleatoria tirada' : `❌ ${r.error}`, r.ok);
     if (r.ok) logLine('SYSTEM', 'Admin: ruleta aleatoria tirada');
+  });
+
+  $('#btn-admin-inmortal').addEventListener('click', async () => {
+    const r = await api.adminInmortal({ on: true });
+    show(r.ok ? '♾️ Vidas infinitas activadas para vos' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', 'Admin: vidas infinitas ON');
+  });
+
+  $('#btn-admin-mortal').addEventListener('click', async () => {
+    const r = await api.adminInmortal({ on: false });
+    show(r.ok ? '☠ Volviste al sistema de vidas normal' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', 'Admin: vidas infinitas OFF');
   });
 
   $('#btn-admin-anunciar').addEventListener('click', async () => {

@@ -345,31 +345,35 @@ button { font-family: var(--font); }
 }
 .mod-tag.off { background: rgba(251, 191, 36, .14); color: var(--yellow); }
 
-/* ---- Panel de Admin: botones de momento (1 click) ---- */
-.momentos {
+/* ---- Panel de Admin: colores (1 click y la ruleta cae ahi) ---- */
+.colores {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
   margin: 10px 0 4px;
 }
-.momento-btn {
+.color-btn {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 16px 10px 13px;
-  border-radius: 12px;
+  gap: 8px;
+  padding: 9px 11px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: var(--bg-panel2, rgba(255, 255, 255, 0.05));
   color: var(--text);
   cursor: pointer;
+  font-size: 13px;
   transition: transform 0.06s ease, border-color 0.15s ease, background 0.15s ease;
 }
-.momento-btn:hover { background: rgba(255, 255, 255, 0.08); }
-.momento-btn:active { transform: scale(0.97); }
-.momento-emoji { font-size: 27px; line-height: 1.1; }
-.momento-titulo { font-weight: 700; font-size: 14px; }
-.momento-sub { font-size: 11px; opacity: 0.6; }
-.momento-btn.malo:hover { border-color: var(--red); }
-.momento-btn.bueno:hover { border-color: var(--green); }
-.momento-btn.neutro:hover { border-color: var(--accent, #7aa2f7); }
+.color-btn:hover { border-color: var(--c); background: rgba(255, 255, 255, 0.08); }
+.color-btn:active { transform: scale(0.97); }
+.color-chip {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35), inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+  flex: none;
+}
+.color-nombre { font-weight: 600; }
+.color-ojo { margin-left: auto; font-size: 10px; opacity: 0.75; white-space: nowrap; }
