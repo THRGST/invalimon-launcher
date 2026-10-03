@@ -205,8 +205,9 @@ async function setupAdmin() {
       const mensaje = $('#admin-mensaje').value.trim();
       const efecto = $('#admin-efecto').value.trim();
       const efectoId = $('#admin-efecto-id').value;
+      const efectoMin = parseInt($('#admin-efecto-min').value, 10);
       show(`🎨 ${nombre}: girando…`, true);
-      const r = await api.adminRuleta({ custom: { gajo, mensaje, efecto, efectoId } });
+      const r = await api.adminRuleta({ custom: { gajo, mensaje, efecto, efectoId, efectoMin } });
       show(r.ok ? `✅ Cayó ${nombre}` : `❌ ${r.error}`, r.ok);
       if (r.ok) logLine('SYSTEM', `Admin: tirada al color ${nombre} (${mensaje ? `"${mensaje}"` : 'sin mensaje'})`);
     });

@@ -154,10 +154,13 @@ app.whenReady().then(() => {
       const gajo = Math.min(7, Math.max(0, parseInt(c.gajo, 10) || 0));
       // regla del evento (efecto): id [a-z_] del datapack; default ninguno
       const efectoId = /^[a-z_]{1,24}$/.test(String(c.efectoId || '')) ? String(c.efectoId) : 'ninguno';
+      // duracion de la regla en minutos (0 = sin limite -> -1 para el datapack)
+      const minN = Math.min(1440, Math.max(0, parseInt(c.efectoMin, 10) || 0));
+      const efectoSeg = minN > 0 ? minN * 60 : -1;
       // Fecha de hoy dd/mm — la pone el panel, es el "título" visible del resultado
       const d = new Date();
       const fecha = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
-      return runHelper([`function inv:admin/tirar_custom {gajo:"${gajo}",mensaje:"${mensaje}",efecto:"${efecto}",efecto_id:"${efectoId}",fecha:"${fecha}",hay_mensaje:"${mensaje ? 1 : 0}",hay_efecto:"${efecto ? 1 : 0}"}`]);
+      return runHelper([`function inv:admin/tirar_custom {gajo:"${gajo}",mensaje:"${mensaje}",efecto:"${efecto}",efecto_id:"${efectoId}",efecto_seg:"${efectoSeg}",fecha:"${fecha}",hay_mensaje:"${mensaje ? 1 : 0}",hay_efecto:"${efecto ? 1 : 0}"}`]);
     }
     return runHelper(['function inv:ruleta/tirar']);
   });
