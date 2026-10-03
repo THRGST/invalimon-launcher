@@ -197,14 +197,14 @@ async function setupAdmin() {
   };
 
   $('#btn-admin-tirar-custom').addEventListener('click', async () => {
-    const titulo = $('#admin-titulo').value.trim();
-    if (!titulo) { show('❌ Escribí primero qué va a salir.', false); return; }
-    const extra = $('#admin-extra').value.trim();
-    const color = $('#admin-ruleta-hex').value.trim() || $('#admin-ruleta-color').value;
-    show(`🎲 Tirando (sale: "${titulo}")…`, true);
-    const r = await api.adminRuleta({ custom: { titulo, extra, color } });
-    show(r.ok ? `✅ Ruleta tirada — sale: "${titulo}"` : `❌ ${r.error}`, r.ok);
-    if (r.ok) logLine('SYSTEM', `Admin: ruleta custom tirada ("${titulo}")`);
+    const mensaje = $('#admin-mensaje').value.trim();
+    if (!mensaje) { show('❌ Escribí el mensaje primero.', false); return; }
+    const efecto = $('#admin-efecto').value.trim();
+    const tono = $('#admin-tono').value;
+    show(`🎲 Tirando (tono ${tono})…`, true);
+    const r = await api.adminRuleta({ custom: { tono, mensaje, efecto } });
+    show(r.ok ? '✅ Ruleta tirada con tu resultado' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', `Admin: ruleta custom tirada (${tono}: "${mensaje}")`);
   });
 
   $('#btn-admin-tirar').addEventListener('click', async () => {

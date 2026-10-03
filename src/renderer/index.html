@@ -208,35 +208,26 @@
         <div class="card">
           <label>🎰 Ruleta</label>
           <div class="row">
-            <span class="ram-label">Lo que va a salir:</span>
-            <input id="admin-titulo" type="text" maxlength="80" placeholder="Ej: ☠ REVIL DESPIERTA" />
-          </div>
-          <div class="row">
-            <span class="ram-label">Mensaje extra:</span>
-            <input id="admin-extra" type="text" maxlength="120" placeholder="(opcional) lo que se lee al lado" />
-          </div>
-          <div class="row">
-            <span class="ram-label">Color:</span>
-            <select id="admin-ruleta-color">
-              <option value="gold">Dorado</option>
-              <option value="red">Rojo</option>
-              <option value="aqua">Aqua</option>
-              <option value="green">Verde</option>
-              <option value="yellow">Amarillo</option>
-              <option value="light_purple">Violeta</option>
-              <option value="dark_red">Rojo oscuro</option>
-              <option value="dark_purple">Violeta oscuro</option>
-              <option value="blue">Azul</option>
-              <option value="white">Blanco</option>
-              <option value="gray">Gris</option>
+            <span class="ram-label">Tono:</span>
+            <select id="admin-tono">
+              <option value="otro" selected>🎲 Neutro</option>
+              <option value="rojo">🔴 Rojo — dispara el efecto fuerte</option>
+              <option value="verde">🟢 Verde</option>
             </select>
-            <input id="admin-ruleta-hex" type="text" maxlength="7" placeholder="#ff0000 (opcional)" style="width:150px" />
+          </div>
+          <div class="row">
+            <span class="ram-label">Mensaje:</span>
+            <input id="admin-mensaje" type="text" maxlength="120" placeholder="Lo que ven todos... ej: nadie puede confiar en nadie" />
+          </div>
+          <div class="row">
+            <span class="ram-label">Efecto:</span>
+            <input id="admin-efecto" type="text" maxlength="120" placeholder="Segunda línea visible... ej: solo se puede hablar de día" />
           </div>
           <div class="row">
             <button id="btn-admin-tirar-custom" class="btn-primary">🎲 Tirar con este resultado</button>
-            <button id="btn-admin-tirar" class="btn-secondary">🎲 Tirar aleatorio (eventos del sistema)</button>
+            <button id="btn-admin-tirar" class="btn-secondary">🎲 Tirar aleatorio (del sistema)</button>
           </div>
-          <p class="hint">Lo que escribas es lo que sale: la ruleta gira igual y aterriza con <b>tu texto y tu color</b>. "Aleatorio" tira los eventos del sistema (clima, invasión, jefe...).</p>
+          <p class="hint">En pantalla sale <b>🎲 RULETA · &lt;tono&gt; · &lt;fecha de hoy&gt;</b> y debajo tu mensaje y tu efecto. La fecha la pone el panel sola (registro para no repetir).</p>
         </div>
 
         <div class="card">

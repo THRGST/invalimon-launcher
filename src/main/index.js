@@ -143,29 +143,18 @@ app.whenReady().then(() => {
       .trim()
       .slice(0, max);
   }
-  // Color para el panel lateral (scoreboard): codigos legacy §
-  const ADMIN_LEGACY = {
-    gold: '§6', red: '§c', aqua: '§b', green: '§a', yellow: '§e',
-    light_purple: '§d', dark_red: '§4', dark_purple: '§5', blue: '§9', white: '§f', gray: '§7',
-  };
-  function adminLegacyColor(c) {
-    if (ADMIN_LEGACY[c]) return ADMIN_LEGACY[c];
-    const m = /^#([0-9a-fA-F]{6})$/.exec(c);
-    if (m) return '§x' + m[1].split('').map((h) => '§' + h.toLowerCase()).join('');
-    return '§6';
-  }
   ipcMain.handle('launcher:admin-ruleta', (_e, opts) => {
     const c = opts && opts.custom;
-    if (c && (c.titulo || '').trim()) {
-      const titulo = adminCleanText(c.titulo, 80);
-      if (!titulo) return { ok: false, error: 'Escribí qué va a salir (sin comillas raras).' };
-      const extra = adminCleanText(c.extra, 120);
-      let color = String(c.color || 'gold');
-      if (!ADMIN_COLOR_RX.test(color)) color = 'gold';
-      // El panel lateral (scoreboard) no acepta emojis: version sin astrales
-      const tituloHud = titulo.replace(/[\uD800-\uDFFF]/g, '').trim() || 'Evento especial';
-      const legacy = adminLegacyColor(color);
-      return runHelper([`function inv:admin/tirar_custom {titulo:"${titulo}",extra:"${extra}",color:"${color}",titulo_hud:"${tituloHud}",color_legacy:"${legacy}"}`]);
+    if (c && (c.mensaje || '').trim()) {
+      const mensaje = adminCleanText(c.mensaje, 120);
+      if (!mensaje) return { ok: false, error: 'Escribí el mensaje (sin comillas raras).' };
+      const efecto = adminCleanText(c.efecto, 120);
+      // tono: 1 rojo (dispara la visión) / 2 verde / 3 neutro
+      const tono = ({ rojo: '1', verde: '2', otro: '3' })[String(c.tono || 'otro')] || '3';
+      // Fecha de hoy dd/mm — la pone el panel, es el "título" visible del resultado
+      const d = new Date();
+      const fecha = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
+      return runHelper([`function inv:admin/tirar_custom {tono:"${tono}",mensaje:"${mensaje}",efecto:"${efecto}",fecha:"${fecha}"}`]);
     }
     return runHelper(['function inv:ruleta/tirar']);
   });
