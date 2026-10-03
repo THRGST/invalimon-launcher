@@ -344,3 +344,32 @@ button { font-family: var(--font); }
   border-radius: 8px; padding: 10px;
 }
 .mod-tag.off { background: rgba(251, 191, 36, .14); color: var(--yellow); }
+
+/* ---- Panel de Admin: botones de momento (1 click) ---- */
+.momentos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 10px 0 4px;
+}
+.momento-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 16px 10px 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--bg-panel2, rgba(255, 255, 255, 0.05));
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.06s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.momento-btn:hover { background: rgba(255, 255, 255, 0.08); }
+.momento-btn:active { transform: scale(0.97); }
+.momento-emoji { font-size: 27px; line-height: 1.1; }
+.momento-titulo { font-weight: 700; font-size: 14px; }
+.momento-sub { font-size: 11px; opacity: 0.6; }
+.momento-btn.malo:hover { border-color: var(--red); }
+.momento-btn.bueno:hover { border-color: var(--green); }
+.momento-btn.neutro:hover { border-color: var(--accent, #7aa2f7); }

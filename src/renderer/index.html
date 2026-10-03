@@ -206,37 +206,43 @@
         <p class="subtitle">Solo aparece en tu launcher (la PC del server). Nadie más lo ve.</p>
 
         <div class="card">
-          <label>🎰 Ruleta</label>
-          <div class="row">
-            <span class="ram-label">Tono:</span>
-            <select id="admin-tono">
-              <option value="otro" selected>🎲 Neutro</option>
-              <option value="rojo">🔴 Rojo — dispara el efecto fuerte</option>
-              <option value="verde">🟢 Verde</option>
-            </select>
+          <label>🎲 Momentos — un click y sale la ruleta</label>
+          <div class="momentos">
+            <button id="btn-momento-malo" class="momento-btn malo">
+              <span class="momento-emoji">🔴</span>
+              <span class="momento-titulo">Momento malo</span>
+              <span class="momento-sub">rojo + visión</span>
+            </button>
+            <button id="btn-momento-bueno" class="momento-btn bueno">
+              <span class="momento-emoji">🟢</span>
+              <span class="momento-titulo">Momento bueno</span>
+              <span class="momento-sub">verde</span>
+            </button>
+            <button id="btn-momento-neutro" class="momento-btn neutro">
+              <span class="momento-emoji">🎲</span>
+              <span class="momento-titulo">Neutro</span>
+              <span class="momento-sub">sin efecto</span>
+            </button>
           </div>
           <div class="row">
             <span class="ram-label">Mensaje:</span>
-            <input id="admin-mensaje" type="text" maxlength="120" placeholder="Lo que ven todos... ej: nadie puede confiar en nadie" />
+            <input id="admin-mensaje" type="text" maxlength="120" placeholder="Opcional — la línea blanca que ven todos" />
           </div>
           <div class="row">
             <span class="ram-label">Efecto:</span>
-            <input id="admin-efecto" type="text" maxlength="120" placeholder="Segunda línea visible... ej: solo se puede hablar de día" />
+            <input id="admin-efecto" type="text" maxlength="120" placeholder="Opcional — segunda línea en gris" />
           </div>
-          <div class="row">
-            <button id="btn-admin-tirar-custom" class="btn-primary">🎲 Tirar con este resultado</button>
-            <button id="btn-admin-tirar" class="btn-secondary">🎲 Tirar aleatorio (del sistema)</button>
-          </div>
-          <p class="hint">En pantalla sale <b>🎲 RULETA · &lt;tono&gt; · &lt;fecha de hoy&gt;</b> y debajo tu mensaje y tu efecto. La fecha la pone el panel sola (registro para no repetir).</p>
+          <p class="hint">En pantalla sale <b>🎲 RULETA · &lt;color&gt; · &lt;fecha de hoy&gt;</b> y debajo tu mensaje y tu efecto (si los escribís). La fecha la pone el panel sola, para no repetir.</p>
         </div>
 
         <div class="card">
-          <label>📢 Anuncio personalizado</label>
+          <label>⚡ Extras</label>
           <div class="row">
-            <input id="admin-texto" type="text" maxlength="200" placeholder="Tu texto para el chat... ej: ¡Alerta roja en Invalimon!" />
+            <button id="btn-admin-tirar" class="btn-secondary">🎲 Tirar aleatorio (del sistema)</button>
+            <span class="hint">Un resultado random sin texto.</span>
           </div>
           <div class="row">
-            <span class="ram-label">Color del texto:</span>
+            <input id="admin-texto" type="text" maxlength="200" placeholder="Anuncio rápido al chat..." />
             <select id="admin-color">
               <option value="gold">Dorado</option>
               <option value="red">Rojo</option>
@@ -251,7 +257,7 @@
               <option value="gray">Gris</option>
             </select>
             <input id="admin-hex" type="text" maxlength="7" placeholder="#ff77aa (opcional)" style="width:170px" />
-            <button id="btn-admin-anunciar" class="btn-secondary">Anunciar a todos</button>
+            <button id="btn-admin-anunciar" class="btn-secondary">📢 Anunciar</button>
           </div>
           <p class="hint">Si llenás el hex personalizado, pisa al color de la lista.</p>
         </div>

@@ -145,9 +145,9 @@ app.whenReady().then(() => {
   }
   ipcMain.handle('launcher:admin-ruleta', (_e, opts) => {
     const c = opts && opts.custom;
-    if (c && (c.mensaje || '').trim()) {
+    if (c) {
+      // mensaje y efecto son OPCIONALES (el datapack omite las lineas vacias)
       const mensaje = adminCleanText(c.mensaje, 120);
-      if (!mensaje) return { ok: false, error: 'Escribí el mensaje (sin comillas raras).' };
       const efecto = adminCleanText(c.efecto, 120);
       // tono: 1 rojo (dispara la visión) / 2 verde / 3 neutro
       const tono = ({ rojo: '1', verde: '2', otro: '3' })[String(c.tono || 'otro')] || '3';

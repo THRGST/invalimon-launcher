@@ -196,16 +196,18 @@ async function setupAdmin() {
     el.style.color = ok ? 'var(--green)' : 'var(--red)';
   };
 
-  $('#btn-admin-tirar-custom').addEventListener('click', async () => {
+  // Momentos: un click = ruleta con ese tono (mensaje/efecto opcionales)
+  const tirarMomento = async (tono, nombre) => {
     const mensaje = $('#admin-mensaje').value.trim();
-    if (!mensaje) { show('❌ Escribí el mensaje primero.', false); return; }
     const efecto = $('#admin-efecto').value.trim();
-    const tono = $('#admin-tono').value;
-    show(`🎲 Tirando (tono ${tono})…`, true);
+    show(`🎲 ${nombre}: girando…`, true);
     const r = await api.adminRuleta({ custom: { tono, mensaje, efecto } });
-    show(r.ok ? '✅ Ruleta tirada con tu resultado' : `❌ ${r.error}`, r.ok);
-    if (r.ok) logLine('SYSTEM', `Admin: ruleta custom tirada (${tono}: "${mensaje}")`);
-  });
+    show(r.ok ? `✅ ${nombre} tirado` : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', `Admin: ${nombre} (${mensaje ? `"${mensaje}"` : 'sin mensaje'})`);
+  };
+  $('#btn-momento-malo').addEventListener('click', () => tirarMomento('rojo', 'Momento malo'));
+  $('#btn-momento-bueno').addEventListener('click', () => tirarMomento('verde', 'Momento bueno'));
+  $('#btn-momento-neutro').addEventListener('click', () => tirarMomento('otro', 'Neutro'));
 
   $('#btn-admin-tirar').addEventListener('click', async () => {
     show('🎲 Tirando aleatorio (eventos del sistema)…', true);
