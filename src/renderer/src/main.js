@@ -204,8 +204,9 @@ async function setupAdmin() {
       const nombre = btn.querySelector('.color-nombre').textContent;
       const mensaje = $('#admin-mensaje').value.trim();
       const efecto = $('#admin-efecto').value.trim();
+      const efectoId = $('#admin-efecto-id').value;
       show(`🎨 ${nombre}: girando…`, true);
-      const r = await api.adminRuleta({ custom: { gajo, mensaje, efecto } });
+      const r = await api.adminRuleta({ custom: { gajo, mensaje, efecto, efectoId } });
       show(r.ok ? `✅ Cayó ${nombre}` : `❌ ${r.error}`, r.ok);
       if (r.ok) logLine('SYSTEM', `Admin: tirada al color ${nombre} (${mensaje ? `"${mensaje}"` : 'sin mensaje'})`);
     });
@@ -216,6 +217,12 @@ async function setupAdmin() {
     const r = await api.adminRuleta({});
     show(r.ok ? '✅ Ruleta aleatoria tirada' : `❌ ${r.error}`, r.ok);
     if (r.ok) logLine('SYSTEM', 'Admin: ruleta aleatoria tirada');
+  });
+
+  $('#btn-admin-limpiar-efectos').addEventListener('click', async () => {
+    const r = await api.adminLimpiarEfectos();
+    show(r.ok ? '🧹 Efectos quitados' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', 'Admin: efectos limpiados');
   });
 
   $('#btn-admin-inmortal').addEventListener('click', async () => {

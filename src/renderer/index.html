@@ -234,6 +234,13 @@
             </button>
           </div>
           <div class="row">
+            <span class="ram-label">⚡ Regla:</span>
+            <select id="admin-efecto-id">
+              <option value="ninguno" selected>— Ninguna (solo la ruleta)</option>
+              <option value="tormenta">⛈️ Tormenta eléctrica (rayos + pokédex bloqueada)</option>
+            </select>
+          </div>
+          <div class="row">
             <span class="ram-label">Mensaje:</span>
             <input id="admin-mensaje" type="text" maxlength="120" placeholder="Opcional — la línea blanca que ven todos" />
           </div>
@@ -248,7 +255,8 @@
           <label>⚡ Extras</label>
           <div class="row">
             <button id="btn-admin-tirar" class="btn-secondary">🎲 Tirar aleatorio (del sistema)</button>
-            <span class="hint">Un resultado random sin texto.</span>
+            <button id="btn-admin-limpiar-efectos" class="btn-secondary">🧹 Quitar efectos</button>
+            <span class="hint">La regla se aplica cuando la ruleta aterriza. Quitar efectos = clima normal y reglas apagadas.</span>
           </div>
           <div class="row">
             <input id="admin-texto" type="text" maxlength="200" placeholder="Anuncio rápido al chat..." />

@@ -21,6 +21,7 @@ contextBridge.exposeInMainWorld('invalimon', {
   adminRuleta: (opts) => ipcRenderer.invoke('launcher:admin-ruleta', opts || {}),
   adminAnuncio: (opts) => ipcRenderer.invoke('launcher:admin-anuncio', opts || {}),
   adminInmortal: (opts) => ipcRenderer.invoke('launcher:admin-inmortal', opts || {}),
+  adminLimpiarEfectos: () => ipcRenderer.invoke('launcher:admin-limpiar-efectos'),
   loginOffline: (username) => ipcRenderer.invoke('launcher:login-offline', username),
   launchGame: () => ipcRenderer.invoke('launcher:launch-game'),
   killGame: () => ipcRenderer.invoke('launcher:kill-game'),

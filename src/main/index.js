@@ -152,10 +152,12 @@ app.whenReady().then(() => {
       // gajo 0..7 = el color en el que cae la ruleta; el datapack deriva el tono
       // (rojos 0/4 -> vision; verdes 1/5 -> verde; resto -> neutro)
       const gajo = Math.min(7, Math.max(0, parseInt(c.gajo, 10) || 0));
+      // regla del evento (efecto): id [a-z_] del datapack; default ninguno
+      const efectoId = /^[a-z_]{1,24}$/.test(String(c.efectoId || '')) ? String(c.efectoId) : 'ninguno';
       // Fecha de hoy dd/mm — la pone el panel, es el "título" visible del resultado
       const d = new Date();
       const fecha = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
-      return runHelper([`function inv:admin/tirar_custom {gajo:"${gajo}",mensaje:"${mensaje}",efecto:"${efecto}",fecha:"${fecha}",hay_mensaje:"${mensaje ? 1 : 0}",hay_efecto:"${efecto ? 1 : 0}"}`]);
+      return runHelper([`function inv:admin/tirar_custom {gajo:"${gajo}",mensaje:"${mensaje}",efecto:"${efecto}",efecto_id:"${efectoId}",fecha:"${fecha}",hay_mensaje:"${mensaje ? 1 : 0}",hay_efecto:"${efecto ? 1 : 0}"}`]);
     }
     return runHelper(['function inv:ruleta/tirar']);
   });
@@ -166,6 +168,9 @@ app.whenReady().then(() => {
     if (!/^[A-Za-z0-9_]{1,16}$/.test(user)) return { ok: false, error: 'Tu nombre de jugador tiene caracteres raros.' };
     const fn = (opts && opts.on) ? 'inmortal' : 'mortal';
     return runHelper([`execute as ${user} run function inv:admin/${fn}`]);
+  });
+  ipcMain.handle('launcher:admin-limpiar-efectos', () => {
+    return runHelper(['function inv:admin/limpiar_efectos']);
   });
   ipcMain.handle('launcher:admin-anuncio', (_e, opts) => {
     const text = String((opts && opts.text) || '').slice(0, 200).trim();
