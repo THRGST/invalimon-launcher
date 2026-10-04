@@ -477,6 +477,14 @@
       "size": 51754
     },
     {
+      "name": "Fabric Tailor",
+      "filename": "fabrictailor-2.5.0.jar",
+      "note": "Skins en el server (offline): /skin set url|player|upload — todos ven las skins. Tambien instalado en el server",
+      "url": "https://cdn.modrinth.com/data/g8w1NapE/versions/UDZdkBPN/fabrictailor-2.5.0.jar",
+      "sha1": "cd38b5b7b60a2ea68580d11d2e8cc0b008b0532a",
+      "size": 123261
+    },
+    {
       "name": "Shader Photon",
       "filename": "photon_v1.3b.zip",
       "dest": "shaderpacks",
