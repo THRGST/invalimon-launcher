@@ -231,10 +231,10 @@
   "extraMods": [
     {
       "name": "Distant Horizons",
-      "filename": "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
-      "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/Ez3cx7Yd/DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
-      "sha1": "d18b0829416ec6948102524b6e913e5bc73ae402",
-      "size": 28224156
+      "filename": "DistantHorizons-3.3.3-1.21.1-fabric-neoforge.jar",
+      "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/9w34y8ai/DistantHorizons-3.3.3-1.21.1-fabric-neoforge.jar",
+      "sha1": "4357b4d19fab818780c94f0e43dad1cc931634b2",
+      "size": 28289212
     },
     {
       "name": "3D Skin Layers",
