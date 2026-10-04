@@ -2,7 +2,11 @@
   "schema": 1,
   "minLauncherVersion": "1.0.0",
   "notice": null,
-  "server": { "name": "Invalimon", "address": "carolyn-archery.tun.ply.gg", "icon": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACzElEQVR4nGOsWPXhP8MIBkwD7YCBBiwwxsqOrIF0B91BeMU0BgYGpABgYBiZOQEeAP//j/AAGPEpgGGkp4D/oylgpAfASE8Bo7UADQMg7+VRsvRNEremskswwSDPArR306DOAvRw02gKQNhFmWX5r0+i8CXZ2OBscxMJFDllAR6izJQ8dA7Ofv7rF4rcRFFzUp2IFQzZhhC13Dt0G0JUci9FZUDBmzNwtq6wMIqc25ROOPujsR2qxiwvosyPspODs3edf48iF/juLJy9XsiIKPOwgUFdCxALKHH70M0CyIAqATDECkFUMEApALmqczMURJFDzvf8Zw+R4TQGhrsfvuCUk//3D8GhRgoYatUgMqDE7aNlAJIpBBUXfbiMwo9yUcGplp/Iqg4fuHv/N0455Go3+P0VFLm1fNpE2zEsqkF0QIpfhkktgA7ICYBhlAJI8QtJWWCOkBAKPwCpmiK2h4cP4Kv2SAGjWWA0C5CTBYgINW1VLRR++LOHcPZKBtTkG/6SFac5K8UR1Ru+qg4fePP5M5y9hZMTRY6UhtFoCkDSRQOXDBSgUS2ADtIT0uDs8AWzUOS2bd4GZz97+gxFLjwjBc5uY8CdBZCTeTMPWi2DxDdCy5qHLz/H42pUMJoCEHqGUQDQqiE0VADNGkKHLj5G4UuIX4Szv379iiKHnO8f3X/IgAvk43MsUj7vbOpAkdq1axecvWrXadxmEADDIwuMjggN0IjQi5cv4Oyi7EIUucjYSJz60JMzMeDly5c47R4dFR4dExwtA8jWS1EKOHD2Dk45ZxsnOFtfX58o89Dz+cWLiGoWJc8TsJsUMHSzALVnh4daFhh06wP2n76JJoLgoydf8s2kPhjk1eDoKjGa2zGaAhB20c6yfSev0sxsSsGQrQWoBYZuO4BKYDQAYIzRLDDSU8DgrAZpDwZ1Q4geYMSnAMbR3eMjHAAAZTg+cZT77tcAAAAASUVORK5CYII=" },
+  "server": {
+    "name": "Invalimon",
+    "address": "carolyn-archery.tun.ply.gg",
+    "icon": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACzElEQVR4nGOsWPXhP8MIBkwD7YCBBiwwxsqOrIF0B91BeMU0BgYGpABgYBiZOQEeAP//j/AAGPEpgGGkp4D/oylgpAfASE8Bo7UADQMg7+VRsvRNEremskswwSDPArR306DOAvRw02gKQNhFmWX5r0+i8CXZ2OBscxMJFDllAR6izJQ8dA7Ofv7rF4rcRFFzUp2IFQzZhhC13Dt0G0JUci9FZUDBmzNwtq6wMIqc25ROOPujsR2qxiwvosyPspODs3edf48iF/juLJy9XsiIKPOwgUFdCxALKHH70M0CyIAqATDECkFUMEApALmqczMURJFDzvf8Zw+R4TQGhrsfvuCUk//3D8GhRgoYatUgMqDE7aNlAJIpBBUXfbiMwo9yUcGplp/Iqg4fuHv/N0455Go3+P0VFLm1fNpE2zEsqkF0QIpfhkktgA7ICYBhlAJI8QtJWWCOkBAKPwCpmiK2h4cP4Kv2SAGjWWA0C5CTBYgINW1VLRR++LOHcPZKBtTkG/6SFac5K8UR1Ru+qg4fePP5M5y9hZMTRY6UhtFoCkDSRQOXDBSgUS2ADtIT0uDs8AWzUOS2bd4GZz97+gxFLjwjBc5uY8CdBZCTeTMPWi2DxDdCy5qHLz/H42pUMJoCEHqGUQDQqiE0VADNGkKHLj5G4UuIX4Szv379iiKHnO8f3X/IgAvk43MsUj7vbOpAkdq1axecvWrXadxmEADDIwuMjggN0IjQi5cv4Oyi7EIUucjYSJz60JMzMeDly5c47R4dFR4dExwtA8jWS1EKOHD2Dk45ZxsnOFtfX58o89Dz+cWLiGoWJc8TsJsUMHSzALVnh4daFhh06wP2n76JJoLgoydf8s2kPhjk1eDoKjGa2zGaAhB20c6yfSev0sxsSsGQrQWoBYZuO4BKYDQAYIzRLDDSU8DgrAZpDwZ1Q4geYMSnAMbR3eMjHAAAZTg+cZT77tcAAAAASUVORK5CYII="
+  },
   "clientDefaults": {
     "options": {
       "renderDistance": "8",
@@ -17,18 +21,14 @@
       "chatVisibility": "0"
     },
     "shaders": false,
-    "fancymenuDisable": ["cobbleverse_multiplayer_screen.txt"],
-    "modDisable": ["effective-2.4.8-1.21.1.jar"],
+    "fancymenuDisable": [
+      "cobbleverse_multiplayer_screen.txt"
+    ],
+    "modDisable": [
+      "effective-2.4.8-1.21.1.jar",
+      "effective-*"
+    ],
     "dhLodRadius": 64
-  },
-  "lightMode": {
-    "note": "LEGACY: lo usa el launcher <=1.0.6 (boton 'Modo ligero'). El launcher nuevo usa perfModes.",
-    "mods": [
-      "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
-      "visuality-0.7.7+1.21.jar",
-      "wakes-0.4.1+1.21.1.jar",
-      "fallingleaves-1.17.1+1.21.1.jar"
-    ]
   },
   "perfModes": {
     "note": "Modos de rendimiento del launcher >=1.0.7. Se aplican al proximo JUGAR cuando cambia el modo (y los mods en cada arranque). Solo renombra .jar <-> .jar.disabled y mergea claves en options.txt/iris.properties/DistantHorizons.toml: nunca borra ni re-descarga.",
@@ -56,8 +56,12 @@
           "maxFps": 240,
           "enableVsync": false
         },
-        "dhKeys": { "lodChunkRenderDistanceRadius": 256 },
-        "irisKeys": { "maxShadowRenderDistance": 16 }
+        "dhKeys": {
+          "lodChunkRenderDistanceRadius": 256
+        },
+        "irisKeys": {
+          "maxShadowRenderDistance": 16
+        }
       },
       "medio": {
         "title": "Medio",
@@ -80,8 +84,13 @@
           "maxFps": 120,
           "enableVsync": false
         },
-        "dhKeys": { "lodChunkRenderDistanceRadius": 128, "enableAntiAliasing": false },
-        "irisKeys": { "maxShadowRenderDistance": 12 }
+        "dhKeys": {
+          "lodChunkRenderDistanceRadius": 128,
+          "enableAntiAliasing": false
+        },
+        "irisKeys": {
+          "maxShadowRenderDistance": 12
+        }
       },
       "minimo": {
         "title": "Mínimo",
@@ -101,14 +110,11 @@
           "waveycapes-*",
           "visuality-*",
           "wakes-*",
-          "fallingleaves-*"
+          "fallingleaves-*",
+          "entity_model_features-*",
+          "entity_texture_features*",
+          "sound-physics-remastered-*"
         ],
-        "modsDisableOptional": {
-          "note": "Extras agresivos para PC muy floja: agregarlos aca (sin sacar launcher nuevo) si algun amigo necesita mas.",
-          "chat_heads-*": "cabezas en el chat",
-          "eating-animation-*": "animacion al comer",
-          "notenoughanimations-*": "animaciones de tercera persona"
-        },
         "options": {
           "renderDistance": 6,
           "simulationDistance": 5,
@@ -124,7 +130,9 @@
           "enableVsync": false,
           "hideLightningFlashes": true
         },
-        "dhKeys": { "lodChunkRenderDistanceRadius": 64 },
+        "dhKeys": {
+          "lodChunkRenderDistanceRadius": 64
+        },
         "irisKeys": {}
       },
       "muerto": {
@@ -182,7 +190,14 @@
           "RoughlyEnoughItems-*",
           "zoomify-*",
           "sodium-shadowy-path-blocks-*",
-          "betterbeds-*"
+          "betterbeds-*",
+          "entity_model_features-*",
+          "entity_texture_features*",
+          "sound-physics-remastered-*",
+          "particular-*",
+          "emotecraft-*",
+          "Ping-Wheel-*",
+          "nethermap-*"
         ],
         "options": {
           "renderDistance": 4,
@@ -214,126 +229,492 @@
     "size": 238975006
   },
   "extraMods": [
-    { "name": "Distant Horizons", "filename": "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar", "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/Ez3cx7Yd/DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar", "sha1": "d18b0829416ec6948102524b6e913e5bc73ae402", "size": 28224156 },
-    { "name": "3D Skin Layers", "filename": "skinlayers3d-fabric-1.11.3-mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/zV5r3pPn/versions/L1pQ9OzF/skinlayers3d-fabric-1.11.3-mc1.21.1.jar", "sha1": "30ed540777c6fdd313a521820238eeb7c7da5676", "size": 1912463 },
-    { "name": "First-person Model", "filename": "firstperson-fabric-2.7.2-mc1.21.1.jar", "note": "NO subir a 2.7.3: rompe un mixin de FishingBobberEntityRenderer y el juego rehace toda la carga de recursos (se ve colgado). Si sale una 2.7.4+, probarla antes.", "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/fSfRdYJ6/firstperson-fabric-2.7.2-mc1.21.1.jar", "sha1": "98a23ef8a95c36d005be346312dc30741d5824fa", "size": 1621512 },
-    { "name": "Falling Leaves", "filename": "fallingleaves-1.17.1+1.21.1.jar", "url": "https://cdn.modrinth.com/data/WhbRG4iK/versions/Y0zS16Bk/fallingleaves-1.17.1%2B1.21.1.jar", "sha1": "5210b4cb359a95c53580b1399f98e51ab0967cc5", "size": 170056 },
-    { "name": "Wakes", "filename": "wakes-0.4.1+1.21.1.jar", "url": "https://cdn.modrinth.com/data/dlNu0RQY/versions/WuY7eJX9/wakes-0.4.1%2B1.21.1.jar", "sha1": "c4f4d09a4b9362bcc952f370ce8c8b44d662dc42", "size": 268435 },
-
-    { "name": "Exordium", "filename": "exordium-fabric-1.4.2-mc1.21.jar", "url": "https://cdn.modrinth.com/data/DynYZEae/versions/yhV8WpQg/exordium-fabric-1.4.2-mc1.21.jar", "sha1": "937dfbbaaaebe935bc6c2538861c7b75106b07b6", "size": 218732 },
-    { "name": "Ksyxis", "filename": "Ksyxis-1.4.5.jar", "url": "https://cdn.modrinth.com/data/2ecVyZ49/versions/9CU8nnVG/Ksyxis-1.4.5.jar", "sha1": "026b789a30de912a40911443c37c2fc92579629e", "size": 23303 },
-    { "name": "ThreadTweak", "filename": "threadtweak-fabric-0.1.5+mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/vSEH1ERy/versions/F4sjmsi3/threadtweak-fabric-0.1.5%2Bmc1.21.1.jar", "sha1": "47fe715b4b41644817cac50a7c79ecf26f48d7e3", "size": 144270 },
-    { "name": "Fadeless", "filename": "fadeless-2.0.1.jar", "url": "https://cdn.modrinth.com/data/ncKjyGm3/versions/fOYd9ihS/fadeless-2.0.1.jar", "sha1": "6c3aa8c269c7898ac209a2782b998781deb13eec", "size": 65412 },
-    { "name": "Sodium Shadowy Path Blocks", "filename": "sodium-shadowy-path-blocks-fabric-4.1.0.jar", "url": "https://cdn.modrinth.com/data/EIa1eiMm/versions/swAX3plf/sodium-shadowy-path-blocks-fabric-4.1.0.jar", "sha1": "b326e0370fb1a6270cab51f7a11befdc1f5251b3", "size": 78261 },
-
-    { "name": "Effective", "filename": "effective-2.4.8-1.21.1.jar", "url": "https://cdn.modrinth.com/data/pcPXJeZi/versions/ZV1N3Ikr/effective-2.4.8-1.21.1.jar", "sha1": "da68b3dfb894becb8490b96ddd41d9bea28d916a", "size": 51601944 },
-    { "name": "Visuality", "filename": "visuality-0.7.7+1.21.jar", "url": "https://cdn.modrinth.com/data/rI0hvYcd/versions/dhKbgdIb/visuality-0.7.7%2B1.21.jar", "sha1": "8d239710c1c1983d780ad04686c3c3d0d1b1585e", "size": 79452 },
-    { "name": "Chat Heads", "filename": "chat_heads-0.15.7-fabric-1.21.jar", "url": "https://cdn.modrinth.com/data/Wb5oqrBJ/versions/5t3tM2L3/chat_heads-0.15.7-fabric-1.21.jar", "sha1": "5f37d428e0cc5ff08ed73a21ee11af0dde4105c2", "size": 86944 },
-    { "name": "Wavey Capes", "filename": "waveycapes-fabric-1.11.2-mc1.21.1.jar", "url": "https://cdn.modrinth.com/data/kYuIpRLv/versions/jZeY6GAm/waveycapes-fabric-1.11.2-mc1.21.1.jar", "sha1": "3cefa859d45c5148492923e7aa363fc19c5995d6", "size": 1789704 },
-    { "name": "Eating Animation", "filename": "eating-animation-1.21+1.9.72.jar", "url": "https://cdn.modrinth.com/data/rUgZvGzi/versions/KWZCioh0/eating-animation-1.21%2B1.9.72.jar", "sha1": "d89ecd0ac342697e0d1c3aaff1daa6c81bebe2f6", "size": 1060520 },
-    { "name": "Legendary Tooltips", "filename": "LegendaryTooltips-1.21.1-fabric-1.5.5.jar", "url": "https://cdn.modrinth.com/data/atHH8NyV/versions/f4suO4vX/LegendaryTooltips-1.21.1-fabric-1.5.5.jar", "sha1": "d2a47d7bfdf8008bdb98aa03bc94087be4078a07", "size": 86697 },
-    { "name": "Prism", "filename": "Prism-1.21.1-fabric-1.0.11.jar", "url": "https://cdn.modrinth.com/data/1OE8wbN0/versions/obM5d9Uv/Prism-1.21.1-fabric-1.0.11.jar", "sha1": "feb245033bce5560ad0243b0ff519590ea9e3664", "size": 61661 },
-    { "name": "Equipment Compare", "filename": "EquipmentCompare-1.21.1-fabric-1.3.13.jar", "url": "https://cdn.modrinth.com/data/CYSUVOdj/versions/43MK9mq7/EquipmentCompare-1.21.1-fabric-1.3.13.jar", "sha1": "6ee435ae006c6f33783d334a01e229457c2aba66", "size": 38804 },
-    { "name": "Camera Overhaul", "filename": "CameraOverhaul-v2.1.2-fabric+mc[1.21-1.21.2].jar", "note": "Camara con rebote/tilt al caminar (el 'bouncy')", "url": "https://cdn.modrinth.com/data/m0oRwcZx/versions/B9tByLOZ/CameraOverhaul-v2.1.2-fabric%2Bmc%5B1.21-1.21.2%5D.jar", "sha1": "be36c9dac3b091f4c867c27c5c6c532b87c89f8c", "size": 140020 },
-    { "name": "Punchy!", "filename": "punchy-2.8b-fabric-1.21.1.jar", "note": "Animaciones de manos/items en primera persona", "url": "https://cdn.modrinth.com/data/8aoMKplv/versions/BKIChU5m/punchy-2.8b-fabric-1.21.1.jar", "sha1": "7dd39e751f06311e952cabdd58269e684f1c964b", "size": 1855001 },
-    { "name": "First Person Model Compat", "filename": "fpm_x_compat-fabric-1.2.1+1.21.1.jar", "note": "Puente para que Punchy! y First-person Model no se pisen", "url": "https://cdn.modrinth.com/data/FQu70XYH/versions/HexWC9bb/fpm_x_compat-fabric-1.2.1%2B1.21.1.jar", "sha1": "e95d8e6555acedcb1b5a81b464bfb4323c87796a", "size": 152688 },
-    { "name": "Better Combat", "filename": "bettercombat-fabric-2.4.0+1.21.1.jar", "note": "Combate estilo Dungeons (animaciones + ataques en area). Tambien instalado en el server", "url": "https://cdn.modrinth.com/data/5sy6g3kz/versions/JJQpBecL/bettercombat-fabric-2.4.0%2B1.21.1.jar", "sha1": "38d1d1f22e9255092baf85abf93a3b9746fa6ed1", "size": 930023 },
-    { "name": "Real Camera", "filename": "realcamera-1.21.1-fabric-0.7.8-beta.jar", "note": "Camara en 1ra persona mas realista (config en YACL)", "url": "https://cdn.modrinth.com/data/fYYSAh4R/versions/ERGbfBFO/realcamera-1.21.1-fabric-0.7.8-beta.jar", "sha1": "46b7b1619c071f1d908556507d8bd78165ae05c4", "size": 269900 },
-    { "name": "Emotecraft", "filename": "emotecraft-for-MC1.21.1-2.4.12-fabric.jar", "note": "Emotes entre jugadores (requiere estar en el server tambien: esta)", "url": "https://cdn.modrinth.com/data/pZ2wrerK/versions/daqt5qcK/emotecraft-for-MC1.21.1-2.4.12-fabric.jar", "sha1": "9be2a237e27f20d2d00f0036a8be53d7d66c5df5", "size": 863362 },
-    { "name": "Player Animator", "filename": "player-animation-lib-fabric-2.0.4+1.21.1.jar", "note": "Dependencia de Better Combat y Emotecraft", "url": "https://cdn.modrinth.com/data/gedNE4y2/versions/CkedfDp3/player-animation-lib-fabric-2.0.4%2B1.21.1.jar", "sha1": "2985c208766cde078a39c22b5ad989b74b7bc490", "size": 204541 },
-    { "name": "Simple Voice Chat", "filename": "voicechat-fabric-1.21.1-2.6.24.jar", "note": "Chat de voz en el juego. Tambien en el server; para que funcione a traves de playit.gg hay que crear un tunnel UDP al 24454", "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/6PKCVne5/voicechat-fabric-1.21.1-2.6.24.jar", "sha1": "5abe8af0b85acc94506caa0a36ccc59836956dd2", "size": 5386871 },
-    { "name": "Jade", "filename": "Jade-1.21.1-Fabric-15.10.6.jar", "note": "Muestra que bloque/entidad estas mirando", "url": "https://cdn.modrinth.com/data/nvQzSEkH/versions/adpNvTZS/Jade-1.21.1-Fabric-15.10.6.jar", "sha1": "bed67c605cbc991f474b270581cfa04ed48228df", "size": 740746 },
-    { "name": "AppleSkin", "filename": "appleskin-fabric-mc1.21-3.0.6.jar", "note": "Muestra hambre/saturacion real y comida que da cada alimento", "url": "https://cdn.modrinth.com/data/EsAfCjCV/versions/b5ZiCjAr/appleskin-fabric-mc1.21-3.0.6.jar", "sha1": "97452cfadfde1f8f8c67838643019eabafa58fbb", "size": 1082585 },
-    { "name": "Shulker Box Tooltip", "filename": "shulkerboxtooltip-fabric-5.1.9+1.21.1.jar", "note": "Ver el contenido de shulkers/mochilas en el tooltip", "url": "https://cdn.modrinth.com/data/2M01OLQq/versions/NSrItCES/shulkerboxtooltip-fabric-5.1.9%2B1.21.1.jar", "sha1": "3f119c2fe561235f5af384fba4dd7a4b6f1617c2", "size": 379091 },
-    { "name": "Inventory Profiles Next", "filename": "InventoryProfilesNext-fabric-1.21.1-2.2.6.jar", "note": "Ordenar inventario/cofres con un click o tecla", "url": "https://cdn.modrinth.com/data/O7RBXm3n/versions/h1db7jG7/InventoryProfilesNext-fabric-1.21.1-2.2.6.jar", "sha1": "a99471cb13f2c3c355ab3a61483580ccfa0d3693", "size": 1331935 },
-    { "name": "libIPN", "filename": "libIPN-fabric-1.21.1-6.6.3.jar", "note": "Libreria de Inventory Profiles Next", "url": "https://cdn.modrinth.com/data/onSQdWhM/versions/PSscYPRs/libIPN-fabric-1.21.1-6.6.3.jar", "sha1": "0fdc425d1fc0ad8703256f43deadcadee4328eea", "size": 636114 },
-    { "name": "LambDynamicLights", "filename": "lambdynamiclights-4.8.11+1.21.1.jar", "note": "Luz dinamica (la antorcha en tu mano ilumina)", "url": "https://cdn.modrinth.com/data/yBW8D80W/versions/ksaGCvSu/lambdynamiclights-4.8.11%2B1.21.1.jar", "sha1": "7b5afc75a094b4e8a7118f9856eec959b10f2422", "size": 2023375 },
-    { "name": "Player Corpse", "filename": "graves-fabric-1.21-1.21.1-1.0.0.jar", "note": "Al morir tu cuerpo queda en el lugar con todos tus items; tambien instalado en el server", "url": "https://cdn.modrinth.com/data/YQybd3R7/versions/Vd1AGFXe/graves-fabric-1.21-1.21.1-1.0.0.jar", "sha1": "53d062bfb83f3d1e42b2c97e5646bfed2d6dc772", "size": 51754 },
-
-    { "name": "Shader Photon", "filename": "photon_v1.3b.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/lLqFfGNs/versions/gUv7fBPN/photon_v1.3b.zip", "sha1": "d975d25c9686de5f10e8b86c8518613cdf3f040a", "size": 3800987 },
-    { "name": "Shader Complementary Reimagined", "filename": "ComplementaryReimagined_r5.9.3.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/HVnmMxH1/versions/Bqen1mJX/ComplementaryReimagined_r5.9.3.zip", "sha1": "838139b54cddb56b2e83cd260d8efd960ac536d6", "size": 553397 },
-    { "name": "Shader BSL", "filename": "BSL_v10.1.8.zip", "dest": "shaderpacks", "url": "https://cdn.modrinth.com/data/Q1vvjJYV/versions/Y68yiql9/BSL_v10.1.8.zip", "sha1": "e89818c8827d0131c102fb480c3c3446624db0df", "size": 1134153 }
+    {
+      "name": "Distant Horizons",
+      "filename": "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
+      "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/Ez3cx7Yd/DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
+      "sha1": "d18b0829416ec6948102524b6e913e5bc73ae402",
+      "size": 28224156
+    },
+    {
+      "name": "3D Skin Layers",
+      "filename": "skinlayers3d-fabric-1.11.3-mc1.21.1.jar",
+      "url": "https://cdn.modrinth.com/data/zV5r3pPn/versions/L1pQ9OzF/skinlayers3d-fabric-1.11.3-mc1.21.1.jar",
+      "sha1": "30ed540777c6fdd313a521820238eeb7c7da5676",
+      "size": 1912463
+    },
+    {
+      "name": "First-person Model",
+      "filename": "firstperson-fabric-2.7.2-mc1.21.1.jar",
+      "note": "NO subir a 2.7.3: rompe un mixin de FishingBobberEntityRenderer y el juego rehace toda la carga de recursos (se ve colgado). Si sale una 2.7.4+, probarla antes.",
+      "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/fSfRdYJ6/firstperson-fabric-2.7.2-mc1.21.1.jar",
+      "sha1": "98a23ef8a95c36d005be346312dc30741d5824fa",
+      "size": 1621512
+    },
+    {
+      "name": "Falling Leaves",
+      "filename": "fallingleaves-1.17.1+1.21.1.jar",
+      "url": "https://cdn.modrinth.com/data/WhbRG4iK/versions/Y0zS16Bk/fallingleaves-1.17.1%2B1.21.1.jar",
+      "sha1": "5210b4cb359a95c53580b1399f98e51ab0967cc5",
+      "size": 170056
+    },
+    {
+      "name": "Wakes",
+      "filename": "wakes-0.4.1+1.21.1.jar",
+      "url": "https://cdn.modrinth.com/data/dlNu0RQY/versions/WuY7eJX9/wakes-0.4.1%2B1.21.1.jar",
+      "sha1": "c4f4d09a4b9362bcc952f370ce8c8b44d662dc42",
+      "size": 268435
+    },
+    {
+      "name": "Exordium",
+      "filename": "exordium-fabric-1.4.2-mc1.21.jar",
+      "url": "https://cdn.modrinth.com/data/DynYZEae/versions/yhV8WpQg/exordium-fabric-1.4.2-mc1.21.jar",
+      "sha1": "937dfbbaaaebe935bc6c2538861c7b75106b07b6",
+      "size": 218732
+    },
+    {
+      "name": "Ksyxis",
+      "filename": "Ksyxis-1.4.5.jar",
+      "url": "https://cdn.modrinth.com/data/2ecVyZ49/versions/9CU8nnVG/Ksyxis-1.4.5.jar",
+      "sha1": "026b789a30de912a40911443c37c2fc92579629e",
+      "size": 23303
+    },
+    {
+      "name": "ThreadTweak",
+      "filename": "threadtweak-fabric-0.1.5+mc1.21.1.jar",
+      "url": "https://cdn.modrinth.com/data/vSEH1ERy/versions/F4sjmsi3/threadtweak-fabric-0.1.5%2Bmc1.21.1.jar",
+      "sha1": "47fe715b4b41644817cac50a7c79ecf26f48d7e3",
+      "size": 144270
+    },
+    {
+      "name": "Fadeless",
+      "filename": "fadeless-2.0.1.jar",
+      "url": "https://cdn.modrinth.com/data/ncKjyGm3/versions/fOYd9ihS/fadeless-2.0.1.jar",
+      "sha1": "6c3aa8c269c7898ac209a2782b998781deb13eec",
+      "size": 65412
+    },
+    {
+      "name": "Sodium Shadowy Path Blocks",
+      "filename": "sodium-shadowy-path-blocks-fabric-4.1.0.jar",
+      "url": "https://cdn.modrinth.com/data/EIa1eiMm/versions/swAX3plf/sodium-shadowy-path-blocks-fabric-4.1.0.jar",
+      "sha1": "b326e0370fb1a6270cab51f7a11befdc1f5251b3",
+      "size": 78261
+    },
+    {
+      "name": "Effective",
+      "filename": "effective-2.4.8-1.21.1.jar",
+      "url": "https://cdn.modrinth.com/data/pcPXJeZi/versions/ZV1N3Ikr/effective-2.4.8-1.21.1.jar",
+      "sha1": "da68b3dfb894becb8490b96ddd41d9bea28d916a",
+      "size": 51601944
+    },
+    {
+      "name": "Visuality",
+      "filename": "visuality-0.7.7+1.21.jar",
+      "url": "https://cdn.modrinth.com/data/rI0hvYcd/versions/dhKbgdIb/visuality-0.7.7%2B1.21.jar",
+      "sha1": "8d239710c1c1983d780ad04686c3c3d0d1b1585e",
+      "size": 79452
+    },
+    {
+      "name": "Chat Heads",
+      "filename": "chat_heads-0.15.7-fabric-1.21.jar",
+      "url": "https://cdn.modrinth.com/data/Wb5oqrBJ/versions/5t3tM2L3/chat_heads-0.15.7-fabric-1.21.jar",
+      "sha1": "5f37d428e0cc5ff08ed73a21ee11af0dde4105c2",
+      "size": 86944
+    },
+    {
+      "name": "Wavey Capes",
+      "filename": "waveycapes-fabric-1.11.2-mc1.21.1.jar",
+      "url": "https://cdn.modrinth.com/data/kYuIpRLv/versions/jZeY6GAm/waveycapes-fabric-1.11.2-mc1.21.1.jar",
+      "sha1": "3cefa859d45c5148492923e7aa363fc19c5995d6",
+      "size": 1789704
+    },
+    {
+      "name": "Eating Animation",
+      "filename": "eating-animation-1.21+1.9.72.jar",
+      "url": "https://cdn.modrinth.com/data/rUgZvGzi/versions/KWZCioh0/eating-animation-1.21%2B1.9.72.jar",
+      "sha1": "d89ecd0ac342697e0d1c3aaff1daa6c81bebe2f6",
+      "size": 1060520
+    },
+    {
+      "name": "Legendary Tooltips",
+      "filename": "LegendaryTooltips-1.21.1-fabric-1.5.5.jar",
+      "url": "https://cdn.modrinth.com/data/atHH8NyV/versions/f4suO4vX/LegendaryTooltips-1.21.1-fabric-1.5.5.jar",
+      "sha1": "d2a47d7bfdf8008bdb98aa03bc94087be4078a07",
+      "size": 86697
+    },
+    {
+      "name": "Prism",
+      "filename": "Prism-1.21.1-fabric-1.0.11.jar",
+      "url": "https://cdn.modrinth.com/data/1OE8wbN0/versions/obM5d9Uv/Prism-1.21.1-fabric-1.0.11.jar",
+      "sha1": "feb245033bce5560ad0243b0ff519590ea9e3664",
+      "size": 61661
+    },
+    {
+      "name": "Equipment Compare",
+      "filename": "EquipmentCompare-1.21.1-fabric-1.3.13.jar",
+      "url": "https://cdn.modrinth.com/data/CYSUVOdj/versions/43MK9mq7/EquipmentCompare-1.21.1-fabric-1.3.13.jar",
+      "sha1": "6ee435ae006c6f33783d334a01e229457c2aba66",
+      "size": 38804
+    },
+    {
+      "name": "Camera Overhaul",
+      "filename": "CameraOverhaul-v2.1.2-fabric+mc[1.21-1.21.2].jar",
+      "note": "Camara con rebote/tilt al caminar (el 'bouncy')",
+      "url": "https://cdn.modrinth.com/data/m0oRwcZx/versions/B9tByLOZ/CameraOverhaul-v2.1.2-fabric%2Bmc%5B1.21-1.21.2%5D.jar",
+      "sha1": "be36c9dac3b091f4c867c27c5c6c532b87c89f8c",
+      "size": 140020
+    },
+    {
+      "name": "Punchy!",
+      "filename": "punchy-2.8b-fabric-1.21.1.jar",
+      "note": "Animaciones de manos/items en primera persona",
+      "url": "https://cdn.modrinth.com/data/8aoMKplv/versions/BKIChU5m/punchy-2.8b-fabric-1.21.1.jar",
+      "sha1": "7dd39e751f06311e952cabdd58269e684f1c964b",
+      "size": 1855001
+    },
+    {
+      "name": "First Person Model Compat",
+      "filename": "fpm_x_compat-fabric-1.2.1+1.21.1.jar",
+      "note": "Puente para que Punchy! y First-person Model no se pisen",
+      "url": "https://cdn.modrinth.com/data/FQu70XYH/versions/HexWC9bb/fpm_x_compat-fabric-1.2.1%2B1.21.1.jar",
+      "sha1": "e95d8e6555acedcb1b5a81b464bfb4323c87796a",
+      "size": 152688
+    },
+    {
+      "name": "Better Combat",
+      "filename": "bettercombat-fabric-2.4.0+1.21.1.jar",
+      "note": "Combate estilo Dungeons (animaciones + ataques en area). Tambien instalado en el server",
+      "url": "https://cdn.modrinth.com/data/5sy6g3kz/versions/JJQpBecL/bettercombat-fabric-2.4.0%2B1.21.1.jar",
+      "sha1": "38d1d1f22e9255092baf85abf93a3b9746fa6ed1",
+      "size": 930023
+    },
+    {
+      "name": "Real Camera",
+      "filename": "realcamera-1.21.1-fabric-0.7.8-beta.jar",
+      "note": "Camara en 1ra persona mas realista (config en YACL)",
+      "url": "https://cdn.modrinth.com/data/fYYSAh4R/versions/ERGbfBFO/realcamera-1.21.1-fabric-0.7.8-beta.jar",
+      "sha1": "46b7b1619c071f1d908556507d8bd78165ae05c4",
+      "size": 269900
+    },
+    {
+      "name": "Emotecraft",
+      "filename": "emotecraft-for-MC1.21.1-2.4.12-fabric.jar",
+      "note": "Emotes entre jugadores (requiere estar en el server tambien: esta)",
+      "url": "https://cdn.modrinth.com/data/pZ2wrerK/versions/daqt5qcK/emotecraft-for-MC1.21.1-2.4.12-fabric.jar",
+      "sha1": "9be2a237e27f20d2d00f0036a8be53d7d66c5df5",
+      "size": 863362
+    },
+    {
+      "name": "Player Animator",
+      "filename": "player-animation-lib-fabric-2.0.4+1.21.1.jar",
+      "note": "Dependencia de Better Combat y Emotecraft",
+      "url": "https://cdn.modrinth.com/data/gedNE4y2/versions/CkedfDp3/player-animation-lib-fabric-2.0.4%2B1.21.1.jar",
+      "sha1": "2985c208766cde078a39c22b5ad989b74b7bc490",
+      "size": 204541
+    },
+    {
+      "name": "Simple Voice Chat",
+      "filename": "voicechat-fabric-1.21.1-2.6.24.jar",
+      "note": "Chat de voz en el juego. Tambien en el server; para que funcione a traves de playit.gg hay que crear un tunnel UDP al 24454",
+      "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/6PKCVne5/voicechat-fabric-1.21.1-2.6.24.jar",
+      "sha1": "5abe8af0b85acc94506caa0a36ccc59836956dd2",
+      "size": 5386871
+    },
+    {
+      "name": "Jade",
+      "filename": "Jade-1.21.1-Fabric-15.10.6.jar",
+      "note": "Muestra que bloque/entidad estas mirando",
+      "url": "https://cdn.modrinth.com/data/nvQzSEkH/versions/adpNvTZS/Jade-1.21.1-Fabric-15.10.6.jar",
+      "sha1": "bed67c605cbc991f474b270581cfa04ed48228df",
+      "size": 740746
+    },
+    {
+      "name": "AppleSkin",
+      "filename": "appleskin-fabric-mc1.21-3.0.6.jar",
+      "note": "Muestra hambre/saturacion real y comida que da cada alimento",
+      "url": "https://cdn.modrinth.com/data/EsAfCjCV/versions/b5ZiCjAr/appleskin-fabric-mc1.21-3.0.6.jar",
+      "sha1": "97452cfadfde1f8f8c67838643019eabafa58fbb",
+      "size": 1082585
+    },
+    {
+      "name": "Shulker Box Tooltip",
+      "filename": "shulkerboxtooltip-fabric-5.1.9+1.21.1.jar",
+      "note": "Ver el contenido de shulkers/mochilas en el tooltip",
+      "url": "https://cdn.modrinth.com/data/2M01OLQq/versions/NSrItCES/shulkerboxtooltip-fabric-5.1.9%2B1.21.1.jar",
+      "sha1": "3f119c2fe561235f5af384fba4dd7a4b6f1617c2",
+      "size": 379091
+    },
+    {
+      "name": "Inventory Profiles Next",
+      "filename": "InventoryProfilesNext-fabric-1.21.1-2.2.6.jar",
+      "note": "Ordenar inventario/cofres con un click o tecla",
+      "url": "https://cdn.modrinth.com/data/O7RBXm3n/versions/h1db7jG7/InventoryProfilesNext-fabric-1.21.1-2.2.6.jar",
+      "sha1": "a99471cb13f2c3c355ab3a61483580ccfa0d3693",
+      "size": 1331935
+    },
+    {
+      "name": "libIPN",
+      "filename": "libIPN-fabric-1.21.1-6.6.3.jar",
+      "note": "Libreria de Inventory Profiles Next",
+      "url": "https://cdn.modrinth.com/data/onSQdWhM/versions/PSscYPRs/libIPN-fabric-1.21.1-6.6.3.jar",
+      "sha1": "0fdc425d1fc0ad8703256f43deadcadee4328eea",
+      "size": 636114
+    },
+    {
+      "name": "LambDynamicLights",
+      "filename": "lambdynamiclights-4.8.11+1.21.1.jar",
+      "note": "Luz dinamica (la antorcha en tu mano ilumina)",
+      "url": "https://cdn.modrinth.com/data/yBW8D80W/versions/ksaGCvSu/lambdynamiclights-4.8.11%2B1.21.1.jar",
+      "sha1": "7b5afc75a094b4e8a7118f9856eec959b10f2422",
+      "size": 2023375
+    },
+    {
+      "name": "Player Corpse",
+      "filename": "graves-fabric-1.21-1.21.1-1.0.0.jar",
+      "note": "Al morir tu cuerpo queda en el lugar con todos tus items; tambien instalado en el server",
+      "url": "https://cdn.modrinth.com/data/YQybd3R7/versions/Vd1AGFXe/graves-fabric-1.21-1.21.1-1.0.0.jar",
+      "sha1": "53d062bfb83f3d1e42b2c97e5646bfed2d6dc772",
+      "size": 51754
+    },
+    {
+      "name": "Shader Photon",
+      "filename": "photon_v1.3b.zip",
+      "dest": "shaderpacks",
+      "url": "https://cdn.modrinth.com/data/lLqFfGNs/versions/gUv7fBPN/photon_v1.3b.zip",
+      "sha1": "d975d25c9686de5f10e8b86c8518613cdf3f040a",
+      "size": 3800987
+    },
+    {
+      "name": "Shader Complementary Reimagined",
+      "filename": "ComplementaryReimagined_r5.9.3.zip",
+      "dest": "shaderpacks",
+      "url": "https://cdn.modrinth.com/data/HVnmMxH1/versions/Bqen1mJX/ComplementaryReimagined_r5.9.3.zip",
+      "sha1": "838139b54cddb56b2e83cd260d8efd960ac536d6",
+      "size": 553397
+    },
+    {
+      "name": "Shader BSL",
+      "filename": "BSL_v10.1.8.zip",
+      "dest": "shaderpacks",
+      "url": "https://cdn.modrinth.com/data/Q1vvjJYV/versions/Y68yiql9/BSL_v10.1.8.zip",
+      "sha1": "e89818c8827d0131c102fb480c3c3446624db0df",
+      "size": 1134153
+    }
   ],
   "modSections": {
     "note": "Secciones de la pestana Mods del launcher: agrupan la lista SOLO visualmente (no instalan ni desinstalan nada). Los ids son los de fabric.mod.json; lo que no figure aca cae en 'Otros'. Para mover un mod de seccion, cortalo y pegalo en otra lista.",
     "sections": [
       {
+        "title": "Invalimon",
+        "mods": [
+          "invalimon_client"
+        ]
+      },
+      {
         "title": "Cobblemon · Pokémon",
         "mods": [
-          "better_pokedex_scanner", "capture_xp", "catchindicator", "catchrate-display",
-          "cobblecuisine", "cobbledollars", "cobblemon", "cobblemon-additions",
-          "cobblemon-battle-extras", "cobblemonbattlepositions", "cobblemonraiddens",
-          "cobblenav", "cobbleversebadges", "cobbreeding", "fightorflight",
-          "legendarymonuments", "lumymon", "lumyrei", "mega_showdown",
-          "more_cobblemon_tweaks", "obc", "pasture-loot", "playerxp",
-          "rctapi", "rctmod", "safepastures", "tmcraft", "zamega"
+          "better_pokedex_scanner",
+          "capture_xp",
+          "catchindicator",
+          "catchrate-display",
+          "cobblecuisine",
+          "cobbledollars",
+          "cobblemon",
+          "cobblemon-additions",
+          "cobblemon-battle-extras",
+          "cobblemonbattlepositions",
+          "cobblemonraiddens",
+          "cobblenav",
+          "cobbleversebadges",
+          "cobbreeding",
+          "fightorflight",
+          "legendarymonuments",
+          "lumymon",
+          "lumyrei",
+          "mega_showdown",
+          "more_cobblemon_tweaks",
+          "obc",
+          "pasture-loot",
+          "playerxp",
+          "rctapi",
+          "rctmod",
+          "safepastures",
+          "tmcraft",
+          "zamega"
         ]
       },
       {
         "title": "Optimización",
         "mods": [
-          "badoptimizations", "betterbeds", "c2me", "debugify", "entityculling",
-          "exordium", "fadeless", "ferritecore", "immediatelyfast", "krypton",
-          "ksyxis", "lithium", "mobsbegone", "modernfix", "moreculling", "neruina",
-          "notenoughcrashes", "packetfixer", "particle_core", "reeses-sodium-options",
-          "scalablelux", "sodium", "sspb", "threadtweak", "zfastnoise"
+          "badoptimizations",
+          "betterbeds",
+          "c2me",
+          "debugify",
+          "entityculling",
+          "exordium",
+          "fadeless",
+          "ferritecore",
+          "immediatelyfast",
+          "krypton",
+          "ksyxis",
+          "lithium",
+          "mobsbegone",
+          "modernfix",
+          "moreculling",
+          "neruina",
+          "notenoughcrashes",
+          "packetfixer",
+          "particle_core",
+          "reeses-sodium-options",
+          "scalablelux",
+          "sodium",
+          "sspb",
+          "threadtweak",
+          "zfastnoise"
         ]
       },
       {
         "title": "Visuales",
         "mods": [
-          "bettercombat", "betterthirdperson", "cameraoverhaul", "continuity",
-          "customsplashscreen", "distanthorizons", "eatinganimationid", "emotecraft",
-          "entity_model_features", "entity_texture_features", "euphoria_patcher",
-          "fallingleaves", "firstperson", "fpm_x_compat", "highlight", "interactic",
-          "iris", "lambdynlights", "notenoughanimations", "particlerain", "particular", "punchy",
-          "realcamera", "skinlayers3d", "sound_physics_remastered", "visuality",
-          "wakes", "waveycapes"
+          "bettercombat",
+          "betterthirdperson",
+          "cameraoverhaul",
+          "continuity",
+          "customsplashscreen",
+          "distanthorizons",
+          "eatinganimationid",
+          "emotecraft",
+          "entity_model_features",
+          "entity_texture_features",
+          "euphoria_patcher",
+          "fallingleaves",
+          "firstperson",
+          "fpm_x_compat",
+          "highlight",
+          "interactic",
+          "iris",
+          "lambdynlights",
+          "notenoughanimations",
+          "particlerain",
+          "particular",
+          "punchy",
+          "realcamera",
+          "skinlayers3d",
+          "sound_physics_remastered",
+          "visuality",
+          "wakes",
+          "waveycapes"
         ]
       },
       {
         "title": "Interfaz y comodidad",
         "mods": [
-          "accessories", "accessories_compat_layer", "advancementdisable",
-          "advancementplaques", "appleskin", "betterf1", "betterf3", "brb", "chat_heads",
-          "comforts", "controlling", "equipmentcompare", "fancymenu", "infinite-music",
-          "inventoryprofilesnext", "jade", "legendarytooltips", "melody", "modmenu",
-          "mousetweaks", "musicnotification", "nochatrestrictions",
-          "paginatedadvancements", "pingwheel", "prism", "roughlyenoughitems",
-          "shulkerboxtooltip", "soundsbegone", "tooltipfix", "trinkets", "voicechat",
+          "accessories",
+          "accessories_compat_layer",
+          "advancementdisable",
+          "advancementplaques",
+          "appleskin",
+          "betterf1",
+          "betterf3",
+          "brb",
+          "chat_heads",
+          "comforts",
+          "controlling",
+          "equipmentcompare",
+          "fancymenu",
+          "infinite-music",
+          "inventoryprofilesnext",
+          "jade",
+          "legendarytooltips",
+          "melody",
+          "modmenu",
+          "mousetweaks",
+          "musicnotification",
+          "nochatrestrictions",
+          "paginatedadvancements",
+          "pingwheel",
+          "prism",
+          "roughlyenoughitems",
+          "shulkerboxtooltip",
+          "soundsbegone",
+          "tooltipfix",
+          "trinkets",
+          "voicechat",
           "zoomify"
         ]
       },
       {
         "title": "Mundo y exploración",
         "mods": [
-          "biome_replacer", "forgivingvoid", "lenientdeath", "nethermap",
-          "netherportalfix", "repurposed_structures", "vanillabackport",
-          "villagerconfig", "waystones", "xaerominimap", "xaeroworldmap"
+          "biome_replacer",
+          "forgivingvoid",
+          "lenientdeath",
+          "nethermap",
+          "netherportalfix",
+          "repurposed_structures",
+          "vanillabackport",
+          "villagerconfig",
+          "waystones",
+          "xaerominimap",
+          "xaeroworldmap",
+          "graves"
         ]
       },
       {
         "title": "Construcción y decoración",
         "mods": [
-          "beautify", "carved_wood", "cobblefurnies", "cozyhome", "handcrafted",
-          "hugestructureblocks", "moarconcrete", "pokeblocks", "rechiseled"
+          "beautify",
+          "carved_wood",
+          "cobblefurnies",
+          "cozyhome",
+          "handcrafted",
+          "hugestructureblocks",
+          "moarconcrete",
+          "pokeblocks",
+          "rechiseled"
         ]
       },
       {
         "title": "Almacenamiento",
         "mods": [
-          "sophisticatedbackpacks", "sophisticatedcore", "sophisticatedstorage", "toms_storage"
+          "sophisticatedbackpacks",
+          "sophisticatedcore",
+          "sophisticatedstorage",
+          "toms_storage"
         ]
       },
       {
         "title": "Librerías",
         "mods": [
-          "architectury", "athena", "balm", "cloth-config", "configurable",
-          "defaultoptions", "fabric-api", "fabric-language-kotlin", "forgeconfigapiport",
-          "fusion", "fzzy_config", "geckolib", "globalpacks", "iceberg", "konkrete",
-          "libipn", "libjf", "midnightlib", "owo", "platform", "playeranimator", "resourcefullib",
-          "resourcepackoverrides", "respackopts", "searchables", "stackdeobfuscator",
-          "supermartijn642configlib", "supermartijn642corelib", "tim_core",
+          "architectury",
+          "athena",
+          "balm",
+          "cloth-config",
+          "configurable",
+          "defaultoptions",
+          "fabric-api",
+          "fabric-language-kotlin",
+          "forgeconfigapiport",
+          "fusion",
+          "fzzy_config",
+          "geckolib",
+          "globalpacks",
+          "iceberg",
+          "konkrete",
+          "libipn",
+          "libjf",
+          "midnightlib",
+          "owo",
+          "platform",
+          "playeranimator",
+          "resourcefullib",
+          "resourcepackoverrides",
+          "respackopts",
+          "searchables",
+          "stackdeobfuscator",
+          "supermartijn642configlib",
+          "supermartijn642corelib",
+          "tim_core",
           "yet_another_config_lib_v3"
         ]
       }

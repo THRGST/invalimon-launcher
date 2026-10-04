@@ -87,8 +87,6 @@ class LaunchEngine {
         clientDefaults: manifest.clientDefaults || null,
         perfModes,
         perfMode,
-        lightMode: manifest.lightMode || null,
-        lightModeEnabled: Boolean(config.settings.lightMode),
       };
       const remap = (pct) => 10 + Math.round((pct / 100) * 75);
       const packInfo = await this.manager.ensurePack({

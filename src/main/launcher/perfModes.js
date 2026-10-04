@@ -41,7 +41,7 @@ function computeDesiredState({ perfModes, mode, modDisable, modsDir }) {
   for (const key of Object.keys(modes)) {
     for (const f of expandModList(modsDir, modes[key].modsDisable)) union.add(f);
   }
-  const forced = new Set(modDisable || []);
+  const forced = new Set(expandModList(modsDir, modDisable || []));
   for (const f of forced) union.add(f);
   const offInMode = expandModList(modsDir, (modes[mode] || {}).modsDisable);
   const desired = new Map();

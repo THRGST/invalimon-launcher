@@ -339,20 +339,6 @@ class ModpackManager {
         if (setDisabled(modsDir, f, true)) this.log.info(`Mod desactivado por incompatibilidad: ${f}`);
       }
 
-      // ---- Modo ligero (legacy, launcher <=1.0.6) ---------------------------
-      const light = pack.lightMode;
-      if (light && Array.isArray(light.mods) && light.mods.length) {
-        const off = Boolean(pack.lightModeEnabled);
-        let tocados = 0;
-        for (const f of light.mods) {
-          // Al APAGAR el modo ligero no se restauran los que modDisable mantiene
-          // apagados por incompatibilidad: si no, se prendian solos y crasheaban.
-          if (!off && modDisable.includes(f)) continue;
-          if (setDisabled(modsDir, f, off)) tocados++;
-        }
-        if (tocados) this.log.info(`Modo ligero ${off ? 'activado' : 'desactivado'}: ${tocados} mod(s)`);
-      }
-
       // ---- Distant Horizons: distancia de LOD conservadora (una sola vez) ---
       // El pack no trae este archivo: lo crea DH en la primera partida, asi que
       // esto se aplica recien cuando existe y nunca mas despues (si el jugador lo
