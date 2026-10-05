@@ -257,6 +257,27 @@
         </div>
 
         <div class="card">
+          <label>📜 Misiones</label>
+          <div class="row">
+            <select id="admin-mision-id">
+              <option value="minar_hierro" selected>⛏️ Minar 32 de hierro (+8 lingotes)</option>
+              <option value="minar_diamante">💎 Minar 5 diamantes (+1 ❤ + 2 diamantes) — DIFÍCIL</option>
+              <option value="minar_oro">🥇 Minar 16 de oro (+8 de oro)</option>
+              <option value="talar_roble">🪓 Talar 64 troncos de roble (+16 plantitas)</option>
+              <option value="picar_piedra">🪨 Picar 128 de piedra (+16 pan)</option>
+              <option value="cazar_zombies">🧟 Cazar 30 zombies (+1 ❤ + 2 manzanas encantadas) — DIFÍCIL</option>
+              <option value="cazar_esqueletos">💀 Cazar 20 esqueletos (+1 ❤ + 2 totems) — DIFÍCIL</option>
+              <option value="craftear_antorchas">🔥 Craftear 64 antorchas (+16 carbón)</option>
+              <option value="juntar_manzanas">🍎 Juntar 16 manzanas (+1 manzana dorada)</option>
+            </select>
+            <button id="btn-admin-mision" class="btn-secondary">📜 Activar misión</button>
+            <button id="btn-admin-mision-off" class="btn-secondary">⏹ Desactivar</button>
+            <button id="btn-admin-mision-reset" class="btn-secondary">🔄 Reiniciar</button>
+          </div>
+          <p class="hint">La misión sale en el <b>panel de la esquina</b> con el <b>progreso de cada jugador en vivo</b> (ranking). Al completarla cada uno se lleva el premio una vez. <b>Reiniciar</b> = misma misión, todos de cero (ronda nueva).</p>
+        </div>
+
+        <div class="card">
           <label>⚡ Extras</label>
           <div class="row">
             <button id="btn-admin-tirar" class="btn-secondary">🎲 Tirar aleatorio (del sistema)</button>

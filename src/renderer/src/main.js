@@ -246,6 +246,28 @@ async function setupAdmin() {
     show(r.ok ? '✅ Anuncio enviado a todos' : `❌ ${r.error}`, r.ok);
     if (r.ok) logLine('SYSTEM', `Admin: anuncio enviado (${color})`);
   });
+
+  $('#btn-admin-mision').addEventListener('click', async () => {
+    const id = $('#admin-mision-id').value;
+    const label = $('#admin-mision-id').selectedOptions[0].textContent;
+    show('📜 Lanzando la misión…', true);
+    const r = await api.adminMision({ id });
+    show(r.ok ? `📜 Misión activada: ${label}` : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', `Admin: misión activada (${id})`);
+  });
+
+  $('#btn-admin-mision-off').addEventListener('click', async () => {
+    const r = await api.adminMisionOff();
+    show(r.ok ? '⏹ Misión desactivada' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', 'Admin: misión desactivada');
+  });
+
+  $('#btn-admin-mision-reset').addEventListener('click', async () => {
+    const r = await api.adminMisionReset();
+    show(r.ok ? '🔄 Misión reiniciada (todos de cero)' : `❌ ${r.error}`, r.ok);
+    if (r.ok) logLine('SYSTEM', 'Admin: misión reiniciada');
+  });
+
 }
 
 // ---------- mods ----------

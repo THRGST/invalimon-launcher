@@ -175,6 +175,22 @@ app.whenReady().then(() => {
   ipcMain.handle('launcher:admin-limpiar-efectos', () => {
     return runHelper(['function inv:admin/limpiar_efectos']);
   });
+  // Misiones: activar (id del catalogo del datapack) / desactivar / reiniciar
+  ipcMain.handle('launcher:admin-mision', (_e, opts) => {
+    const id = /^[a-z_]{1,24}$/.test(String((opts && opts.id) || '')) ? String(opts.id) : '';
+    if (!id) return { ok: false, error: 'Elegí una misión primero.' };
+    return runHelper([`function inv:admin/mision {id:"${id}"}`]);
+  });
+  ipcMain.handle('launcher:admin-mision-off', () => {
+    return runHelper(['function inv:admin/mision_off']);
+  });
+  ipcMain.handle('launcher:admin-mision-reset', () => {
+    return runHelper(['function inv:admin/mision_reset']);
+  });
+  // Momento Nutria: flash de la nutria (animacion de Dedsafio) para todos
+  ipcMain.handle('launcher:admin-nutria', () => {
+    return runHelper(['function inv:admin/nutria']);
+  });
   ipcMain.handle('launcher:admin-anuncio', (_e, opts) => {
     const text = String((opts && opts.text) || '').slice(0, 200).trim();
     if (!text) return { ok: false, error: 'Escribí un texto primero.' };

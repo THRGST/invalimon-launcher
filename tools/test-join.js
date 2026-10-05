@@ -19,7 +19,7 @@ const fakeApp = { getPath: () => '/tmp', isPackaged: false };
   const state = fs.readJsonSync(path.join(paths.gameDir, '.invalimon', 'state.json'));
   const mc = state.pack.mc;
   const loader = state.pack.loader;
-  const username = 'DevThiago';
+  const username = process.env.INVALIMON_TEST_USER || 'DevThiago';
   console.log(`join test: ${username} -> ${ADDRESS} (mc ${mc})`);
 
   const { profileId, versionJson } = await ensureVersionJson({ gameDir: paths.gameDir, mc, loader, log: { info: () => {}, warn: console.warn } });
