@@ -507,6 +507,20 @@
       "url": "https://cdn.modrinth.com/data/Q1vvjJYV/versions/Y68yiql9/BSL_v10.1.8.zip",
       "sha1": "e89818c8827d0131c102fb480c3c3446624db0df",
       "size": 1134153
+    },
+    {
+      "name": "Invalimon Client",
+      "filename": "invalimon-client-1.0.0.jar",
+      "url": "https://github.com/THRGST/invalimon-launcher/releases/download/clientmod-1.0.0/invalimon-client-1.0.0.jar",
+      "sha1": "4719a444d8576e2be1ecb9f6d2175b298ebae006",
+      "size": 444829
+    },
+    {
+      "name": "Cobblemon Battle Positions",
+      "filename": "cobblemon-battle-positions-1.1.3.jar",
+      "url": "https://github.com/THRGST/invalimon-launcher/releases/download/clientmod-1.0.0/cobblemon-battle-positions-1.1.3.jar",
+      "sha1": "2edbf7224a689b3463327f2970b481fd8e4ceae8",
+      "size": 58572
     }
   ],
   "modSections": {
