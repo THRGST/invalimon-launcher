@@ -26,7 +26,8 @@
     ],
     "modDisable": [
       "effective-2.4.8-1.21.1.jar",
-      "effective-*"
+      "effective-*",
+      "particular-1.1.2+1.21.jar.disabled"
     ],
     "dhLodRadius": 64
   },
