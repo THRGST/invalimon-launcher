@@ -17,6 +17,16 @@ const STATE_FILE = 'state.json';
 const CONCURRENCY = 6;
 
 const mb = (n) => (n / 1048576).toFixed(0);
+const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function isDisabledMod(file, entries) {
+  const name = String(file || '').toLowerCase();
+  return (entries || []).some((entry) => {
+    if (typeof entry !== 'string' || !entry) return false;
+    const pattern = entry.toLowerCase().split('*').map(escapeRegex).join('.*');
+    return new RegExp(`^${pattern}$`, 'i').test(name);
+  });
+}
 
 // actualPath/setDisabled viven en modsFs.js (los comparten el manager y perfModes).
 
@@ -137,11 +147,10 @@ class ModpackManager {
     }
     const versionId = index.versionId || pack.versionId;
     // Mods desactivados a proposito: ni se descargan ni se borran
-    const disabledMods = new Set(
-      (((pack.clientDefaults || {}).modDisable) || []).map((f) => `mods/${f}`));
+    const disabledMods = (((pack.clientDefaults || {}).modDisable) || []);
     const files = (index.files || [])
       .filter((f) => (f.env.client || 'required') !== 'unsupported')
-      .filter((f) => !disabledMods.has(f.path));
+      .filter((f) => !f.path.startsWith('mods/') || !isDisabledMod(path.basename(f.path), disabledMods));
 
     // ---- ETAPA 3: plan (que falta / que esta corrupto) ----------------------
     emit('mods_check', 'Verificando archivos instalados...', 12);
@@ -244,7 +253,8 @@ class ModpackManager {
     }
 
     // ---- ETAPA 5b: mods extra del launcher (client-side) ---------------------
-    const extras = Array.isArray(pack.extraMods) ? pack.extraMods : [];
+    const extras = (Array.isArray(pack.extraMods) ? pack.extraMods : [])
+      .filter((ex) => (ex.dest || 'mods') !== 'mods' || !isDisabledMod(ex.filename, disabledMods));
     if (extras.length) {
       const extraDone = [];
       for (let i = 0; i < extras.length; i++) {
@@ -269,7 +279,11 @@ class ModpackManager {
       const extraSet = new Set(extras.map((e) => `${e.dest || 'mods'}/${e.filename}`));
       for (const f of (state.extraFiles || [])) {
         if (!extraSet.has(f)) {
-          try { await fs.remove(path.join(gameDir, ...f.split('/'))); } catch (e) {}
+          const dest = path.join(gameDir, ...f.split('/'));
+          try { await fs.remove(dest); } catch (e) {}
+          if (f.startsWith('mods/') && f.endsWith('.jar')) {
+            try { await fs.remove(`${dest}.disabled`); } catch (e) {}
+          }
         }
       }
       state.extraFiles = extraDone;
