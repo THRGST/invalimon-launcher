@@ -597,6 +597,23 @@ async function init() {
   $('#btn-scan').addEventListener('click', runScan);
   $('#btn-apply-scan').addEventListener('click', applyScan);
 
+  // En una instalacion nueva, elegir modo y heap segun CPU, GPU y RAM.
+  // En siguientes inicios se respeta el modo que haya elegido el jugador.
+  if (config.isFirstRun && perfModes && perfModes.modes) {
+    await runScan();
+    if (lastScan && perfModes.modes[lastScan.recommended]) {
+      await applyScan();
+      $('#scan-apply-hint').textContent = 'Configurado automáticamente. Puedes cambiar el modo cuando quieras.';
+    } else {
+      const fallback = perfModes.modes[perfModes.default] ? perfModes.default : 'medio';
+      config = await api.saveConfig({ settings: { perfMode: fallback } });
+      selectedPerfMode = fallback;
+      renderPerfCards();
+      $('#scan-hint').textContent = `No pude analizar el hardware. Usé ${modeTitle(fallback)}; puedes cambiarlo aquí.`;
+      logLine('SYSTEM', `No se pudo analizar el hardware; modo inicial: ${modeTitle(fallback)}`);
+    }
+  }
+
   // Panel de admin (solo aparece en la PC del server)
   setupAdmin();
 

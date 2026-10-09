@@ -36,6 +36,7 @@ const DEFAULTS = {
 class ConfigManager {
   constructor(configFile) {
     this.configFile = configFile;
+    this.isFirstRun = !fs.existsSync(configFile);
     this.config = this.load();
   }
 
@@ -55,7 +56,7 @@ class ConfigManager {
     };
   }
 
-  get() { return this.config; }
+  get() { return { ...this.config, isFirstRun: this.isFirstRun }; }
 
   save(partial) {
     const next = { ...this.config, ...partial };
@@ -66,7 +67,8 @@ class ConfigManager {
     this.config = next;
     fs.ensureDirSync(require('path').dirname(this.configFile));
     fs.writeJsonSync(this.configFile, this.config, { spaces: 2 });
-    return this.config;
+    this.isFirstRun = false;
+    return this.get();
   }
 }
 
