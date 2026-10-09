@@ -27,7 +27,24 @@
     "modDisable": [
       "effective-2.4.8-1.21.1.jar",
       "effective-*",
-      "particular-1.1.2+1.21.jar.disabled"
+      "particular-1.1.2+1.21.jar.disabled",
+      "AdvancementPlaques-1.21.1-fabric-1.6.8.jar",
+      "BetterF1-Fabric-1.1+1.21.7.jar",
+      "BetterF3-11.0.3-Fabric-1.21.1.jar",
+      "BetterThirdPerson-Fabric-1.21-1.9.0.jar",
+      "InventoryProfilesNext-fabric-1.21.1-2.2.6.jar",
+      "brb-1.10.0-rc5+1.21.jar",
+      "catchindicator-fabric-1.7.0.jar",
+      "continuity-3.0.0+1.21.jar",
+      "customsplashscreen-2.2.0.jar",
+      "entity_model_features-3.2.4-1.21-fabric.jar",
+      "entity_texture_features_1.21-fabric-7.1.jar",
+      "iris-fabric-1.8.14-beta.1+mc1.21.1.jar",
+      "modmenu-11.0.4.jar",
+      "paginatedadvancements-2.5.1.jar",
+      "particlerain-4.0.0-beta.10+1.21.1-fabric.jar",
+      "reeses-sodium-options-fabric-2.2.3+mc1.21.1.jar",
+      "zoomify-2.15.2+1.21.1.jar"
     ],
     "dhLodRadius": 64
   },

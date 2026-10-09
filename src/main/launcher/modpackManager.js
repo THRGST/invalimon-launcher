@@ -372,15 +372,20 @@ class ModpackManager {
       });
     }
 
-    // ---- ETAPA 7: limpieza de version vieja + commit -------------------------
+    // ---- ETAPA 7: retirar archivos que ya no pertenecen al pack + commit ----
     const newPaths = files.map((f) => f.path);
-    if (state.installedFiles && state.pack && state.pack.versionId !== versionId) {
+    if (state.installedFiles) {
       const newSet = new Set(newPaths);
       const removed = state.installedFiles.filter((p) => !newSet.has(p));
       for (const rel of removed) {
-        try { await fs.remove(path.join(gameDir, ...rel.split('/'))); } catch (e) {}
+        const dest = path.join(gameDir, ...rel.split('/'));
+        try { await fs.remove(dest); } catch (e) {}
+        // Mods apagados por el modo de rendimiento conservan el sufijo .disabled.
+        if (rel.startsWith('mods/') && rel.endsWith('.jar')) {
+          try { await fs.remove(`${dest}.disabled`); } catch (e) {}
+        }
       }
-      if (removed.length) this.log.info(`Limpiados ${removed.length} archivos de la version anterior`);
+      if (removed.length) this.log.info(`Retirados ${removed.length} archivos que ya no pertenecen al pack`);
     }
 
     state = {
