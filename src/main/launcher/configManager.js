@@ -38,6 +38,12 @@ class ConfigManager {
     this.configFile = configFile;
     this.isFirstRun = !fs.existsSync(configFile);
     this.config = this.load();
+    const settings = this.config.settings || {};
+    this.needsAutoPerfMode = this.isFirstRun || (
+      !settings.perfModeManual &&
+      !settings.perfModeAutoConfigured &&
+      settings.perfMode === 'medio'
+    );
   }
 
   load() {
@@ -56,7 +62,7 @@ class ConfigManager {
     };
   }
 
-  get() { return { ...this.config, isFirstRun: this.isFirstRun }; }
+  get() { return { ...this.config, needsAutoPerfMode: this.needsAutoPerfMode }; }
 
   save(partial) {
     const next = { ...this.config, ...partial };
@@ -68,6 +74,9 @@ class ConfigManager {
     fs.ensureDirSync(require('path').dirname(this.configFile));
     fs.writeJsonSync(this.configFile, this.config, { spaces: 2 });
     this.isFirstRun = false;
+    if (partial.settings && (partial.settings.perfModeAutoConfigured || partial.settings.perfModeManual)) {
+      this.needsAutoPerfMode = false;
+    }
     return this.get();
   }
 }

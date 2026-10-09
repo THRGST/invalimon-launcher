@@ -115,7 +115,7 @@ async function selectPerfMode(key, opts = {}) {
   });
   updateModeLabel();
   if (opts.save) {
-    config = await api.saveConfig({ settings: { perfMode: key } });
+    config = await api.saveConfig({ settings: { perfMode: key, perfModeManual: true, perfModeAutoConfigured: true } });
     logLine('SYSTEM', `Modo de rendimiento: ${modeTitle(key)} — se aplica en el próximo JUGAR`);
   }
 }
@@ -169,10 +169,14 @@ async function runScan() {
   $('#scan-apply-hint').textContent = '';
 }
 
-async function applyScan() {
+async function applyScan({ automatic = false } = {}) {
   const mode = $('#btn-apply-scan').dataset.mode;
   if (!mode) return;
-  const partial = { settings: { perfMode: mode } };
+  const partial = { settings: {
+    perfMode: mode,
+    perfModeAutoConfigured: true,
+    perfModeManual: !automatic,
+  } };
   if (lastScan && lastScan.suggestedRamMax) partial.settings.ramMax = lastScan.suggestedRamMax;
   config = await api.saveConfig(partial);
   $('#ram-max').value = config.settings.ramMax;
@@ -597,16 +601,20 @@ async function init() {
   $('#btn-scan').addEventListener('click', runScan);
   $('#btn-apply-scan').addEventListener('click', applyScan);
 
-  // En una instalacion nueva, elegir modo y heap segun CPU, GPU y RAM.
-  // En siguientes inicios se respeta el modo que haya elegido el jugador.
-  if (config.isFirstRun && perfModes && perfModes.modes) {
+  // Escanear la primera vez; tambien al actualizar a esta version si el jugador
+  // todavia conserva Medio por defecto. Respetar elecciones manuales posteriores.
+  if (config.needsAutoPerfMode && perfModes && perfModes.modes) {
     await runScan();
     if (lastScan && perfModes.modes[lastScan.recommended]) {
-      await applyScan();
-      $('#scan-apply-hint').textContent = 'Configurado automáticamente. Puedes cambiar el modo cuando quieras.';
+      await applyScan({ automatic: true });
+      $('#scan-apply-hint').textContent = 'Modo y RAM configurados para esta PC. Puedes cambiar el modo cuando quieras.';
     } else {
       const fallback = perfModes.modes[perfModes.default] ? perfModes.default : 'medio';
-      config = await api.saveConfig({ settings: { perfMode: fallback } });
+      config = await api.saveConfig({ settings: {
+        perfMode: fallback,
+        perfModeAutoConfigured: true,
+        perfModeManual: false,
+      } });
       selectedPerfMode = fallback;
       renderPerfCards();
       $('#scan-hint').textContent = `No pude analizar el hardware. Usé ${modeTitle(fallback)}; puedes cambiarlo aquí.`;
