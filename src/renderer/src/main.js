@@ -175,6 +175,7 @@ async function applyScan({ automatic = false } = {}) {
   const partial = { settings: {
     perfMode: mode,
     perfModeAutoConfigured: true,
+    perfModeAutoVersion: 2,
     perfModeManual: !automatic,
   } };
   if (lastScan && lastScan.suggestedRamMax) partial.settings.ramMax = lastScan.suggestedRamMax;
@@ -613,6 +614,7 @@ async function init() {
       config = await api.saveConfig({ settings: {
         perfMode: fallback,
         perfModeAutoConfigured: true,
+        perfModeAutoVersion: 2,
         perfModeManual: false,
       } });
       selectedPerfMode = fallback;

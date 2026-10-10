@@ -56,10 +56,10 @@ function recommendMode({ cores = 0, ramGB = 0, gpuTier = 'desconocida' }) {
     recommended = 'muerto'; // sin GPU real o casi sin RAM: hay que apagar TODO
   } else if (gpuTier === 'baja') {
     // GPU floja limita aunque sobre CPU
-    recommended = score >= 7 ? 'medio' : score >= 5 ? 'minimo' : 'muerto';
-  } else if (score >= 7) {
+    recommended = score >= 7 ? 'medio' : score >= 3 ? 'minimo' : 'muerto';
+  } else if (score >= 8) {
     recommended = 'alto';
-  } else if (score >= 4) {
+  } else if (score >= 6) {
     recommended = 'medio';
   } else if (score >= 3) {
     recommended = 'minimo';

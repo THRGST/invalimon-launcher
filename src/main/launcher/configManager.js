@@ -27,7 +27,7 @@ const DEFAULTS = {
     resolutionHeight: 720,
     serverAddress: '', // vacio = usar la del manifest remoto
     gc: 'auto', // 'auto' = ZGC (lo recomienda Distant Horizons); 'g1' para volver atras
-    perfMode: 'medio', // 'alto' | 'medio' | 'minimo' (ver perfModes del manifest)
+    perfMode: 'minimo', // 'alto' | 'medio' | 'minimo' (ver perfModes del manifest)
     // LEGACY: lo lee el launcher <=1.0.6. En >=1.0.7 se deriva de perfMode.
     lightMode: false,
   },
@@ -43,6 +43,10 @@ class ConfigManager {
       !settings.perfModeManual &&
       !settings.perfModeAutoConfigured &&
       settings.perfMode === 'medio'
+    ) || (
+      !settings.perfModeManual &&
+      settings.perfMode === 'medio' &&
+      (settings.perfModeAutoVersion || 0) < 2
     );
   }
 

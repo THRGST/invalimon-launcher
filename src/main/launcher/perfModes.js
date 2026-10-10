@@ -33,6 +33,20 @@ function expandModList(modsDir, entries) {
   return out;
 }
 
+function modeDisableEntries(modes, modeName) {
+  const entries = [];
+  const visited = new Set();
+  let current = modeName;
+  while (current && !visited.has(current)) {
+    visited.add(current);
+    const mode = modes[current];
+    if (!mode) break;
+    entries.push(...(mode.modsDisable || []));
+    current = mode.inherits;
+  }
+  return entries;
+}
+
 // Estado deseado por archivo: 'on' | 'off'. Los de modDisable (incompatibilidad)
 // nunca se prenden, ni aunque un modo no los liste.
 function computeDesiredState({ perfModes, mode, modDisable, modsDir }) {
@@ -43,7 +57,7 @@ function computeDesiredState({ perfModes, mode, modDisable, modsDir }) {
   }
   const forced = new Set(expandModList(modsDir, modDisable || []));
   for (const f of forced) union.add(f);
-  const offInMode = expandModList(modsDir, (modes[mode] || {}).modsDisable);
+  const offInMode = expandModList(modsDir, modeDisableEntries(modes, mode));
   const desired = new Map();
   for (const f of union) desired.set(f, (forced.has(f) || offInMode.has(f)) ? 'off' : 'on');
   return desired;
@@ -133,7 +147,12 @@ function applyPerfMode({ gameDir, perfModes, perfMode, modDisable, state, versio
 
   const perf = state.perf || null;
   const files = (perf && perf.files) || {};
-  const next = { mode: modeName, packVersionId: versionId, files: { ...files } };
+  const next = {
+    mode: modeName,
+    packVersionId: versionId,
+    tuningVersion: mode.tuningVersion || 1,
+    files: { ...files },
+  };
 
   // Upgrade desde <=1.0.6: adoptar (marcar como aplicado sin tocar archivos).
   if (!perf && !wasFirstInstall) {
@@ -149,10 +168,11 @@ function applyPerfMode({ gameDir, perfModes, perfMode, modDisable, state, versio
 
   const modeChanged = !perf || perf.mode !== modeName;
   const packChanged = !perf || perf.packVersionId !== versionId;
+  const tuningChanged = Boolean(perf && (perf.tuningVersion || 1) < (mode.tuningVersion || 1));
   const need = {
-    iris: modeChanged || packChanged || !files.iris,
-    options: modeChanged || !files.options,
-    dh: modeChanged || !files.dh,
+    iris: modeChanged || packChanged || tuningChanged || !files.iris,
+    options: modeChanged || tuningChanged || !files.options,
+    dh: modeChanged || tuningChanged || !files.dh,
   };
   const applied = [];
 

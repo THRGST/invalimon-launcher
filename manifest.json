@@ -69,7 +69,7 @@
   },
   "perfModes": {
     "note": "Modos de rendimiento del launcher >=1.0.7. Se aplican al proximo JUGAR cuando cambia el modo (y los mods en cada arranque). Solo renombra .jar <-> .jar.disabled y mergea claves en options.txt/iris.properties/DistantHorizons.toml: nunca borra ni re-descarga.",
-    "default": "medio",
+    "default": "minimo",
     "modes": {
       "alto": {
         "title": "Alto",
